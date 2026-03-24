@@ -101,8 +101,14 @@ export function Navbar() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-300 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors"
                 >
-                  <User className="w-3.5 h-3.5" />
-                  <span className="max-w-[100px] truncate">{user.email?.split("@")[0]}</span>
+                  {user.user_metadata?.avatar_url ? (
+                    <img src={user.user_metadata.avatar_url} alt="avatar" className="w-5 h-5 rounded-full" />
+                  ) : (
+                    <User className="w-3.5 h-3.5" />
+                  )}
+                  <span className="max-w-[100px] truncate">
+                    {user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0]}
+                  </span>
                   <ChevronDown className="w-3 h-3" />
                 </button>
 
