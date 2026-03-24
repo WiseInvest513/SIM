@@ -9,6 +9,10 @@ export async function GET(request: Request) {
 
   if (code) {
     const cookieStore = await cookies();
+
+    // 先创建重定向响应，把 session cookies 写到响应头上
+    const response = NextResponse.redirect(`${origin}${next}`);
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -18,9 +22,11 @@ export async function GET(request: Request) {
             return cookieStore.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
+            // 同时写入 cookieStore 和 response
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+              response.cookies.set(name, value, options);
+            });
           },
         },
       }
@@ -28,7 +34,7 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return response;
     }
   }
 
