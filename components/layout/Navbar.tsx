@@ -73,12 +73,12 @@ export function Navbar() {
         <div className="flex items-center justify-between h-14 px-5">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-            <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center">
-              <Globe className="w-4 h-4 text-gray-900" />
+          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <Globe className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
             </div>
-            <span className="font-bold text-base text-white tracking-tight">
-              Wise<span className="text-gray-500 font-normal">SIM</span>
+            <span className="font-bold text-[15px] text-white tracking-tight">
+              Wise<span className="text-blue-400">SIM</span>
             </span>
           </Link>
 

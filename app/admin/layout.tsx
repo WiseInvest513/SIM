@@ -19,9 +19,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* 侧边栏 */}
       <aside className="w-52 border-r border-[#1a1a1a] bg-[#0d0d0d] flex flex-col flex-shrink-0">
         <div className="p-4 border-b border-[#1a1a1a]">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center">
-              <Globe className="w-3.5 h-3.5 text-gray-900" />
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <Globe className="text-white" style={{ width: 18, height: 18 }} />
             </div>
             <span className="text-sm font-bold text-white">管理后台</span>
           </Link>
