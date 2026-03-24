@@ -93,9 +93,8 @@ export default function HomePage() {
           </div>
 
           {/* 主标题 */}
-          <h1 className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight mb-6 whitespace-nowrap">
-            <span className="text-white">出海，</span>
-            <span className="text-gray-600">从一张手机卡开始</span>
+          <h1 className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight mb-6 whitespace-nowrap text-white">
+            出海，从一张手机卡开始
           </h1>
 
           {/* 副标题 */}

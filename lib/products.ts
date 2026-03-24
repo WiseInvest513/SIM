@@ -16,10 +16,10 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "00000000-0000-0000-0000-000000000003",
-    name: "giffgaff 英国手机卡（含 £10 余额）",
+    name: "giffgaff 英国手机卡（含 £15 余额）",
     slug: "giffgaff-plus",
-    description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用，适合有漫游需求的用户。",
-    price: 11900,
+    description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £15 余额，开卡即可使用，适合有漫游需求的用户。",
+    price: 19900,
     stock: 30,
     category: "英国手机卡",
     image_url: "/giffgaff-logo.png",
