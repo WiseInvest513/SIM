@@ -35,6 +35,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
   const [step, setStep] = useState<Step>("payment");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
@@ -160,9 +161,6 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
   }
 
   /* ── 第三步：完成 ── */
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [copied, setCopied] = useState(false);
-
   function handleCopy() {
     navigator.clipboard.writeText(wechatId);
     setCopied(true);
