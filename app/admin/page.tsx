@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminOrderTable } from "./OrderTable";
 
 export const metadata: Metadata = { title: "订单管理 - 后台" };
@@ -8,7 +8,7 @@ export default async function AdminOrdersPage() {
   let orders: import("./OrderTable").Order[] = [];
 
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data } = await supabase
       .from("orders")
       .select("*, products(id, name, price, category), profiles:user_id(email, display_name)")
