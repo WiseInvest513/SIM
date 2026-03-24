@@ -66,7 +66,7 @@ export default async function ShopPage() {
   const products = dbProducts && dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-sky-950/40 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
         {/* 页头 */}
         <div className="mb-10">

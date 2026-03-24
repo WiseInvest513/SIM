@@ -40,7 +40,7 @@ export default async function AccountPage() {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-violet-950/40 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-2xl mx-auto">
         {/* 用户信息 */}
         <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-6 mb-5">

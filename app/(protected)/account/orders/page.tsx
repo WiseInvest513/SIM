@@ -39,7 +39,7 @@ export default async function OrdersPage() {
   } catch {}
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cyan-950/40 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <Link href="/account" className="p-2 rounded-lg text-gray-500 hover:text-white hover:bg-[#1a1a1a] transition-colors">

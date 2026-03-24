@@ -110,7 +110,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
   /* ── 第二步：填写地址 ── */
   if (step === "address") {
     return (
-      <div className="space-y-5">
+      <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-6 space-y-5">
         <div>
           <h2 className="text-white font-semibold text-lg">填写收货地址</h2>
           <p className="text-gray-500 text-sm mt-0.5">付款完成后填写，我们将尽快安排发货</p>
@@ -133,7 +133,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
             <Label htmlFor="address">详细收货地址 *</Label>
             <Textarea
               id="address"
-              placeholder={"省市区 + 详细地址 + 邮编\n例：广东省深圳市南山区 XX 路 XX 号 518000"}
+              placeholder={"省 + 市 + 区 + 详细地址\n例：广东省深圳市南山区 XX 路 XX 号"}
               rows={3}
               {...register("address")}
             />

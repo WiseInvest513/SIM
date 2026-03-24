@@ -149,7 +149,7 @@ export default function HomePage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-b border-[#1a1a1a]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map(({ value, label }) => (
-            <div key={label} className="text-center md:text-left">
+            <div key={label} className="text-center">
               <p className="text-4xl font-bold text-white mb-1 tabular-nums">{value}</p>
               <p className="text-sm text-gray-500">{label}</p>
             </div>

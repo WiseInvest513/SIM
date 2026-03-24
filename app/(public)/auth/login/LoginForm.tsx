@@ -84,7 +84,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-blue-950/50 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">

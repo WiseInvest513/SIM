@@ -35,7 +35,7 @@ export default async function ProductDetailPage({ params }: Props) {
   try {
     const supabase = await createClient();
     const { data } = await supabase.from("products").select("*").eq("slug", slug).eq("is_active", true).single();
-    product = data as import("@/lib/supabase/types").Product | null;
+    product = (data as import("@/lib/supabase/types").Product | null) ?? MOCK[slug] ?? null;
   } catch {
     product = MOCK[slug] ?? null;
   }
@@ -43,7 +43,7 @@ export default async function ProductDetailPage({ params }: Props) {
   if (!product) notFound();
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900/60 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-4xl mx-auto">
         <Link href="/shop" className="inline-flex items-center gap-2 text-gray-500 hover:text-white text-sm mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" />

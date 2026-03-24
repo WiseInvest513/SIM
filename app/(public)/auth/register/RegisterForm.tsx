@@ -72,7 +72,7 @@ export default function RegisterForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-indigo-950/50 via-[#0a0a0a] to-[#0a0a0a]">
         <div className="max-w-md w-full text-center">
           <div className="w-16 h-16 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-8 h-8 text-green-600" />
@@ -90,7 +90,7 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-indigo-950/50 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">

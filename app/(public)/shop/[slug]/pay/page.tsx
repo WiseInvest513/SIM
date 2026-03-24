@@ -28,7 +28,7 @@ export default async function PayPage({ params }: Props) {
       .eq("slug", slug)
       .eq("is_active", true)
       .single();
-    product = data;
+    product = data ?? MOCK[slug] ?? null;
 
     const { data: authData } = await supabase.auth.getUser();
     userId = authData.user?.id ?? null;
@@ -38,16 +38,21 @@ export default async function PayPage({ params }: Props) {
 
   if (!product) notFound();
 
-  // 未登录跳到登录页
+  // 未登录跳到登录页（本地开发环境跳过，直接用 dev-user）
+  const isDev = process.env.NODE_ENV === "development";
   if (!userId) {
-    redirect(`/auth/login?redirect=/shop/${slug}/pay`);
+    if (isDev) {
+      userId = "dev-user";
+    } else {
+      redirect(`/auth/login?redirect=/shop/${slug}/pay`);
+    }
   }
 
   const alipayQr = process.env.NEXT_PUBLIC_ALIPAY_QR_URL ?? null;
   const wechatId = process.env.NEXT_PUBLIC_WECHAT_ID ?? "请联系客服";
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-emerald-950/40 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="w-full max-w-sm">
         <PaymentFlow
           product={{ id: product.id, name: product.name, slug: product.slug, price: product.price }}
