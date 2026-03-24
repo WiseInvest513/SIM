@@ -5,9 +5,9 @@ import { PaymentFlow } from "@/components/shop/PaymentFlow";
 
 // mock 商品（Supabase 未配置时用）
 const MOCK: Record<string, { id: string; name: string; slug: string; price: number; category: string }> = {
-  giffgaff:        { id: "mock-giffgaff",       name: "giffgaff 英国手机卡",          slug: "giffgaff",       price: 6900,  category: "英国手机卡" },
-  "ultra-mobile":  { id: "mock-ultramobile",     name: "Ultra Mobile 美国手机卡",       slug: "ultra-mobile",   price: 9900,  category: "美国手机卡" },
-  "giffgaff-plus": { id: "mock-giffgaff-plus",   name: "giffgaff 英国手机卡（含 £10）", slug: "giffgaff-plus",  price: 11900, category: "英国手机卡" },
+  giffgaff:        { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡",          slug: "giffgaff",       price: 6900,  category: "英国手机卡" },
+  "ultra-mobile":  { id: "00000000-0000-0000-0000-000000000002", name: "Ultra Mobile 美国手机卡",       slug: "ultra-mobile",   price: 9900,  category: "美国手机卡" },
+  "giffgaff-plus": { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", slug: "giffgaff-plus",  price: 11900, category: "英国手机卡" },
 };
 
 interface Props {

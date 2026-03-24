@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 // 测试用 mock 商品（数据库无商品时展示）
 const MOCK_PRODUCTS: Product[] = [
   {
-    id: "mock-giffgaff",
+    id: "00000000-0000-0000-0000-000000000001",
     name: "giffgaff 英国手机卡",
     slug: "giffgaff",
     description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。",
@@ -24,7 +24,7 @@ const MOCK_PRODUCTS: Product[] = [
     created_at: "2024-01-01",
   },
   {
-    id: "mock-ultramobile",
+    id: "00000000-0000-0000-0000-000000000002",
     name: "Ultra Mobile 美国手机卡",
     slug: "ultra-mobile",
     description: "美国 T-Mobile 网络，月租低，可保号，适合注册美区账户、接收美国验证码。",
@@ -36,7 +36,7 @@ const MOCK_PRODUCTS: Product[] = [
     created_at: "2024-01-02",
   },
   {
-    id: "mock-giffgaff-plus",
+    id: "00000000-0000-0000-0000-000000000003",
     name: "giffgaff 英国手机卡（含 £10 余额）",
     slug: "giffgaff-plus",
     description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用，适合有漫游需求的用户。",

@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 
 const MOCK: Record<string, import("@/lib/supabase/types").Product> = {
-  giffgaff:        { id: "mock-giffgaff",      name: "giffgaff 英国手机卡",           slug: "giffgaff",       description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。", price: 6900,  stock: 99, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-01" },
-  "ultra-mobile":  { id: "mock-ultramobile",    name: "Ultra Mobile 美国手机卡",        slug: "ultra-mobile",   description: "美国 T-Mobile 网络，月租低，可保号，适合注册美区账户、接收美国验证码。",                                   price: 9900,  stock: 50, category: "美国手机卡", image_url: null, is_active: true, created_at: "2024-01-02" },
-  "giffgaff-plus": { id: "mock-giffgaff-plus",  name: "giffgaff 英国手机卡（含 £10）",  slug: "giffgaff-plus",  description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用。",                                       price: 11900, stock: 30, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-03" },
+  giffgaff:        { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡",           slug: "giffgaff",       description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。", price: 6900,  stock: 99, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-01" },
+  "ultra-mobile":  { id: "00000000-0000-0000-0000-000000000002", name: "Ultra Mobile 美国手机卡",        slug: "ultra-mobile",   description: "美国 T-Mobile 网络，月租低，可保号，适合注册美区账户、接收美国验证码。",                                   price: 9900,  stock: 50, category: "美国手机卡", image_url: null, is_active: true, created_at: "2024-01-02" },
+  "giffgaff-plus": { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）",  slug: "giffgaff-plus",  description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用。",                                       price: 11900, stock: 30, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-03" },
 };
 
 interface Props {
