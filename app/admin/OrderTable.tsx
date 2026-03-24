@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+// router.refresh() triggers revalidation after server action
 import { Loader2, Truck, Check, X, Package, Clock, CheckCircle, XCircle, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
+import { updateOrderStatus } from "./actions";
 import { formatPrice, formatDate } from "@/lib/utils";
 import type { OrderStatus } from "@/lib/supabase/types";
 
@@ -206,12 +207,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
   async function updateStatus(orderId: string, newStatus: OrderStatus, trackingNumber?: string) {
     setUpdating(orderId);
     try {
-      const supabase = createClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const payload: any = { status: newStatus, updated_at: new Date().toISOString() };
-      if (trackingNumber) payload.tracking_number = trackingNumber;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase.from("orders") as any).update(payload).eq("id", orderId);
+      await updateOrderStatus(orderId, newStatus, trackingNumber);
       router.refresh();
     } finally {
       setUpdating(null);
