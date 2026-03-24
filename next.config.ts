@@ -7,10 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**" },
     ],
   },
-  // 实验性功能
-  experimental: {
-    // 启用 Server Actions
-  },
+  experimental: {},
 };
 
 export default nextConfig;
