@@ -1,0 +1,141 @@
+[
+  {
+    "category": "手机卡",
+    "categorySlug": "sim-card",
+    "icon": "Smartphone",
+    "tools": [
+      {
+        "id": "giffgaff",
+        "name": "giffgaff",
+        "description": "英国虚拟运营商，免月租，长期不用不注销，国内可直接购买激活",
+        "logo": "/logos/giffgaff.png",
+        "url": "https://www.giffgaff.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["英国", "免月租", "推荐"]
+      },
+      {
+        "id": "ultra-mobile",
+        "name": "Ultra Mobile",
+        "description": "美国手机卡，月租低，可保号，适合注册美区账户",
+        "logo": "/logos/ultra-mobile.png",
+        "url": "https://www.ultramobile.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["美国", "低月租"]
+      },
+      {
+        "id": "hongkong-three",
+        "name": "香港三网电话卡",
+        "description": "香港本地手机卡，内地漫游使用，适合需要香港号码的用户",
+        "logo": "/logos/three-hk.png",
+        "url": "https://www.three.com.hk/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["香港", "漫游"]
+      }
+    ]
+  },
+  {
+    "category": "VPN & 机场",
+    "categorySlug": "vpn",
+    "icon": "Shield",
+    "tools": [
+      {
+        "id": "expressvpn",
+        "name": "ExpressVPN",
+        "description": "老牌 VPN 服务，速度快稳定，支持多设备同时使用",
+        "logo": "/logos/expressvpn.png",
+        "url": "https://www.expressvpn.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["付费", "稳定", "推荐"]
+      },
+      {
+        "id": "nordvpn",
+        "name": "NordVPN",
+        "description": "性价比高的 VPN，双重加密，隐私保护强",
+        "logo": "/logos/nordvpn.png",
+        "url": "https://nordvpn.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["付费", "高性价比"]
+      }
+    ]
+  },
+  {
+    "category": "海外银行",
+    "categorySlug": "bank",
+    "icon": "Building2",
+    "tools": [
+      {
+        "id": "wise",
+        "name": "Wise",
+        "description": "国际转账首选，汇率接近中间价，支持多币种账户",
+        "logo": "/logos/wise.png",
+        "url": "https://wise.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["多币种", "低手续费", "推荐"]
+      },
+      {
+        "id": "revolut",
+        "name": "Revolut",
+        "description": "欧洲数字银行，支持加密货币，消费返利",
+        "logo": "/logos/revolut.png",
+        "url": "https://www.revolut.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["欧洲", "数字银行"]
+      },
+      {
+        "id": "ocbc",
+        "name": "OCBC 新加坡",
+        "description": "新加坡华侨银行，内地用户可远程开户，门槛较低",
+        "logo": "/logos/ocbc.png",
+        "url": "https://www.ocbc.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["新加坡", "远程开户"]
+      }
+    ]
+  },
+  {
+    "category": "出海券商",
+    "categorySlug": "broker",
+    "icon": "TrendingUp",
+    "tools": [
+      {
+        "id": "interactive-brokers",
+        "name": "盈透证券",
+        "description": "全球顶级券商，支持港美股，佣金极低，适合长期投资",
+        "logo": "/logos/ibkr.png",
+        "url": "https://www.interactivebrokers.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["美股", "港股", "推荐"]
+      },
+      {
+        "id": "futu",
+        "name": "富途证券",
+        "description": "港股美股一站式，界面友好，适合新手出海投资者",
+        "logo": "/logos/futu.png",
+        "url": "https://www.futunn.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["港股", "美股", "新手友好"]
+      },
+      {
+        "id": "tiger",
+        "name": "老虎证券",
+        "description": "国际化综合券商，支持多市场，开户流程简单",
+        "logo": "/logos/tiger.png",
+        "url": "https://www.tigersecurities.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["综合", "开户简单"]
+      }
+    ]
+  },
+  {
+    "category": "支付工具",
+    "categorySlug": "payment",
+    "icon": "CreditCard",
+    "tools": [
+      {
+        "id": "paypal",
+        "name": "PayPal",
+        "description": "全球最广泛的在线支付工具，支持跨境收付款",
+        "logo": "/logos/paypal.png",
+        "url": "https://www.paypal.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["全球通用", "跨境支付"]
+      },
+      {
+        "id": "stripe",
+        "name": "Stripe",
+        "description": "开发者友好的支付平台，适合出海做独立站的用户",
+        "logo": "/logos/stripe.png",
+        "url": "https://stripe.com/?utm_source=wise-invest&utm_medium=referral",
+        "tags": ["开发者", "独立站"]
+      }
+    ]
+  }
+]
