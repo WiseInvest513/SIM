@@ -9,12 +9,23 @@ export default async function AdminOrdersPage() {
 
   try {
     const supabase = createAdminClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("orders")
-      .select("*, products(id, name, price, category), profiles:user_id(email, display_name)")
+      .select("*")
       .order("created_at", { ascending: false });
-    orders = (data as import("./OrderTable").Order[]) || [];
-  } catch {}
+    if (error) console.error("admin orders error:", error);
+    const MOCK_PRODUCTS: Record<string, { name: string; price: number; category: string }> = {
+      "00000000-0000-0000-0000-000000000001": { name: "giffgaff 英国手机卡",          price: 6900,  category: "英国手机卡" },
+      "00000000-0000-0000-0000-000000000002": { name: "Ultra Mobile 美国手机卡",       price: 9900,  category: "美国手机卡" },
+      "00000000-0000-0000-0000-000000000003": { name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
+    };
+    orders = ((data as import("./OrderTable").Order[]) || []).map((o) => ({
+      ...o,
+      products: o.product_id && MOCK_PRODUCTS[o.product_id]
+        ? { id: o.product_id, ...MOCK_PRODUCTS[o.product_id] }
+        : o.products ?? null,
+    }));
+  } catch (e) { console.error("admin page error:", e); }
 
   return (
     <div className="p-6 lg:p-8 bg-[#0a0a0a] min-h-screen">

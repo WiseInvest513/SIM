@@ -2,11 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Package, Truck } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { OrderStatusBadge, OrderStatusTimeline } from "@/components/shop/OrderStatus";
 import { formatPrice, formatDate } from "@/lib/utils";
 import type { OrderStatus } from "@/lib/supabase/types";
 
 export const metadata: Metadata = { title: "我的订单" };
+
+// mock 商品信息（product_id → 商品名/价格）
+const MOCK_PRODUCTS: Record<string, { name: string; slug: string; price: number; category: string }> = {
+  "00000000-0000-0000-0000-000000000001": { name: "giffgaff 英国手机卡",          slug: "giffgaff",       price: 6900,  category: "英国手机卡" },
+  "00000000-0000-0000-0000-000000000002": { name: "Ultra Mobile 美国手机卡",       slug: "ultra-mobile",   price: 9900,  category: "美国手机卡" },
+  "00000000-0000-0000-0000-000000000003": { name: "giffgaff 英国手机卡（含 £10）", slug: "giffgaff-plus",  price: 11900, category: "英国手机卡" },
+};
 
 interface OrderWithProduct {
   id: string;
@@ -18,6 +26,7 @@ interface OrderWithProduct {
   status: string;
   tracking_number: string | null;
   created_at: string;
+  product_id: string | null;
   products: { id: string; name: string; slug: string; image_url: string | null; price: number; category: string } | null;
 }
 
@@ -29,14 +38,21 @@ export default async function OrdersPage() {
     const { data: authData } = await supabase.auth.getUser();
     const user = authData.user;
     if (user) {
-      const { data } = await supabase
+      // 用 admin client 绕过 RLS，服务端已验证用户身份
+      const adminSupabase = createAdminClient();
+      const { data, error } = await adminSupabase
         .from("orders")
-        .select("id, quantity, recipient_name, recipient_phone, address, remark, status, tracking_number, created_at, products(id, name, slug, image_url, price, category)")
+        .select("id, quantity, recipient_name, recipient_phone, address, remark, status, tracking_number, created_at, product_id")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
-      orders = data as OrderWithProduct[] | null;
+      if (error) console.error("orders query error:", error);
+      // 将 product_id 映射到商品信息
+      orders = (data ?? []).map((o: OrderWithProduct) => ({
+        ...o,
+        products: o.product_id ? (MOCK_PRODUCTS[o.product_id] ? { id: o.product_id, image_url: null, ...MOCK_PRODUCTS[o.product_id] } : null) : null,
+      }));
     }
-  } catch {}
+  } catch (e) { console.error("orders page error:", e); }
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cyan-950/40 via-[#0a0a0a] to-[#0a0a0a]">
