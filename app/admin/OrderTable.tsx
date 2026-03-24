@@ -282,7 +282,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a2a] bg-[#0d0d0d]">
             <tr>
-              {["订单号", "商品", "金额", "收货人", "地址", "状态", "下单时间", "操作"].map((h) => (
+              {["订单号", "商品", "金额", "收货人", "地址", "状态", "下单时间", "主操作", "取消"].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 whitespace-nowrap">{h}</th>
               ))}
             </tr>
@@ -290,7 +290,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-4 py-16 text-center">
+                <td colSpan={9} className="px-4 py-16 text-center">
                   <Package className="w-10 h-10 text-gray-700 mx-auto mb-3" />
                   <p className="text-gray-500 text-sm">暂无订单</p>
                 </td>
@@ -354,48 +354,44 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                       {formatDate(order.created_at)}
                     </td>
 
-                    {/* 操作 */}
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    {/* 主操作列 */}
+                    <td className="px-4 py-3 w-[110px]">
                       {isUpdating ? (
                         <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
                       ) : order.status === "pending" ? (
-                        <div className="flex items-center gap-2">
-                          <Button
-                            size="sm"
-                            className="h-7 text-xs gap-1.5 bg-blue-600 hover:bg-blue-500 text-white border-0"
-                            onClick={() => setShipTarget(order)}
-                          >
-                            <Truck className="w-3 h-3" />
-                            发货
-                          </Button>
-                          <button
-                            className="h-7 text-xs px-2.5 rounded-md bg-red-500/15 hover:bg-red-500/30 text-red-400 transition-colors border border-red-500/30"
-                            onClick={() => updateStatus(order.id, "cancelled")}
-                          >
-                            取消
-                          </button>
-                        </div>
+                        <Button
+                          size="sm"
+                          className="h-7 w-full text-xs gap-1.5 bg-blue-600 hover:bg-blue-500 text-white border-0"
+                          onClick={() => setShipTarget(order)}
+                        >
+                          <Truck className="w-3 h-3" />
+                          发货
+                        </Button>
                       ) : order.status === "shipped" ? (
-                        <div className="flex items-center gap-2">
-                          <Button
-                            size="sm"
-                            className="h-7 text-xs gap-1.5 bg-green-600 hover:bg-green-500 text-white border-0"
-                            onClick={() => updateStatus(order.id, "completed")}
-                          >
-                            <Check className="w-3 h-3" />
-                            确认完成
-                          </Button>
-                          <button
-                            className="h-7 text-xs px-2.5 rounded-md bg-red-500/15 hover:bg-red-500/30 text-red-400 transition-colors border border-red-500/30"
-                            onClick={() => updateStatus(order.id, "cancelled")}
-                          >
-                            取消
-                          </button>
-                        </div>
+                        <Button
+                          size="sm"
+                          className="h-7 w-full text-xs gap-1.5 bg-green-600 hover:bg-green-500 text-white border-0"
+                          onClick={() => updateStatus(order.id, "completed")}
+                        >
+                          <Check className="w-3 h-3" />
+                          确认完成
+                        </Button>
                       ) : order.status === "completed" ? (
                         <span className="text-xs text-gray-600">已完成</span>
                       ) : (
                         <span className="text-xs text-gray-600">已取消</span>
+                      )}
+                    </td>
+
+                    {/* 取消列 */}
+                    <td className="px-4 py-3 w-[72px]">
+                      {(order.status === "pending" || order.status === "shipped") && !isUpdating && (
+                        <button
+                          className="h-7 w-full text-xs rounded-md bg-red-500/15 hover:bg-red-500/30 text-red-400 transition-colors border border-red-500/30"
+                          onClick={() => updateStatus(order.id, "cancelled")}
+                        >
+                          取消
+                        </button>
                       )}
                     </td>
                   </tr>
