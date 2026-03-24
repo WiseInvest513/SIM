@@ -2,15 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Package, CheckCircle, ShoppingBag } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
-
-const MOCK: Record<string, import("@/lib/supabase/types").Product> = {
-  giffgaff:        { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡",           slug: "giffgaff",       description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。", price: 6900,  stock: 99, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-01" },
-  "ultra-mobile":  { id: "00000000-0000-0000-0000-000000000002", name: "Ultra Mobile 美国手机卡",        slug: "ultra-mobile",   description: "美国 T-Mobile 网络，月租低，可保号，适合注册美区账户、接收美国验证码。",                                   price: 9900,  stock: 50, category: "美国手机卡", image_url: null, is_active: true, created_at: "2024-01-02" },
-  "giffgaff-plus": { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）",  slug: "giffgaff-plus",  description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用。",                                       price: 11900, stock: 30, category: "英国手机卡", image_url: null, is_active: true, created_at: "2024-01-03" },
-};
+import { getProductBySlug } from "@/lib/products";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -18,28 +12,15 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.from("products").select("name, description").eq("slug", slug).single();
-    if (data) return { title: (data as { name: string }).name, description: (data as { description: string }).description };
-  } catch {}
-  const mock = MOCK[slug];
-  return mock ? { title: mock.name, description: mock.description } : { title: "商品不存在" };
+  const product = getProductBySlug(slug);
+  return product
+    ? { title: product.name, description: product.description }
+    : { title: "商品不存在" };
 }
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-
-  let product: import("@/lib/supabase/types").Product | null = null;
-
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.from("products").select("*").eq("slug", slug).eq("is_active", true).single();
-    product = (data as import("@/lib/supabase/types").Product | null) ?? MOCK[slug] ?? null;
-  } catch {
-    product = MOCK[slug] ?? null;
-  }
-
+  const product = getProductBySlug(slug);
   if (!product) notFound();
 
   return (
@@ -53,7 +34,6 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* 左侧：商品详情 */}
           <div className="lg:col-span-3 space-y-4">
-            {/* 图片 */}
             <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] h-56 flex items-center justify-center overflow-hidden">
               {product.image_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -66,7 +46,6 @@ export default async function ProductDetailPage({ params }: Props) {
               )}
             </div>
 
-            {/* 基本信息 */}
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Badge variant="default">{product.category}</Badge>
@@ -80,13 +59,11 @@ export default async function ProductDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {/* 商品介绍 */}
             <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-5">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">商品介绍</p>
               <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{product.description}</p>
             </div>
 
-            {/* 适用场景 */}
             <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-5">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">适用场景</p>
               <ul className="space-y-2">

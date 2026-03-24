@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getProductById } from "@/lib/products";
 import { AdminOrderTable } from "./OrderTable";
 
 export const metadata: Metadata = { title: "订单管理 - 后台" };
@@ -14,16 +15,10 @@ export default async function AdminOrdersPage() {
       .select("*")
       .order("created_at", { ascending: false });
     if (error) console.error("admin orders error:", error);
-    const MOCK_PRODUCTS: Record<string, { name: string; price: number; category: string }> = {
-      "00000000-0000-0000-0000-000000000001": { name: "giffgaff 英国手机卡",          price: 6900,  category: "英国手机卡" },
-      "00000000-0000-0000-0000-000000000002": { name: "Ultra Mobile 美国手机卡",       price: 9900,  category: "美国手机卡" },
-      "00000000-0000-0000-0000-000000000003": { name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
-    };
-    orders = ((data as import("./OrderTable").Order[]) || []).map((o) => ({
+    // 关联商品信息
+    orders = ((data ?? []) as import("./OrderTable").Order[]).map((o) => ({
       ...o,
-      products: o.product_id && MOCK_PRODUCTS[o.product_id]
-        ? { id: o.product_id, ...MOCK_PRODUCTS[o.product_id] }
-        : o.products ?? null,
+      products: o.product_id ? (getProductById(o.product_id) ?? null) : null,
     }));
   } catch (e) { console.error("admin page error:", e); }
 

@@ -12,6 +12,7 @@ import type { OrderStatus } from "@/lib/supabase/types";
 export interface Order {
   id: string;
   user_id: string;
+  product_id?: string | null;
   quantity: number;
   recipient_name: string;
   recipient_phone: string;
@@ -36,7 +37,7 @@ const MOCK_ORDERS: Order[] = [
     status: "pending",
     tracking_number: null,
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-    products: { id: "p1", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
     profiles: { email: "zhangsan@example.com", display_name: "张三" },
   },
   {
@@ -50,13 +51,13 @@ const MOCK_ORDERS: Order[] = [
     status: "pending",
     tracking_number: null,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-    products: { id: "p2", name: "Ultra Mobile 美国手机卡", price: 9900, category: "美国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
     profiles: { email: "lisi@example.com", display_name: "李四" },
   },
   {
     id: "a1b2c3d4-0003-0000-0000-000000000003",
     user_id: "u3",
-    quantity: 2,
+    quantity: 1,
     recipient_name: "王五",
     recipient_phone: "13700137003",
     address: "上海市浦东新区陆家嘴环路 1000 号",
@@ -64,7 +65,7 @@ const MOCK_ORDERS: Order[] = [
     status: "shipped",
     tracking_number: "SF1234567890",
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-    products: { id: "p1", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
     profiles: { email: "wangwu@example.com", display_name: "王五" },
   },
   {
@@ -78,22 +79,8 @@ const MOCK_ORDERS: Order[] = [
     status: "completed",
     tracking_number: "SF9876543210",
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-    products: { id: "p3", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
     profiles: { email: "zhaoliu@example.com", display_name: "赵六" },
-  },
-  {
-    id: "a1b2c3d4-0005-0000-0000-000000000005",
-    user_id: "u5",
-    quantity: 1,
-    recipient_name: "孙七",
-    recipient_phone: "13500135005",
-    address: "广东省广州市天河区珠江新城华穗路 330 号",
-    remark: null,
-    status: "cancelled",
-    tracking_number: null,
-    created_at: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
-    products: { id: "p2", name: "Ultra Mobile 美国手机卡", price: 9900, category: "美国手机卡" },
-    profiles: { email: "sunqi@example.com", display_name: "孙七" },
   },
 ];
 

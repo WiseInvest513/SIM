@@ -1,70 +1,14 @@
 import type { Metadata } from "next";
 import { ShoppingBag } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
 import { ProductCard } from "@/components/shop/ProductCard";
-import type { Product } from "@/lib/supabase/types";
+import { PRODUCTS } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "手机卡商城",
   description: "购买海外手机卡，giffgaff 英国手机卡等，国内直邮，快速发货。",
 };
 
-// 测试用 mock 商品（数据库无商品时展示）
-const MOCK_PRODUCTS: Product[] = [
-  {
-    id: "00000000-0000-0000-0000-000000000001",
-    name: "giffgaff 英国手机卡",
-    slug: "giffgaff",
-    description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。",
-    price: 6900,
-    stock: 99,
-    category: "英国手机卡",
-    image_url: null,
-    is_active: true,
-    created_at: "2024-01-01",
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000002",
-    name: "Ultra Mobile 美国手机卡",
-    slug: "ultra-mobile",
-    description: "美国 T-Mobile 网络，月租低，可保号，适合注册美区账户、接收美国验证码。",
-    price: 9900,
-    stock: 50,
-    category: "美国手机卡",
-    image_url: null,
-    is_active: true,
-    created_at: "2024-01-02",
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000003",
-    name: "giffgaff 英国手机卡（含 £10 余额）",
-    slug: "giffgaff-plus",
-    description: "英国 O2 旗下虚拟运营商，永久免月租，含首充 £10 余额，开卡即可使用，适合有漫游需求的用户。",
-    price: 11900,
-    stock: 30,
-    category: "英国手机卡",
-    image_url: null,
-    is_active: true,
-    created_at: "2024-01-03",
-  },
-];
-
-export default async function ShopPage() {
-  let dbProducts: Product[] | null = null;
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("products")
-      .select("*")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false });
-    dbProducts = data as Product[] | null;
-  } catch {
-    // Supabase 未配置，使用 mock 数据
-  }
-  // 数据库有商品用真实数据，否则用 mock（方便本地测试）
-  const products = dbProducts && dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
-
+export default function ShopPage() {
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-sky-950/40 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
@@ -92,7 +36,7 @@ export default async function ShopPage() {
 
         {/* 商品列表 */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {PRODUCTS.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

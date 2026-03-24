@@ -2,13 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/utils";
 import { PaymentFlow } from "@/components/shop/PaymentFlow";
-
-// mock 商品（Supabase 未配置时用）
-const MOCK: Record<string, { id: string; name: string; slug: string; price: number; category: string }> = {
-  giffgaff:        { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡",          slug: "giffgaff",       price: 6900,  category: "英国手机卡" },
-  "ultra-mobile":  { id: "00000000-0000-0000-0000-000000000002", name: "Ultra Mobile 美国手机卡",       slug: "ultra-mobile",   price: 9900,  category: "美国手机卡" },
-  "giffgaff-plus": { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", slug: "giffgaff-plus",  price: 11900, category: "英国手机卡" },
-};
+import { getProductBySlug } from "@/lib/products";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -17,32 +11,20 @@ interface Props {
 export default async function PayPage({ params }: Props) {
   const { slug } = await params;
 
-  let product: { id: string; name: string; slug: string; price: number; category: string } | null = null;
-  let userId: string | null = null;
-
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("products")
-      .select("id, name, slug, price, category")
-      .eq("slug", slug)
-      .eq("is_active", true)
-      .single();
-    product = data ?? MOCK[slug] ?? null;
-
-    const { data: authData } = await supabase.auth.getUser();
-    userId = authData.user?.id ?? null;
-  } catch {
-    product = MOCK[slug] ?? null;
-  }
-
+  const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  // 未登录跳到登录页（本地开发环境跳过，直接用 dev-user）
+  let userId: string | null = null;
+  try {
+    const supabase = await createClient();
+    const { data: authData } = await supabase.auth.getUser();
+    userId = authData.user?.id ?? null;
+  } catch {}
+
   const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
   if (!userId) {
     if (isDev) {
-      userId = "dev-user";
+      userId = "00000000-0000-0000-0000-000000000000";
     } else {
       redirect(`/auth/login?redirect=/shop/${slug}/pay`);
     }
