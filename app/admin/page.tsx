@@ -17,10 +17,10 @@ export default async function AdminOrdersPage() {
   } catch {}
 
   return (
-    <div className="p-8">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-white">订单管理</h1>
-        <p className="text-gray-500 text-sm mt-1">共 {orders.length} 笔订单</p>
+    <div className="p-6 lg:p-8 bg-[#0a0a0a] min-h-screen">
+      <div className="mb-7">
+        <h1 className="text-2xl font-bold text-white">订单管理</h1>
+        <p className="text-gray-500 text-sm mt-1">管理所有用户订单，发货后填写快递单号</p>
       </div>
       <AdminOrderTable orders={orders} />
     </div>

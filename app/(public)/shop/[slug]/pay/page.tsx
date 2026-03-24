@@ -39,7 +39,7 @@ export default async function PayPage({ params }: Props) {
   if (!product) notFound();
 
   // 未登录跳到登录页（本地开发环境跳过，直接用 dev-user）
-  const isDev = process.env.NODE_ENV === "development";
+  const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
   if (!userId) {
     if (isDev) {
       userId = "dev-user";

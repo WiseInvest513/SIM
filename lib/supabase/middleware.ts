@@ -44,16 +44,18 @@ export async function updateSession(request: NextRequest) {
   );
   const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));
 
-  if ((isProtectedRoute || isAdminRoute) && !user) {
-    // 未登录，重定向到登录页
+  const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
+
+  if ((isProtectedRoute || isAdminRoute) && !user && !isDev) {
+    // 未登录，重定向到登录页（开发环境跳过）
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (isAdminRoute && user) {
-    // 检查 admin 角色（通过 user metadata）
+  if (isAdminRoute && user && !isDev) {
+    // 检查 admin 角色（开发环境跳过）
     const role = user.user_metadata?.role;
     if (role !== "admin") {
       const url = request.nextUrl.clone();
