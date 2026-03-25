@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     default: "Wise SIM - SIM 卡商城",
     template: "%s | Wise SIM",
   },
-  description: "正规渠道购买海外 SIM 卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内顺丰直邮，快速激活。",
+  description: "正规渠道购买海外 SIM 卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内快递直邮，快速激活。",
   keywords: ["海外手机卡", "giffgaff", "Ultra Mobile", "英国手机卡", "美国手机卡", "SIM卡购买"],
   authors: [{ name: "Wise SIM" }],
   openGraph: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: "https://wise-sim.org",
     siteName: "Wise SIM",
     title: "Wise SIM - 海外手机卡商城",
-    description: "正规渠道购买海外 SIM 卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内顺丰直邮，快速激活。",
+    description: "正规渠道购买海外 SIM 卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内快递直邮，快速激活。",
   },
 };
 

@@ -201,7 +201,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
           </button>
         </div>
         <p className="text-gray-500 text-xs">
-          添加微信后告知已下单，核实付款后当天安排发货，并回传顺丰快递单号。
+          添加微信后告知已下单，核实付款后当天安排发货，并回传快递单号。
         </p>
       </div>
 

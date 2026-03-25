@@ -55,7 +55,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <h1 className="text-2xl font-bold text-white mb-2">{product.name}</h1>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-white">{formatPrice(product.price)}</span>
-                <span className="text-gray-500 text-sm">含顺丰运费</span>
+                <span className="text-gray-500 text-sm">含快递运费</span>
               </div>
             </div>
 
@@ -89,11 +89,11 @@ export default async function ProductDetailPage({ params }: Props) {
               <div>
                 <p className="text-gray-500 text-sm mb-1">{product.name}</p>
                 <p className="text-3xl font-bold text-white">{formatPrice(product.price)}</p>
-                <p className="text-gray-600 text-xs mt-1">含顺丰运费</p>
+                <p className="text-gray-600 text-xs mt-1">含快递运费</p>
               </div>
 
               <div className="space-y-2 text-sm text-gray-400">
-                {["正规渠道采购，品质保障", "1-3 个工作日顺丰发货", "附详细激活教程", "微信客服全程支持"].map((t) => (
+                {["正规渠道采购，品质保障", "1-3 个工作日快递发货", "附详细激活教程", "微信客服全程支持"].map((t) => (
                   <div key={t} className="flex items-center gap-2">
                     <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                     {t}

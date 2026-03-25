@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Clock, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Clock, ArrowRight, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ interface ArticleMeta {
   date: string;
   readTime?: string;
   tags?: string[];
+  ogImage?: string;
 }
 
 interface ArticleCardProps {
@@ -39,8 +41,26 @@ export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <Link
       href={`/guides/${article.slug}`}
-      className="group block rounded-xl border border-slate-700/60 bg-slate-800/50 p-6 card-hover"
+      className="group block rounded-xl border border-slate-700/60 bg-slate-800/50 overflow-hidden card-hover"
     >
+      {/* 封面图 */}
+      <div className="relative h-44 bg-slate-700/30">
+        {article.ogImage ? (
+          <Image
+            src={article.ogImage}
+            alt={article.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <BookOpen className="w-10 h-10 text-slate-600" />
+          </div>
+        )}
+      </div>
+
+      <div className="p-6">
       <div className="flex items-center gap-2 mb-3">
         <span
           className={`text-xs font-medium px-2.5 py-1 rounded-full ${categoryColor}`}
@@ -67,6 +87,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           阅读全文
           <ArrowRight className="w-3 h-3" />
         </span>
+      </div>
       </div>
     </Link>
   );

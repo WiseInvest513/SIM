@@ -147,11 +147,11 @@ function ShipModal({ order, onClose, onConfirm }: {
         </div>
 
         <div className="space-y-2 mb-5">
-          <label className="text-sm text-gray-400">顺丰快递单号</label>
+          <label className="text-sm text-gray-400">快递单号</label>
           <Input
             value={tracking}
             onChange={(e) => setTracking(e.target.value)}
-            placeholder="例：SF1234567890"
+            placeholder="请输入快递单号"
             className="font-mono"
             onKeyDown={(e) => e.key === "Enter" && handleConfirm()}
             autoFocus

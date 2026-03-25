@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Globe, ShoppingBag, User, LogOut, Menu, X, ChevronDown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -40,7 +41,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -109,7 +110,7 @@ export function Navbar() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-300 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors"
                 >
                   {user.user_metadata?.avatar_url ? (
-                    <img src={user.user_metadata.avatar_url} alt="avatar" className="w-5 h-5 rounded-full" />
+                    <Image src={user.user_metadata.avatar_url} alt="avatar" width={20} height={20} className="rounded-full" />
                   ) : (
                     <User className="w-3.5 h-3.5" />
                   )}

@@ -4,8 +4,8 @@ import { getAllArticles } from "@/lib/guides";
 import { ArticleCard } from "@/components/guides/ArticleCard";
 
 export const metadata: Metadata = {
-  title: "出海教程",
-  description: "详细的出海教程，手机卡激活、VPN 配置、海外账户开户，手把手带你搞定。",
+  title: "实操教程",
+  description: "详细的实操教程，手机卡激活、海外账户开户，手把手带你一步步搞定。",
 };
 
 // 分类配置
@@ -39,8 +39,8 @@ export default async function GuidesPage({ searchParams }: Props) {
               <BookOpen className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">出海教程</h1>
-              <p className="text-gray-400 text-sm">图文教程，一步一步带你搞定出海配置</p>
+              <h1 className="text-2xl font-bold text-white">实操教程</h1>
+              <p className="text-gray-400 text-sm">图文教程，一步一步带你搞定每个操作</p>
             </div>
           </div>
 

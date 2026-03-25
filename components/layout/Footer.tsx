@@ -35,7 +35,7 @@ export function Footer() {
               <span className="font-bold text-white">Wise SIM</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">
-              正规渠道海外手机卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内顺丰直邮。
+              正规渠道海外手机卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内快递直邮。
             </p>
           </div>
 

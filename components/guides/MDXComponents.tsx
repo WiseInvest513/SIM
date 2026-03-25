@@ -137,7 +137,7 @@ export function getMDXComponents(): MDXComponents {
       <img
         src={src}
         alt={alt || ""}
-        className="rounded-xl border border-slate-700/60 my-5 w-full"
+        className="rounded-2xl border border-slate-700/60 my-5 w-full bg-[#1e1e1e] p-2"
       />
     ),
 

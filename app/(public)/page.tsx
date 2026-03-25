@@ -19,7 +19,7 @@ const services = [
     icon: Package,
     badge: "热卖",
     title: "手机卡商城",
-    desc: "giffgaff 英国卡、Ultra Mobile 美国卡，正规渠道采购，附激活教程，顺丰直邮到家。",
+    desc: "giffgaff 英国卡、Ultra Mobile 美国卡，正规渠道采购，附激活教程，快递邮寄到家。",
     cta: "进入商城",
   },
   {
@@ -34,14 +34,14 @@ const services = [
 
 const features = [
   { icon: Package, title: "正规渠道",   desc: "直接从官方渠道采购，非二手翻新，附正规激活教程。" },
-  { icon: Truck,   title: "顺丰直邮",   desc: "收到付款当天或次日发货，全程可追踪物流信息。" },
-  { icon: Clock,   title: "1-3 天到手", desc: "国内顺丰配送，大部分城市隔天即可签收。" },
+  { icon: Truck,   title: "快递直邮",   desc: "收到付款当天或次日发货，全程可追踪物流信息。" },
+  { icon: Clock,   title: "1-3 天到手", desc: "国内快递配送，大部分城市隔天即可签收。" },
   { icon: Shield,  title: "售后保障",   desc: "激活遇到问题，微信客服全程陪同处理，放心购买。" },
 ];
 
 const reviews = [
   { name: "Alex W.",  role: "留学生",   text: "在国内就能激活，注册 PayPal 和 Wise 都没问题，客服也很耐心。" },
-  { name: "林 S.",    role: "自由职业者", text: "顺丰第二天就到了，按教程操作十分钟搞定，强烈推荐！" },
+  { name: "林 S.",    role: "自由职业者", text: "快递第二天就到了，按教程操作十分钟搞定，强烈推荐！" },
   { name: "Chen M.",  role: "海外工作",  text: "giffgaff 永久免月租真的香，备用号码完全够用。" },
   { name: "张 P.",    role: "跨境电商",  text: "一次买了两张，发货速度很快，激活也顺利，下次还会来。" },
   { name: "Sarah K.", role: "旅行博主",  text: "出境前提前买好，省去了很多麻烦，服务很专业。" },
@@ -55,7 +55,7 @@ const faqs = [
   },
   {
     q: "购买后多久发货？",
-    a: "收到付款后，一般当天或次日通过顺丰快递发出，大部分城市 1-3 个工作日签收。",
+    a: "收到付款后，一般当天或次日通过快递发出，大部分城市 1-3 个工作日签收。",
   },
   {
     q: "怎么激活 giffgaff 卡？",
@@ -99,7 +99,7 @@ export default function HomePage() {
 
           {/* 副标题 */}
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
-            在国内就能拿到英国/美国真实手机号，注册 PayPal、WhatsApp、海外银行，无需出境，顺丰直邮，按教程几分钟激活。
+            在国内就能拿到英国/美国真实手机号，注册 PayPal、WhatsApp、海外银行，无需出境，快递邮寄到家，按教程几分钟激活。
           </p>
 
           {/* CTA 按钮 */}
@@ -116,7 +116,7 @@ export default function HomePage() {
               href="/guides"
               className="inline-flex items-center justify-center gap-2 border border-[#2a2a2a] text-gray-400 font-medium px-7 py-3.5 rounded-xl hover:bg-[#111111] hover:text-white transition-colors text-sm"
             >
-              查看出海教程
+              查看实操教程
               <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -127,10 +127,10 @@ export default function HomePage() {
       <div className="border-y border-[#1a1a1a] bg-[#111111] py-3 overflow-hidden">
         <div className="flex gap-12 animate-[marquee_30s_linear_infinite] whitespace-nowrap">
           {[
-            "giffgaff 英国手机卡", "永久免月租", "顺丰直邮",
+            "giffgaff 英国手机卡", "永久免月租", "快递直邮",
             "1-3 天发货", "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
-            "giffgaff 英国手机卡", "永久免月租", "顺丰直邮",
+            "giffgaff 英国手机卡", "永久免月租", "快递直邮",
             "1-3 天发货", "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
           ].map((item, i) => (
@@ -245,10 +245,10 @@ export default function HomePage() {
                 </div>
                 <h2 className="text-3xl font-bold text-white mb-3">giffgaff 英国手机卡</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-lg">
-                  永久免月租，账户有余额号码就不会被注销。国内顺丰直邮，几分钟按教程完成激活，即可注册 PayPal、WhatsApp、海外 App Store 等。
+                  永久免月租，账户有余额号码就不会被注销。国内快递直邮，几分钟按教程完成激活，即可注册 PayPal、WhatsApp、海外 App Store 等。
                 </p>
                 <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400">
-                  {["永久免月租", "英国真实号码", "接收国际短信", "全程教程支持", "顺丰直邮"].map(t => (
+                  {["永久免月租", "英国真实号码", "接收国际短信", "全程教程支持", "快递直邮"].map(t => (
                     <span key={t} className="flex items-center gap-1.5">
                       <span className="w-1 h-1 rounded-full bg-gray-300" />{t}
                     </span>

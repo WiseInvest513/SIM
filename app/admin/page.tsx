@@ -13,7 +13,8 @@ export default async function AdminOrdersPage() {
     const { data, error } = await supabase
       .from("orders")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(500);
     if (error) console.error("admin orders error:", error);
     // 关联商品信息
     orders = ((data ?? []) as import("./OrderTable").Order[]).map((o) => ({

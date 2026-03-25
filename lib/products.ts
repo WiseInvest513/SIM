@@ -4,7 +4,7 @@ import type { Product } from "@/lib/supabase/types";
 export const PRODUCTS: Product[] = [
   {
     id: "00000000-0000-0000-0000-000000000001",
-    name: "giffgaff 英国手机卡",
+    name: "giffgaff 英国手机卡-未激活",
     slug: "giffgaff",
     description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。",
     price: 6900,

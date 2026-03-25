@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Layers } from "lucide-react";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { XesimCard } from "@/components/shop/XesimCard";
 import { PRODUCTS } from "@/lib/products";
 
 export const metadata: Metadata = {
@@ -41,6 +42,17 @@ export default function ShopPage() {
           ))}
         </div>
 
+        {/* 其他资源 */}
+        <div className="mt-14">
+          <div className="flex items-center gap-2 mb-5">
+            <Layers className="w-4 h-4 text-gray-500" />
+            <h2 className="text-sm font-medium text-gray-400 uppercase tracking-widest">其他资源</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <XesimCard />
+          </div>
+        </div>
+
         {/* 购买须知 */}
         <div className="mt-12 rounded-xl border border-[#2a2a2a] bg-[#111111] p-6">
           <h2 className="text-base font-semibold text-white mb-4">购买须知</h2>
@@ -55,7 +67,7 @@ export default function ShopPage() {
             </div>
             <div>
               <p className="text-gray-200 font-medium mb-1">发货说明</p>
-              <p>收到付款后 1-3 个工作日安排发货，顺丰快递</p>
+              <p>收到付款后 1-3 个工作日安排发货，快递邮寄到家</p>
             </div>
             <div>
               <p className="text-gray-200 font-medium mb-1">激活支持</p>

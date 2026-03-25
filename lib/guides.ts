@@ -16,8 +16,12 @@ export interface ArticleMeta {
 
 const contentDir = path.join(process.cwd(), "content/guides");
 
+// 生产环境缓存，开发环境每次重新读取
+let _articlesCache: ArticleMeta[] | null = null;
+
 // 获取所有文章元信息（用于列表页）
 export function getAllArticles(): ArticleMeta[] {
+  if (_articlesCache && process.env.NODE_ENV === "production") return _articlesCache;
   if (!fs.existsSync(contentDir)) return [];
 
   const files = fs.readdirSync(contentDir).filter((f) => f.endsWith(".mdx"));
@@ -40,10 +44,10 @@ export function getAllArticles(): ArticleMeta[] {
     } as ArticleMeta;
   });
 
-  // 按日期倒序排列
-  return articles.sort(
+  _articlesCache = articles.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+  return _articlesCache;
 }
 
 // 获取单篇文章内容和元信息

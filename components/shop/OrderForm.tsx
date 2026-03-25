@@ -93,7 +93,7 @@ export function OrderForm({ product, userId }: OrderFormProps) {
           <p className="font-semibold text-white text-sm">{product.name}</p>
           <p className="text-xl font-bold text-white">{formatPrice(product.price)}</p>
         </div>
-        <p className="text-gray-500 text-xs mt-1">含顺丰运费 · × 1</p>
+        <p className="text-gray-500 text-xs mt-1">含快递运费 · × 1</p>
       </div>
 
       {/* 表单 */}
