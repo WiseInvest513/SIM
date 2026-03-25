@@ -1,8 +1,26 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Middleware 中使用的 Supabase 客户端
+const protectedRoutes = ["/account"];
+const adminRoutes = ["/admin"];
+
 export async function updateSession(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  const isProtectedRoute = protectedRoutes.some((r) => pathname.startsWith(r));
+  const isAdminRoute = adminRoutes.some((r) => pathname.startsWith(r));
+  const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
+
+  // 公开路由直接放行，不调用 Supabase，省去网络往返
+  if (!isProtectedRoute && !isAdminRoute) {
+    return NextResponse.next({ request });
+  }
+
+  // 开发模式跳过验证
+  if (isDev) {
+    return NextResponse.next({ request });
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,41 +45,21 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // 刷新用户 session
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { pathname } = request.nextUrl;
-
-  // 受保护路由：需要登录
-  const protectedRoutes = ["/account", "/account/orders"];
-  // 管理员路由：需要 admin 角色
-  const adminRoutes = ["/admin", "/admin/products"];
-
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-  const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));
-
-  const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
-
-  if ((isProtectedRoute || isAdminRoute) && !user && !isDev) {
-    // 未登录，重定向到登录页（开发环境跳过）
+  if (!user) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }
 
-  if (isAdminRoute && user && !isDev) {
-    // 检查 admin 角色（开发环境跳过）
-    const role = user.user_metadata?.role;
-    if (role !== "admin") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      return NextResponse.redirect(url);
-    }
+  if (isAdminRoute && user.user_metadata?.role !== "admin") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    return NextResponse.redirect(url);
   }
 
   return supabaseResponse;

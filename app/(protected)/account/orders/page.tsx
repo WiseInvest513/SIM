@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Package, Truck } from "lucide-react";
+import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { OrderStatusBadge, OrderStatusTimeline } from "@/components/shop/OrderStatus";
@@ -23,22 +24,34 @@ interface RawOrder {
   product_id: string | null;
 }
 
-export default async function OrdersPage() {
-  let rawOrders: RawOrder[] = [];
-
-  try {
-    const supabase = await createClient();
-    const { data: authData } = await supabase.auth.getUser();
-    const user = authData.user;
-    if (user) {
+// 带缓存的订单查询，60 秒内重复访问直接返回缓存
+function fetchUserOrders(userId: string) {
+  return unstable_cache(
+    async () => {
       const adminSupabase = createAdminClient();
       const { data, error } = await adminSupabase
         .from("orders")
         .select("id, quantity, recipient_name, recipient_phone, address, remark, status, tracking_number, created_at, product_id")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(50);
       if (error) console.error("orders query error:", error);
-      rawOrders = (data as RawOrder[]) ?? [];
+      return (data as RawOrder[]) ?? [];
+    },
+    [`orders-${userId}`],
+    { revalidate: 60, tags: [`orders-${userId}`] }
+  )();
+}
+
+export default async function OrdersPage() {
+  let rawOrders: RawOrder[] = [];
+
+  try {
+    // getSession 读本地 cookie，无网络请求
+    const supabase = await createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      rawOrders = await fetchUserOrders(session.user.id);
     }
   } catch (e) { console.error("orders page error:", e); }
 

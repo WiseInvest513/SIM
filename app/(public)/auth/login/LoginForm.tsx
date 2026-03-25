@@ -74,8 +74,7 @@ export default function LoginForm() {
         }
         return;
       }
-      router.push(redirectTo);
-      router.refresh();
+      window.location.href = redirectTo;
     } catch {
       setError("登录失败，请稍后重试");
     } finally {

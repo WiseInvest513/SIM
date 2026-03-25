@@ -14,12 +14,10 @@ export default async function PayPage({ params }: Props) {
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  let userId: string | null = null;
-  try {
-    const supabase = await createClient();
-    const { data: authData } = await supabase.auth.getUser();
-    userId = authData.user?.id ?? null;
-  } catch {}
+  // getSession 读本地 cookie，无网络请求
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  let userId: string | null = session?.user?.id ?? null;
 
   const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
   if (!userId) {

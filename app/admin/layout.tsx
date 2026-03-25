@@ -4,14 +4,11 @@ import { ShoppingBag, Globe, LayoutDashboard } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  let isAdmin = false;
-  try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    isAdmin = user?.user_metadata?.role === "admin";
-  } catch {}
-
+  // getSession 读本地 cookie，无网络请求；middleware 已验证 admin 角色
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
   const isDev = process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === "true";
+  const isAdmin = session?.user?.user_metadata?.role === "admin";
   if (!isAdmin && !isDev) redirect("/");
 
   return (

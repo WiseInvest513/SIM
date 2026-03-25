@@ -9,18 +9,10 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let user = null;
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.auth.getUser();
-    user = data.user;
-  } catch {
-    // Supabase 未配置时忽略
-  }
-
-  if (!user) {
-    redirect("/auth/login");
-  }
+  // getSession 读本地 cookie，无网络请求；middleware 已验证登录
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) redirect("/auth/login");
 
   return (
     <>
