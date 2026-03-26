@@ -14,18 +14,27 @@ interface ProductCardProps {
 export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock === 0;
   const isRecommended = product.slug === "giffgaff-plus";
+  const isEconomy = product.slug === "giffgaff";
 
   return (
-    <div className={`rounded-xl border overflow-hidden card-hover group relative ${
+    <div className={`rounded-xl border overflow-hidden card-hover group relative transition-all duration-300 hover:-translate-y-2 ${
       isRecommended
-        ? "border-green-500/40 bg-gradient-to-br from-green-500/5 to-slate-800/50"
-        : "border-slate-700/60 bg-slate-800/50"
+        ? "border-green-500/40 bg-gradient-to-br from-green-500/5 to-slate-800/50 hover:border-green-500/70 hover:shadow-lg hover:shadow-green-500/20"
+        : isEconomy
+        ? "border-blue-500/40 bg-gradient-to-br from-blue-500/5 to-slate-800/50 hover:border-blue-500/70 hover:shadow-lg hover:shadow-blue-500/20"
+        : "border-slate-700/60 bg-slate-800/50 hover:border-slate-600 hover:shadow-lg hover:shadow-slate-900/50"
     }`}>
-      {/* 推荐标签 */}
+      {/* 标签 */}
       {isRecommended && (
-        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-green-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30">
-          <span>✨</span>
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-green-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+          <span className="inline-block animate-bounce" style={{ animationDelay: "0s" }}>✨</span>
           <span>推荐购买</span>
+        </div>
+      )}
+      {isEconomy && (
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-blue-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-blue-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+          <span className="inline-block animate-bounce" style={{ animationDelay: "0s" }}>💰</span>
+          <span>经济方案</span>
         </div>
       )}
 
@@ -71,11 +80,18 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           {product.description}
         </p>
 
-        {/* 推荐卡片增强文案 */}
+        {/* 卡片增强文案 */}
         {isRecommended && (
-          <div className="mb-3 rounded-lg bg-green-500/10 border border-green-500/20 p-2.5">
+          <div className="mb-3 rounded-lg bg-green-500/10 border border-green-500/20 p-2.5 transition-all duration-300 group-hover:bg-green-500/20 group-hover:border-green-500/40">
             <p className="text-green-400 text-xs font-medium">
               💡 当天就能用，省去激活麻烦
+            </p>
+          </div>
+        )}
+        {isEconomy && (
+          <div className="mb-3 rounded-lg bg-blue-500/10 border border-blue-500/20 p-2.5 transition-all duration-300 group-hover:bg-blue-500/20 group-hover:border-blue-500/40">
+            <p className="text-blue-400 text-xs font-medium">
+              🎯 省 ¥130，DIY 激活自己充值
             </p>
           </div>
         )}
