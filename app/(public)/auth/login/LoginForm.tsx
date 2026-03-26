@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
+import { SuccessModal } from "@/components/ui/success-modal";
 
 const loginSchema = z.object({
   email: z.string().email("请输入有效的邮箱地址"),
@@ -19,14 +20,26 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+const ALLOWED_REDIRECTS = ["/account", "/shop", "/guides", "/account/orders"];
+
+function validateRedirectUrl(url: string | null): string {
+  if (!url) return "/account";
+  // 只允许以 / 开头的相对路径
+  if (!url.startsWith("/")) return "/account";
+  // 白名单校验
+  if (ALLOWED_REDIRECTS.includes(url)) return url;
+  return "/account";
+}
+
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/account";
+  const redirectTo = validateRedirectUrl(searchParams.get("redirect"));
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const {
     register,
@@ -74,7 +87,10 @@ export default function LoginForm() {
         }
         return;
       }
-      window.location.href = redirectTo;
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        window.location.href = redirectTo;
+      }, 1000);
     } catch {
       setError("登录失败，请稍后重试");
     } finally {
@@ -201,6 +217,15 @@ export default function LoginForm() {
           </p>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal
+          title="恭喜登录成功！🎉"
+          message="正在为您跳转..."
+          duration={1000}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </div>
   );
 }

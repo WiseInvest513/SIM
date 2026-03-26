@@ -13,9 +13,22 @@ interface ProductCardProps {
 
 export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock === 0;
+  const isRecommended = product.slug === "giffgaff-plus";
 
   return (
-    <div className="rounded-xl border border-slate-700/60 bg-slate-800/50 overflow-hidden card-hover group">
+    <div className={`rounded-xl border overflow-hidden card-hover group relative ${
+      isRecommended
+        ? "border-green-500/40 bg-gradient-to-br from-green-500/5 to-slate-800/50"
+        : "border-slate-700/60 bg-slate-800/50"
+    }`}>
+      {/* 推荐标签 */}
+      {isRecommended && (
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-green-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30">
+          <span>✨</span>
+          <span>推荐购买</span>
+        </div>
+      )}
+
       {/* 商品图片 */}
       <div className="relative h-48 bg-gradient-to-br from-slate-700/50 to-slate-800 flex items-center justify-center">
         {product.image_url ? (
@@ -54,9 +67,18 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           </Badge>
         </div>
 
-        <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-slate-400 text-sm leading-relaxed mb-3 line-clamp-2">
           {product.description}
         </p>
+
+        {/* 推荐卡片增强文案 */}
+        {isRecommended && (
+          <div className="mb-3 rounded-lg bg-green-500/10 border border-green-500/20 p-2.5">
+            <p className="text-green-400 text-xs font-medium">
+              💡 当天就能用，省去激活麻烦
+            </p>
+          </div>
+        )}
 
         <div className="flex items-center justify-between">
           <div>

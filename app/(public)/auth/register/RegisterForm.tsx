@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
+import { SuccessModal } from "@/components/ui/success-modal";
 
 const registerSchema = z
   .object({
@@ -28,6 +29,7 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -62,7 +64,8 @@ export default function RegisterForm() {
         return;
       }
 
-      setSuccess(true);
+      setShowSuccessModal(true);
+      setTimeout(() => setSuccess(true), 1000);
     } catch {
       setError("注册失败，请稍后重试");
     } finally {
@@ -72,20 +75,32 @@ export default function RegisterForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-indigo-950/50 via-[#0a0a0a] to-[#0a0a0a]">
-        <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-8 h-8 text-green-600" />
+      <>
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-indigo-950/50 via-[#0a0a0a] to-[#0a0a0a]">
+          <div className="max-w-md w-full text-center">
+            <div className="w-16 h-16 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-8 h-8 text-green-600" />
+            </div>
+            <h1 className="text-2xl font-bold text-white mb-3">注册成功！</h1>
+            <p className="text-gray-400 mb-6">
+              🎉 恭喜您注册成功！<br />
+              <br />
+              我们已向您的邮箱发送了验证链接，请前往邮箱进行验证，验证完成后即可登录。
+            </p>
+            <Link href="/auth/login">
+              <Button className="w-full">前往登录</Button>
+            </Link>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">注册成功</h1>
-          <p className="text-gray-400 mb-6">
-            我们已向您的邮箱发送了验证链接，请查收邮件并点击链接完成验证后即可登录。
-          </p>
-          <Link href="/auth/login">
-            <Button className="w-full">前往登录</Button>
-          </Link>
         </div>
-      </div>
+        {showSuccessModal && (
+          <SuccessModal
+            title="注册成功！🎉"
+            message="请前往邮箱进行验证"
+            duration={1000}
+            onClose={() => setShowSuccessModal(false)}
+          />
+        )}
+      </>
     );
   }
 

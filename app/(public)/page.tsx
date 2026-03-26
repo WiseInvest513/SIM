@@ -3,6 +3,7 @@ import {
   ArrowRight, Package, FileText,
   Truck, Clock, Shield, ChevronRight, Globe, Star,
 } from "lucide-react";
+import { ReviewsSectionDynamic, FaqSectionDynamic } from "@/components/sections/DynamicSections";
 
 /* ── 数据 ───────────────────────────────────── */
 
@@ -37,38 +38,6 @@ const features = [
   { icon: Truck,   title: "快递直邮",   desc: "收到付款当天或次日发货，全程可追踪物流信息。" },
   { icon: Clock,   title: "1-3 天到手", desc: "国内快递配送，大部分城市隔天即可签收。" },
   { icon: Shield,  title: "售后保障",   desc: "激活遇到问题，微信客服全程陪同处理，放心购买。" },
-];
-
-const reviews = [
-  { name: "Alex W.",  role: "留学生",   text: "在国内就能激活，注册 PayPal 和 Wise 都没问题，客服也很耐心。" },
-  { name: "林 S.",    role: "自由职业者", text: "快递第二天就到了，按教程操作十分钟搞定，强烈推荐！" },
-  { name: "Chen M.",  role: "海外工作",  text: "giffgaff 永久免月租真的香，备用号码完全够用。" },
-  { name: "张 P.",    role: "跨境电商",  text: "一次买了两张，发货速度很快，激活也顺利，下次还会来。" },
-  { name: "Sarah K.", role: "旅行博主",  text: "出境前提前买好，省去了很多麻烦，服务很专业。" },
-  { name: "刘 H.",    role: "程序员",    text: "注册 GitHub Copilot 用上了，卡质量很好，号码正常收验证码。" },
-];
-
-const faqs = [
-  {
-    q: "giffgaff 卡在国内能用吗？",
-    a: "可以接收国际短信和电话，主要用于注册海外 App、接验证码（PayPal、WhatsApp、Wise 等）。不含国内通话流量套餐，需额外充值才可漫游上网。",
-  },
-  {
-    q: "购买后多久发货？",
-    a: "收到付款后，一般当天或次日通过快递发出，大部分城市 1-3 个工作日签收。",
-  },
-  {
-    q: "怎么激活 giffgaff 卡？",
-    a: "收到卡后通过 Wi-Fi 在手机上按教程操作，全程约 5-10 分钟。我们提供详细图文教程，客服全程陪同，不会英文也没关系。",
-  },
-  {
-    q: "如果激活失败怎么办？",
-    a: "联系微信客服，我们全程协助排查。如确属卡片质量问题，提供免费补发或全额退款。",
-  },
-  {
-    q: "支持什么支付方式？",
-    a: "支持微信支付、支付宝等主流国内支付方式，下单后客服会发送收款码。",
-  },
 ];
 
 /* ── 页面 ────────────────────────────────────── */
@@ -277,70 +246,10 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════ 用户评价 ═══════════ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 border-b border-[#1a1a1a] overflow-hidden">
-        <div className="max-w-7xl mx-auto mb-14">
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">用户评价</p>
-          <h2 className="text-3xl font-bold text-white">他们都在用</h2>
-        </div>
-
-        {/* 滚动评价卡片 */}
-        <div className="relative">
-          <div className="flex gap-4 animate-[marquee_40s_linear_infinite] w-max">
-            {[...reviews, ...reviews].map((r, i) => (
-              <div
-                key={i}
-                className="w-72 flex-shrink-0 border border-[#2a2a2a] bg-[#282828] rounded-2xl p-6"
-              >
-                <div className="flex items-center gap-0.5 mb-4">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-300 text-sm leading-relaxed mb-5">{r.text}</p>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#1a1a1a] flex items-center justify-center text-xs text-gray-400 font-medium">
-                    {r.name[0]}
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-100 font-medium">{r.name}</p>
-                    <p className="text-xs text-gray-500">{r.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* 两侧渐变遮罩 */}
-          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0a0a0a] to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#0a0a0a] to-transparent pointer-events-none" />
-        </div>
-      </section>
+      <ReviewsSectionDynamic />
 
       {/* ═══════════ FAQ ═══════════ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 border-b border-[#1a1a1a]">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">常见问题</p>
-            <h2 className="text-3xl font-bold text-white">你可能想知道</h2>
-          </div>
-
-          <div className="space-y-2">
-            {faqs.map(({ q, a }) => (
-              <details
-                key={q}
-                className="group border border-[#2a2a2a] rounded-2xl overflow-hidden"
-              >
-                <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer text-gray-200 hover:text-white transition-colors list-none [&::-webkit-details-marker]:hidden">
-                  <span className="font-medium text-sm">{q}</span>
-                  <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0 transition-transform group-open:rotate-90" />
-                </summary>
-                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed border-t border-[#1a1a1a] pt-4">
-                  {a}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSectionDynamic />
 
       {/* ═══════════ 底部 CTA ═══════════ */}
       <section className="py-32 px-4 sm:px-6 lg:px-8">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,8 +79,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
         {/* 支付宝二维码 */}
         <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-6 flex flex-col items-center gap-4">
           {alipayQr ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={alipayQr} alt="支付宝收款码" className="w-48 h-48 rounded-lg" />
+            <Image src={alipayQr} alt="支付宝收款码" width={192} height={192} className="rounded-lg" unoptimized />
           ) : (
             <div className="w-48 h-48 rounded-lg bg-[#1a1a1a] border border-dashed border-[#3a3a3a] flex flex-col items-center justify-center gap-2 text-gray-600">
               <QrCode className="w-10 h-10" />
@@ -181,24 +181,30 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
       {/* 微信联系 */}
       <div className="rounded-xl border border-green-500/20 bg-green-500/5 p-5 text-left space-y-3">
         <p className="text-white text-sm font-medium">添加微信，确认付款后发货</p>
-        <div className="flex items-center justify-between gap-3 bg-[#111111] border border-[#2a2a2a] rounded-xl px-4 py-3">
-          <div className="flex items-center gap-3">
-            <span className="text-green-400 text-xl">💬</span>
-            <div>
-              <p className="text-gray-500 text-xs">微信号</p>
-              <p className="text-white font-mono font-semibold text-base select-all">{wechatId}</p>
+        <div className="flex flex-col items-center gap-4 bg-[#111111] border border-[#2a2a2a] rounded-xl px-4 py-4">
+          {/* 二维码 */}
+          <Image src="/wx.png" alt="微信二维码" width={160} height={160} className="rounded-lg" />
+
+          {/* 复制微信号 */}
+          <div className="w-full flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="text-green-400 text-xl">💬</span>
+              <div>
+                <p className="text-gray-500 text-xs">微信号</p>
+                <p className="text-white font-mono font-semibold text-base select-all">{wechatId}</p>
+              </div>
             </div>
+            <button
+              onClick={handleCopy}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                copied
+                  ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                  : "bg-[#1a1a1a] text-gray-400 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a]"
+              }`}
+            >
+              {copied ? <><Check className="w-3.5 h-3.5" />已复制</> : <><Copy className="w-3.5 h-3.5" />复制</>}
+            </button>
           </div>
-          <button
-            onClick={handleCopy}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              copied
-                ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                : "bg-[#1a1a1a] text-gray-400 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a]"
-            }`}
-          >
-            {copied ? <><Check className="w-3.5 h-3.5" />已复制</> : <><Copy className="w-3.5 h-3.5" />复制</>}
-          </button>
         </div>
         <p className="text-gray-500 text-xs">
           添加微信后告知已下单，核实付款后当天安排发货，并回传快递单号。

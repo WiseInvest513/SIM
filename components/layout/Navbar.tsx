@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Globe, ShoppingBag, User, LogOut, Menu, X, ChevronDown } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import { SuccessModal } from "@/components/ui/success-modal";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navItems = [
@@ -22,6 +23,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -53,7 +55,10 @@ export function Navbar() {
   async function handleLogout() {
     const supabase = createClient();
     await supabase.auth.signOut();
-    window.location.href = "/";
+    setShowLogoutModal(true);
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
   }
 
   const isAdmin = user?.user_metadata?.role === "admin";
@@ -194,6 +199,15 @@ export function Navbar() {
 
       {userMenuOpen && (
         <div className="fixed inset-0 z-[-1]" onClick={() => setUserMenuOpen(false)} />
+      )}
+
+      {showLogoutModal && (
+        <SuccessModal
+          title="退出登录成功！👋"
+          message="欢迎下次再来"
+          duration={1000}
+          onClose={() => setShowLogoutModal(false)}
+        />
       )}
     </header>
   );

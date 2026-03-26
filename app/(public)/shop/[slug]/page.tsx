@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Package, CheckCircle, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
@@ -34,12 +35,11 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* 左侧：商品详情 */}
           <div className="lg:col-span-3 space-y-4">
-            <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] h-56 flex items-center justify-center overflow-hidden">
+            <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] relative h-56 overflow-hidden">
               {product.image_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={product.image_url} alt={product.name} className="w-full h-full object-cover rounded-xl" />
+                <Image src={product.image_url} alt={product.name} fill className="object-cover rounded-xl" sizes="600px" priority />
               ) : (
-                <div className="flex flex-col items-center gap-3 text-gray-600">
+                <div className="flex flex-col items-center gap-3 text-gray-600 h-full justify-center">
                   <Package className="w-14 h-14" />
                   <span className="text-sm">{product.category}</span>
                 </div>

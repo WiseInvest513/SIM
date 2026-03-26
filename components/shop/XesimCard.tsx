@@ -28,7 +28,6 @@ export function XesimCard() {
           width={160}
           height={160}
           className="object-contain relative z-10 drop-shadow-2xl"
-          unoptimized
         />
         <span className="absolute top-3 right-3 text-[10px] text-gray-400 border border-[#ffffff18] bg-[#00000040] backdrop-blur-sm rounded-full px-2.5 py-0.5">
           其他资源
