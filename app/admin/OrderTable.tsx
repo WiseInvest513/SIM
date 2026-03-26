@@ -38,7 +38,7 @@ const MOCK_ORDERS: Order[] = [
     status: "pending",
     tracking_number: null,
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 8900, category: "英国手机卡" },
     profiles: { email: "zhangsan@example.com", display_name: "张三" },
   },
   {
@@ -66,7 +66,7 @@ const MOCK_ORDERS: Order[] = [
     status: "shipped",
     tracking_number: "SF1234567890",
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 6900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 8900, category: "英国手机卡" },
     profiles: { email: "wangwu@example.com", display_name: "王五" },
   },
   {

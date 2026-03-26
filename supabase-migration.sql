@@ -135,7 +135,7 @@ values (
   'giffgaff 英国手机卡',
   'giffgaff',
   E'英国 O2 旗下虚拟运营商，免月租长期保号，国内即可激活使用。\n\n【主要特点】\n• 永久免月租，只需保持账户余额\n• 英国真实号码（+44 开头），可接收短信\n• 支持接收 PayPal、Amazon、WhatsApp 等验证码\n• 国内激活，无需出境\n• 支持全球漫游接收短信\n\n【适用场景】\n• 注册海外 App Store / Google Play\n• 注册 PayPal、Wise 等海外支付\n• 注册 Telegram、WhatsApp\n• 海外旅行备用号码\n\n【购买包含】\n• giffgaff SIM 卡一张（Nano/Micro/Standard 可选）\n• 详细激活教程\n• 全程微信技术支持',
-  6900,   -- ¥69.00（单位：分）
+  8900,   -- ¥89.00（单位：分）
   100,
   '手机卡',
   true

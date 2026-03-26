@@ -229,7 +229,7 @@ export default function HomePage() {
               <div className="md:w-60 border-t md:border-t-0 md:border-l border-[#2a2a2a] p-8 md:p-12 flex flex-col justify-between bg-[#111111]">
                 <div>
                   <p className="text-xs text-gray-500 mb-2">到手价格</p>
-                  <p className="text-5xl font-bold text-white">¥69</p>
+                  <p className="text-5xl font-bold text-white">¥89</p>
                   <p className="text-xs text-gray-500 mt-1.5">含 SIM 卡 + 首充余额</p>
                 </div>
                 <Link

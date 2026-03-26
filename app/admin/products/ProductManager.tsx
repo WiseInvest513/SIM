@@ -63,7 +63,7 @@ function ProductFormModal({
       : {
           stock: 100,
           category: "手机卡",
-          price: 69,
+          price: 89,
         },
   });
 
@@ -155,7 +155,7 @@ function ProductFormModal({
               <Input
                 type="number"
                 step="0.01"
-                placeholder="69.00"
+                placeholder="89.00"
                 {...register("price", { valueAsNumber: true })}
               />
               {errors.price && <p className="text-red-400 text-xs">{errors.price.message}</p>}
