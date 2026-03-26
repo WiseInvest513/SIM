@@ -1,7 +1,7 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import type { OrderStatus } from "@/lib/supabase/types";
 
 export async function updateOrderStatus(
@@ -28,7 +28,6 @@ export async function updateOrderStatus(
     return { success: false, error: error.message };
   }
 
-  revalidateTag("admin-orders"); // 清除 admin 订单缓存
   revalidatePath("/admin");
   return { success: true };
 }

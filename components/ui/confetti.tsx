@@ -31,8 +31,8 @@ export function Confetti({ duration = 3000 }: ConfettiProps) {
       size: number;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height * 0.5;
+        this.x = Math.random() * canvas!.width;
+        this.y = Math.random() * canvas!.height * 0.5;
         this.vx = (Math.random() - 0.5) * 10;
         this.vy = Math.random() * 5 - 2;
         this.life = 1;
@@ -49,10 +49,10 @@ export function Confetti({ duration = 3000 }: ConfettiProps) {
       }
 
       draw() {
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.life;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
-        ctx.globalAlpha = 1;
+        ctx!.fillStyle = this.color;
+        ctx!.globalAlpha = this.life;
+        ctx!.fillRect(this.x, this.y, this.size, this.size);
+        ctx!.globalAlpha = 1;
       }
     }
 
@@ -64,7 +64,7 @@ export function Confetti({ duration = 3000 }: ConfettiProps) {
     const startTime = Date.now();
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
 
       // Add new particles occasionally
       if (particles.length < 100 && Date.now() - startTime < duration * 0.5) {
