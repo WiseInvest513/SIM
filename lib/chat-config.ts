@@ -6,6 +6,18 @@ export interface PresetQuestion {
 
 export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
   {
+    question: "作者是谁？",
+    answer:
+      "WisE 投资有术，全网 6 万粉丝，在推特/YouTube/小红书/哔哩哔哩同名账号均可查询，可放心购买。",
+    keywords: ["作者", "谁", "是谁"],
+  },
+  {
+    question: "公众号是什么？",
+    answer:
+      "关注国内公众号【庆辩】，获取最新联系方式和优惠信息。",
+    keywords: ["公众号", "庆辩"],
+  },
+  {
     question: "giffgaff 是什么卡？",
     answer:
       "giffgaff 是英国 O2 旗下的虚拟运营商，永久免月租，可用于注册各类海外平台，是出海必备工具。",
@@ -24,10 +36,16 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
     keywords: ["价格", "多少钱", "怎么买"],
   },
   {
+    question: "哪里发货？什么时候发货？",
+    answer:
+      "从浙江/四川发货。下午三点前购买均可当日发出，否则第二天发出。一般 1-3 个工作日到手。",
+    keywords: ["发货", "快递", "多久", "哪里", "什么时候"],
+  },
+  {
     question: "多久能收到？",
     answer:
-      "国内顺丰/EMS 直邮，一般 1-3 个工作日到手。",
-    keywords: ["发货", "快递", "多久"],
+      "快递发货，一般 1-3 个工作日到手。",
+    keywords: ["多久", "几天", "到达"],
   },
   {
     question: "收到后怎么激活？",
@@ -48,15 +66,21 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
     keywords: ["打电话", "通话"],
   },
   {
+    question: "为什么要在这里买？",
+    answer:
+      "国内平台已经无法发货了，我们是为数不多还在正常发货的渠道，可以直接邮寄到你家。",
+    keywords: ["为什么", "为什么买", "为什么选择"],
+  },
+  {
     question: "如何联系作者？",
     answer:
-      "可以通过页面底部的联系方式找到我，也可以扫码加我微信，我会尽快回复！",
-    keywords: ["联系", "微信", "作者"],
+      "付款之后联系作者，我会为你安排发货和后续服务。可以关注国内公众号【庆辩】获取最新联系方式。",
+    keywords: ["联系", "微信", "作者", "联系方式"],
   },
   {
     question: "购买放心安全吗？",
     answer:
-      "完全放心！我们是正规渠道销售，所有卡片都由官方授权直邮，国内有保障，一对一售后服务，不满意支持退货。",
+      "完全放心！我们是正规渠道销售，所有卡片都由官方授权直邮，国内有保障，一对一售后服务，不满意支持退货。可以关注国内公众号【庆辩】获取最新联系方式。",
     keywords: ["放心", "安全", "保障"],
   },
   {
@@ -89,6 +113,24 @@ export const matchAnswerByKeywords = (input: string): string | null => {
     }
   }
   return null;
+};
+
+// 找到所有匹配的问题
+export const findMatchingQuestions = (input: string): PresetQuestion[] => {
+  const lowerInput = input.toLowerCase();
+  const matched = new Set<string>();
+
+  for (const preset of CHAT_PRESET_QUESTIONS) {
+    for (const keyword of preset.keywords) {
+      if (lowerInput.includes(keyword.toLowerCase())) {
+        matched.add(preset.question);
+      }
+    }
+  }
+
+  return Array.from(matched).map(q =>
+    CHAT_PRESET_QUESTIONS.find(p => p.question === q)!
+  );
 };
 
 export const DEFAULT_FALLBACK_MESSAGE =
