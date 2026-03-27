@@ -10,6 +10,9 @@ interface ContactFormProps {
   onClose: () => void;
 }
 
+const RETRY_DELAY = 3 * 60 * 1000; // 3分钟
+const MAX_RETRIES = 1; // 最多重试1次
+
 export function ContactForm({ onClose }: ContactFormProps) {
   const router = useRouter();
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -21,6 +24,8 @@ export function ContactForm({ onClose }: ContactFormProps) {
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const [retryTimer, setRetryTimer] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -39,10 +44,29 @@ export function ContactForm({ onClose }: ContactFormProps) {
     });
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (retryTimer) {
+        clearTimeout(retryTimer);
+      }
+    };
+  }, [retryTimer]);
 
+  const scheduleRetry = (attempt: number) => {
+    if (attempt >= MAX_RETRIES) {
+      alert("邮件发送失败，请稍后再试或联系管理员");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      handleSendEmail(attempt + 1);
+    }, RETRY_DELAY);
+
+    setRetryTimer(timer);
+  };
+
+  const handleSendEmail = async (attempt: number = 0) => {
     try {
       const response = await fetch("/api/contact/send", {
         method: "POST",
@@ -52,18 +76,43 @@ export function ContactForm({ onClose }: ContactFormProps) {
 
       if (response.ok) {
         setSuccess(true);
+        setRetryCount(0);
         setTimeout(() => {
           setSuccess(false);
           onClose();
         }, 2000);
       } else {
-        alert("发送失败，请重试");
+        if (attempt < MAX_RETRIES) {
+          alert(`发送失败，将在 3 分钟后自动重试...`);
+          scheduleRetry(attempt);
+        } else {
+          alert("邮件发送失败，请稍后再试");
+        }
       }
     } catch (error) {
-      alert("发送失败，请重试");
+      if (attempt < MAX_RETRIES) {
+        alert(`发送失败，将在 3 分钟后自动重试...`);
+        scheduleRetry(attempt);
+      } else {
+        alert("邮件发送失败，请稍后再试");
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setRetryCount(0);
+
+    // 如果有之前的重试定时器，清除它
+    if (retryTimer) {
+      clearTimeout(retryTimer);
+      setRetryTimer(null);
+    }
+
+    handleSendEmail(0);
   };
 
   if (success) {
