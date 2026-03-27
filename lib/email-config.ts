@@ -4,7 +4,7 @@ export const EMAIL_CONFIG = {
   SMTP_USER: process.env.SMTP_USER || "apikey",
   SMTP_PASS: process.env.SMTP_PASS,
   SENDER_NAME: process.env.SENDER_NAME || "WiseSIM 客服",
-  SENDER_EMAIL: process.env.SENDER_EMAIL || "noreply@wise-sim.com",
+  SENDER_EMAIL: process.env.SENDER_EMAIL || "WiseInvest513@gmail.com",
 };
 
 export const EMAIL_TEMPLATES = {
