@@ -71,10 +71,19 @@ export async function POST(request: NextRequest) {
     });
 
     if (!adminResult.success || !userResult.success) {
+      console.error("[邮件发送详细错误]", {
+        adminResult,
+        userResult,
+        contactEmail: process.env.CONTACT_EMAIL,
+      });
       return NextResponse.json(
         {
           success: false,
           error: "邮件发送失败",
+          details: {
+            adminError: adminResult.error,
+            userError: userResult.error,
+          },
         },
         { status: 500 }
       );
@@ -90,11 +99,17 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[联系邮件 API 错误]", errorMessage);
+    console.error("[环境变量检查]", {
+      hasSmtpPass: !!process.env.SMTP_PASS,
+      contactEmail: process.env.CONTACT_EMAIL,
+      senderEmail: process.env.SENDER_EMAIL,
+    });
 
     return NextResponse.json(
       {
         success: false,
         error: "发送失败，请重试",
+        message: errorMessage,
       },
       { status: 500 }
     );
