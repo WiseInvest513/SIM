@@ -19,7 +19,7 @@ const TRANSPORTER_CONFIG = {
   }),
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // 验证必要配置
     if (!EMAIL_CONFIG.SMTP_PASS) {
@@ -38,10 +38,14 @@ export async function GET() {
     // 测试连接
     await transporter.verify();
 
+    // 获取接收者邮箱（默认为发件人邮箱）
+    const url = new URL(request.url);
+    const recipientEmail = url.searchParams.get("email") || EMAIL_CONFIG.SENDER_EMAIL;
+
     // 发送测试邮件
     const info = await transporter.sendMail({
       from: `${EMAIL_CONFIG.SENDER_NAME} <${EMAIL_CONFIG.SENDER_EMAIL}>`,
-      to: EMAIL_CONFIG.SMTP_USER,
+      to: recipientEmail,
       subject: EMAIL_TEMPLATES.TEST_SUBJECT,
       html: EMAIL_TEMPLATES.TEST_HTML(EMAIL_CONFIG.SMTP_HOST, EMAIL_CONFIG.SMTP_PORT),
     });
@@ -51,7 +55,12 @@ export async function GET() {
         success: true,
         message: "✅ 邮件测试成功！",
         messageId: info.messageId,
-        details: `邮件已发送到 ${EMAIL_CONFIG.SMTP_USER}，请检查邮箱（包括垃圾箱）`,
+        details: `邮件已发送到 ${recipientEmail}，请检查邮箱（包括垃圾箱）`,
+        provider: "SendGrid",
+        config: {
+          host: EMAIL_CONFIG.SMTP_HOST,
+          port: EMAIL_CONFIG.SMTP_PORT,
+        },
       },
       { status: 200 }
     );

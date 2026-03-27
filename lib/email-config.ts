@@ -1,10 +1,10 @@
 export const EMAIL_CONFIG = {
-  SMTP_HOST: process.env.SMTP_HOST || "smtp.gmail.com",
+  SMTP_HOST: process.env.SMTP_HOST || "smtp.sendgrid.net",
   SMTP_PORT: parseInt(process.env.SMTP_PORT || "465"),
-  SMTP_USER: process.env.SMTP_USER || "noreply@wisesim.com",
+  SMTP_USER: process.env.SMTP_USER || "apikey",
   SMTP_PASS: process.env.SMTP_PASS,
-  SENDER_NAME: "WiseSIM 客服",
-  SENDER_EMAIL: "noreply@wisesim.com",
+  SENDER_NAME: process.env.SENDER_NAME || "WiseSIM 客服",
+  SENDER_EMAIL: process.env.SENDER_EMAIL || "noreply@wise-sim.com",
 };
 
 export const EMAIL_TEMPLATES = {
@@ -27,18 +27,20 @@ export const VALIDATION_MESSAGES = {
     title: "❌ 缺少环境变量配置",
     steps: [
       "1. 打开 .env.local 文件",
-      "2. 添加必要的 SMTP 环境变量",
+      "2. 添加 SendGrid API Key：SMTP_PASS=你的SendGrid_API_Key",
       "3. 保存文件并重启开发服务器",
+      "获取 API Key：https://app.sendgrid.com/settings/api_keys",
     ],
   },
   TROUBLESHOOTING: {
     title: "❌ 邮件发送失败",
     steps: [
-      "1️⃣ 检查 .env.local 中的 SMTP_PASS 是否正确（去掉空格）",
-      "2️⃣ 确保 Gmail 账户启用了两步验证",
-      "3️⃣ 重新生成应用密码",
-      "4️⃣ 确保应用密码复制正确，去掉所有空格",
-      "5️⃣ 如果还不行，重启开发服务器",
+      "1️⃣ 确保 SMTP_PASS 填写的是 SendGrid API Key（不是邮箱密码）",
+      "2️⃣ 验证 API Key 是否有效和活跃状态",
+      "3️⃣ 检查发件人邮箱是否已在 SendGrid 中验证",
+      "4️⃣ 确保 API Key 复制完整，去掉多余空格",
+      "5️⃣ 在 SendGrid 仪表板检查发送限制和配额",
+      "6️⃣ 重启开发服务器重新连接",
     ],
   },
 };
