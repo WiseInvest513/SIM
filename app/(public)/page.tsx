@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight, Package, FileText,
   Truck, Clock, Shield, ChevronRight, Globe, Star,
@@ -55,6 +56,17 @@ export default function HomePage() {
         </div>
 
         <div className="relative max-w-7xl mx-auto text-center">
+          {/* 主图 */}
+          <div className="relative w-full max-w-2xl mx-auto mb-10 rounded-2xl overflow-hidden">
+            <Image
+              src="/xesim/cover.png"
+              alt="海外手机卡"
+              width={800}
+              height={450}
+              className="w-full object-cover rounded-2xl"
+              priority
+            />
+          </div>
           {/* 状态标签 */}
           <div className="inline-flex items-center gap-2 border border-[#2a2a2a] bg-[#111111] rounded-full px-4 py-1.5 mb-10">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
