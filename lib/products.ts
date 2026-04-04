@@ -7,7 +7,7 @@ export const PRODUCTS: Product[] = [
     name: "giffgaff - 纯卡 3-5 天发货",
     slug: "giffgaff",
     description: "英国 O2 旗下虚拟运营商，永久免月租，国内可直接购买激活。可用于注册 PayPal、WhatsApp、海外 App Store 等。需自己充值余额后才能使用。",
-    price: 8900,
+    price: 6900,
     stock: 99,
     category: "英国手机卡",
     image_url: "/giffgaff-logo.png",

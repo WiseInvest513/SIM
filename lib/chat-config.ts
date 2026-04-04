@@ -32,7 +32,7 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
   {
     question: "多少钱？怎么买？",
     answer:
-      "纯卡版 ¥89，含 £15 余额版 ¥199。点击页面'立即购买'按钮，支付宝/微信即可下单。",
+      "纯卡版 ¥69，含 £15 余额版 ¥199。点击页面'立即购买'按钮，支付宝/微信即可下单。",
     keywords: ["价格", "多少钱", "怎么买"],
   },
   {

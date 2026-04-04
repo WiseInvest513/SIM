@@ -63,7 +63,7 @@ function ProductFormModal({
       : {
           stock: 100,
           category: "手机卡",
-          price: 89,
+          price: 69,
         },
   });
 
