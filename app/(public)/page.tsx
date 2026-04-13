@@ -263,6 +263,23 @@ export default function HomePage() {
       {/* ═══════════ FAQ ═══════════ */}
       <FaqSectionDynamic />
 
+      {/* ═══════════ 加入群聊 ═══════════ */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 border-b border-[#1a1a1a]">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">加入群聊</p>
+          <div className="border border-[#2a2a2a] bg-white rounded-2xl overflow-hidden w-full max-w-sm mx-auto">
+            <Image
+              src="/草料图片.png"
+              alt="微信群二维码"
+              width={600}
+              height={600}
+              className="w-full object-contain"
+            />
+          </div>
+          <p className="text-xs text-gray-500 mt-4">扫码加入群聊，与志同道合的出海人一起交流</p>
+        </div>
+      </section>
+
       {/* ═══════════ 底部 CTA ═══════════ */}
       <section className="py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
