@@ -277,8 +277,111 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
         </div>
       </div>
 
-      {/* 表格 */}
-      <div className="rounded-xl border border-[#2a2a2a] overflow-x-auto">
+      {/* 移动端卡片列表 */}
+      <div className="md:hidden space-y-3">
+        {filtered.length === 0 ? (
+          <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] py-16 text-center">
+            <Package className="w-10 h-10 text-gray-700 mx-auto mb-3" />
+            <p className="text-gray-500 text-sm">暂无订单</p>
+          </div>
+        ) : (
+          filtered.map((order) => {
+            const sc = STATUS_CONFIG[order.status];
+            const isUpdating = updating === order.id;
+            return (
+              <div key={order.id} className="rounded-xl border border-[#2a2a2a] bg-[#111111] overflow-hidden">
+                {/* 卡片头：订单号 + 状态 */}
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1a1a] bg-[#0d0d0d]">
+                  <div>
+                    <p className="text-[10px] font-mono text-gray-500">#{order.id.slice(0, 8)}…</p>
+                    {order.profiles?.email && (
+                      <p className="text-[10px] text-gray-600 truncate max-w-[160px]">{order.profiles.email}</p>
+                    )}
+                  </div>
+                  <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${sc.bg} ${sc.color}`}>
+                    {sc.icon}
+                    {sc.label}
+                  </span>
+                </div>
+
+                {/* 卡片内容 */}
+                <div className="p-4 space-y-3">
+                  {/* 商品 + 金额 */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-white text-sm font-medium">{order.products?.name || "-"}</p>
+                      <p className="text-gray-500 text-xs mt-0.5">{order.products?.category} × {order.quantity}</p>
+                    </div>
+                    <p className="text-white font-semibold text-sm whitespace-nowrap">
+                      {order.products?.price ? formatPrice(order.products.price * order.quantity) : "-"}
+                    </p>
+                  </div>
+
+                  {/* 收货人 + 时间 */}
+                  <div className="flex items-start justify-between gap-2 text-xs">
+                    <div>
+                      <p className="text-gray-300">{order.recipient_name} · {order.recipient_phone}</p>
+                      <p className="text-gray-500 mt-0.5 leading-relaxed">{order.address}</p>
+                      {order.remark && (
+                        <p className="text-amber-500/70 mt-0.5">备注: {order.remark}</p>
+                      )}
+                    </div>
+                    <p className="text-gray-600 whitespace-nowrap">{formatDate(order.created_at)}</p>
+                  </div>
+
+                  {/* 快递单号 */}
+                  {order.tracking_number && (
+                    <p className="text-[11px] font-mono text-gray-500 bg-[#0d0d0d] rounded-lg px-3 py-1.5">
+                      单号: {order.tracking_number}
+                    </p>
+                  )}
+
+                  {/* 操作按钮 */}
+                  {isUpdating ? (
+                    <div className="flex justify-center py-1">
+                      <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 pt-1">
+                      {order.status === "pending" && (
+                        <Button
+                          size="sm"
+                          className="flex-1 h-8 text-xs gap-1.5 bg-blue-600 hover:bg-blue-500 text-white border-0"
+                          onClick={() => setShipTarget(order)}
+                        >
+                          <Truck className="w-3 h-3" />
+                          发货
+                        </Button>
+                      )}
+                      {order.status === "shipped" && (
+                        <Button
+                          size="sm"
+                          className="flex-1 h-8 text-xs gap-1.5 bg-green-600 hover:bg-green-500 text-white border-0"
+                          onClick={() => updateStatus(order.id, "completed")}
+                        >
+                          <Check className="w-3 h-3" />
+                          确认完成
+                        </Button>
+                      )}
+                      {(order.status === "pending" || order.status === "shipped") && (
+                        <button
+                          className="h-8 px-4 text-xs rounded-md bg-red-500/15 hover:bg-red-500/30 text-red-400 transition-colors border border-red-500/30"
+                          onClick={() => updateStatus(order.id, "cancelled")}
+                        >
+                          取消
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* 桌面端表格 */}
+      <div className="hidden md:block rounded-xl border border-[#2a2a2a] overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a2a] bg-[#0d0d0d]">
             <tr>

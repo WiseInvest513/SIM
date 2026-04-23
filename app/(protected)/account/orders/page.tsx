@@ -88,7 +88,7 @@ export default async function OrdersPage() {
             {orders.map((order) => (
               <div key={order.id} className="rounded-xl border border-[#2a2a2a] bg-[#111111] overflow-hidden">
                 {/* 订单头 */}
-                <div className="flex items-center justify-between px-5 py-3 border-b border-[#1a1a1a] bg-[#0d0d0d]">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-5 py-3 border-b border-[#1a1a1a] bg-[#0d0d0d] gap-1.5 sm:gap-3">
                   <p className="text-xs text-gray-600 font-mono">订单号：{order.id.slice(0, 8)}...</p>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-gray-600">{formatDate(order.created_at)}</span>
@@ -118,10 +118,12 @@ export default async function OrdersPage() {
                   </div>
 
                   {order.tracking_number && (
-                    <div className="flex items-center gap-2 text-sm bg-blue-500/10 border border-blue-500/20 rounded-lg px-4 py-3 mb-3">
-                      <Truck className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                      <span className="text-gray-400">快递单号：</span>
-                      <span className="font-mono text-blue-400 select-all">{order.tracking_number}</span>
+                    <div className="flex items-start gap-2 text-sm bg-blue-500/10 border border-blue-500/20 rounded-lg px-4 py-3 mb-3">
+                      <Truck className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <div className="min-w-0">
+                        <span className="text-gray-400">快递单号：</span>
+                        <span className="font-mono text-blue-400 select-all break-all">{order.tracking_number}</span>
+                      </div>
                     </div>
                   )}
 
