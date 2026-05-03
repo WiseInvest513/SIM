@@ -13,6 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 
+function formatOrderNo(id: string): string {
+  const hex = id.replace(/-/g, "");
+  const chunks = [hex.slice(0, 8), hex.slice(8, 16), hex.slice(16, 24), hex.slice(24, 32)];
+  let n = 0;
+  for (const c of chunks) n = ((n ^ parseInt(c, 16)) >>> 0);
+  return String(n % 90000000 + 10000000);
+}
+
 const addressSchema = z.object({
   recipient_name:  z.string().min(2, "姓名至少 2 个字"),
   recipient_phone: z.string().regex(/^1[3-9]\d{9}$/, "请输入有效手机号"),
@@ -37,6 +45,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
@@ -47,7 +56,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
     setError(null);
     try {
       const supabase = createClient();
-      const { error: err } = await supabase.from("orders").insert({
+      const { data: inserted, error: err } = await supabase.from("orders").insert({
         user_id:         userId,
         product_id:      product.id,
         quantity:        1,
@@ -56,8 +65,9 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
         address:         data.address,
         remark:          data.remark || null,
         status:          "pending",
-      });
+      }).select("id").single();
       if (err) throw err;
+      if (inserted?.id) setOrderId(inserted.id);
       setStep("done");
     } catch {
       setError("提交失败，请稍后重试");
@@ -175,6 +185,11 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
 
       <div>
         <h2 className="text-xl font-bold text-white mb-2">下单成功！</h2>
+        {orderId && (
+          <p className="text-gray-500 text-xs font-mono mb-1">
+            订单号：#{formatOrderNo(orderId)}
+          </p>
+        )}
         <p className="text-gray-400 text-sm">地址已收到，我们会尽快核实付款并安排发货</p>
       </div>
 

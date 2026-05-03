@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 // router.refresh() triggers revalidation after server action
-import { Loader2, Truck, Check, X, Package, Clock, CheckCircle, XCircle, Search } from "lucide-react";
+import { Loader2, Truck, Check, X, Package, Clock, CheckCircle, XCircle, Search, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateOrderStatus } from "./actions";
@@ -99,6 +99,43 @@ const FILTERS = [
   { key: "completed", label: "已完成" },
   { key: "cancelled", label: "已取消" },
 ];
+
+/* ── 工具函数 ── */
+function formatOrderNo(id: string): string {
+  const hex = id.replace(/-/g, "");
+  const chunks = [hex.slice(0, 8), hex.slice(8, 16), hex.slice(16, 24), hex.slice(24, 32)];
+  let n = 0;
+  for (const c of chunks) n = ((n ^ parseInt(c, 16)) >>> 0);
+  return String(n % 90000000 + 10000000);
+}
+
+function buildShippingText(order: Order) {
+  return `姓名：${order.recipient_name}\n手机：${order.recipient_phone}\n地址：${order.address}${order.remark ? `\n备注：${order.remark}` : ""}`;
+}
+
+/* ── 复制收货信息按钮 ── */
+function CopyShippingButton({ order }: { order: Order }) {
+  const [copied, setCopied] = useState(false);
+  function handleCopy() {
+    navigator.clipboard.writeText(buildShippingText(order));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+  return (
+    <button
+      onClick={handleCopy}
+      title="复制收货信息"
+      className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-all whitespace-nowrap ${
+        copied
+          ? "bg-green-500/20 text-green-400 border border-green-500/30"
+          : "bg-[#1a1a1a] text-gray-400 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a]"
+      }`}
+    >
+      {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+      {copied ? "已复制" : "复制"}
+    </button>
+  );
+}
 
 /* ── 发货弹窗 ── */
 function ShipModal({ order, onClose, onConfirm }: {
@@ -293,7 +330,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                 {/* 卡片头：订单号 + 状态 */}
                 <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1a1a] bg-[#0d0d0d]">
                   <div>
-                    <p className="text-[10px] font-mono text-gray-500">#{order.id.slice(0, 8)}…</p>
+                    <p className="text-[10px] font-mono text-gray-500">#{formatOrderNo(order.id)}</p>
                     {order.profiles?.email && (
                       <p className="text-[10px] text-gray-600 truncate max-w-[160px]">{order.profiles.email}</p>
                     )}
@@ -319,8 +356,11 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
 
                   {/* 收货人 + 时间 */}
                   <div className="flex items-start justify-between gap-2 text-xs">
-                    <div>
-                      <p className="text-gray-300">{order.recipient_name} · {order.recipient_phone}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-gray-300">{order.recipient_name} · {order.recipient_phone}</p>
+                        <CopyShippingButton order={order} />
+                      </div>
                       <p className="text-gray-500 mt-0.5 leading-relaxed">{order.address}</p>
                       {order.remark && (
                         <p className="text-amber-500/70 mt-0.5">备注: {order.remark}</p>
@@ -406,7 +446,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                   <tr key={order.id} className="border-b border-[#1a1a1a] hover:bg-[#0f0f0f] transition-colors last:border-0">
                     {/* 订单号 */}
                     <td className="px-4 py-3">
-                      <p className="text-xs font-mono text-gray-400">{order.id.slice(0, 8)}…</p>
+                      <p className="text-xs font-mono text-gray-400">#{formatOrderNo(order.id)}</p>
                       {order.profiles?.email && (
                         <p className="text-[10px] text-gray-600 mt-0.5 truncate max-w-[100px]">{order.profiles.email}</p>
                       )}
@@ -429,6 +469,9 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                     <td className="px-4 py-3 whitespace-nowrap">
                       <p className="text-white text-sm">{order.recipient_name}</p>
                       <p className="text-gray-500 text-xs">{order.recipient_phone}</p>
+                      <div className="mt-1">
+                        <CopyShippingButton order={order} />
+                      </div>
                     </td>
 
                     {/* 地址 */}
