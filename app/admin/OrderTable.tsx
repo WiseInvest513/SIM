@@ -7,7 +7,7 @@ import { Loader2, Truck, Check, X, Package, Clock, CheckCircle, XCircle, Search,
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateOrderStatus } from "./actions";
-import { formatPrice, formatDate } from "@/lib/utils";
+import { formatPrice, formatDateTime } from "@/lib/utils";
 import type { OrderStatus } from "@/lib/supabase/types";
 
 export interface Order {
@@ -366,7 +366,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                         <p className="text-amber-500/70 mt-0.5">备注: {order.remark}</p>
                       )}
                     </div>
-                    <p className="text-gray-600 whitespace-nowrap">{formatDate(order.created_at)}</p>
+                    <p className="text-gray-600 whitespace-nowrap">{formatDateTime(order.created_at)}</p>
                   </div>
 
                   {/* 快递单号 */}
@@ -497,7 +497,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
 
                     {/* 时间 */}
                     <td className="px-4 py-3 whitespace-nowrap text-xs text-gray-500">
-                      {formatDate(order.created_at)}
+                      {formatDateTime(order.created_at)}
                     </td>
 
                     {/* 主操作列 */}

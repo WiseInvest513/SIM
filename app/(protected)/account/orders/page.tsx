@@ -5,7 +5,7 @@ import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { OrderStatusBadge, OrderStatusTimeline } from "@/components/shop/OrderStatus";
-import { formatPrice, formatDate } from "@/lib/utils";
+import { formatPrice, formatDateTime } from "@/lib/utils";
 import { getProductById } from "@/lib/products";
 import type { OrderStatus } from "@/lib/supabase/types";
 
@@ -91,7 +91,7 @@ export default async function OrdersPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-5 py-3 border-b border-[#1a1a1a] bg-[#0d0d0d] gap-1.5 sm:gap-3">
                   <p className="text-xs text-gray-600 font-mono">订单号：{order.id.slice(0, 8)}...</p>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-600">{formatDate(order.created_at)}</span>
+                    <span className="text-xs text-gray-600">{formatDateTime(order.created_at)}</span>
                     <OrderStatusBadge status={order.status as OrderStatus} />
                   </div>
                 </div>

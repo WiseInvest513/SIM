@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, CheckCircle2, QrCode, Copy, Check } from "lucide-react";
+import { Loader2, CheckCircle2, QrCode, Copy, Check, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,10 +42,15 @@ type Step = "payment" | "address" | "done";
 export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }: Props) {
   const router = useRouter();
   const [step, setStep] = useState<Step>("payment");
+  const [quantity, setQuantity] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
+
+  const unitPrice = product.price; // 单价（分）
+  const totalPrice = unitPrice * quantity;
+  const fmt = (cents: number) => `¥${(cents / 100).toFixed(2)}`;
 
   const { register, handleSubmit, formState: { errors } } = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
@@ -59,7 +64,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
       const { data: inserted, error: err } = await supabase.from("orders").insert({
         user_id:         userId,
         product_id:      product.id,
-        quantity:        1,
+        quantity:        quantity,
         recipient_name:  data.recipient_name,
         recipient_phone: data.recipient_phone,
         address:         data.address,
@@ -83,7 +88,39 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
         <div className="text-center">
           <p className="text-gray-400 text-sm mb-1">你正在购买</p>
           <p className="text-white font-semibold">{product.name}</p>
-          <p className="text-3xl font-bold text-white mt-1">{priceLabel}</p>
+        </div>
+
+        {/* 数量选择 */}
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-400 text-sm">单价</span>
+            <span className="text-white text-sm">{fmt(unitPrice)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-gray-400 text-sm">数量</span>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                className="w-8 h-8 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] flex items-center justify-center text-gray-400 hover:text-white hover:border-[#555] transition-colors"
+              >
+                <Minus className="w-3.5 h-3.5" />
+              </button>
+              <span className="text-white font-semibold w-6 text-center">{quantity}</span>
+              <button
+                onClick={() => setQuantity(q => Math.min(99, q + 1))}
+                className="w-8 h-8 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] flex items-center justify-center text-gray-400 hover:text-white hover:border-[#555] transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+          <div className="border-t border-[#2a2a2a] pt-3 flex items-center justify-between">
+            <span className="text-gray-300 text-sm font-medium">合计</span>
+            <span className="text-2xl font-bold text-white">{fmt(totalPrice)}</span>
+          </div>
+          {quantity > 1 && (
+            <p className="text-gray-600 text-xs text-center">{fmt(unitPrice)} × {quantity} = {fmt(totalPrice)}</p>
+          )}
         </div>
 
         {/* 支付宝二维码 */}
@@ -98,7 +135,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
           )}
           <div className="text-center">
             <p className="text-white text-sm font-medium">支付宝扫码付款</p>
-            <p className="text-gray-500 text-xs mt-0.5">请确认金额为 {priceLabel}</p>
+            <p className="text-gray-500 text-xs mt-0.5">请确认金额为 <span className="text-white font-semibold">{fmt(totalPrice)}</span></p>
           </div>
         </div>
 
@@ -124,7 +161,9 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
       <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-6 space-y-5">
         <div>
           <h2 className="text-white font-semibold text-lg">填写收货地址</h2>
-          <p className="text-gray-500 text-sm mt-0.5">付款完成后填写，我们将尽快安排发货</p>
+          <p className="text-gray-500 text-sm mt-0.5">
+            {product.name} × {quantity}，共 <span className="text-white font-medium">{fmt(totalPrice)}</span>
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
