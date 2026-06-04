@@ -36,7 +36,7 @@ const services = [
 
 const features = [
   { icon: Package, title: "正规渠道",   desc: "直接从官方渠道采购，非二手翻新，附正规激活教程。" },
-  { icon: Truck,   title: "快递直邮",   desc: "收到付款当天或次日发货，全程可追踪物流信息。" },
+  { icon: Truck,   title: "快递直邮",   desc: "收到付款后 3-5 个工作日发货，全程可追踪物流信息。" },
   { icon: Clock,   title: "1-3 天到手", desc: "国内快递配送，大部分城市隔天即可签收。" },
   { icon: Shield,  title: "售后保障",   desc: "激活遇到问题，微信客服全程陪同处理，放心购买。" },
 ];
@@ -70,7 +70,7 @@ export default function HomePage() {
           {/* 状态标签 */}
           <div className="inline-flex items-center gap-2 border border-[#2a2a2a] bg-[#111111] rounded-full px-4 py-1.5 mb-10">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-gray-400 tracking-wide">正在接单 · 1-3 个工作日发货</span>
+            <span className="text-xs text-gray-400 tracking-wide">正在接单 · 3-5 个工作日发货</span>
           </div>
 
           {/* 主标题 */}
@@ -109,10 +109,10 @@ export default function HomePage() {
         <div className="flex gap-12 animate-[marquee_30s_linear_infinite] whitespace-nowrap">
           {[
             "giffgaff 英国手机卡", "永久免月租", "快递直邮",
-            "1-3 天发货", "国内激活", "Ultra Mobile 美国卡",
+            "3-5 天发货", "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
             "giffgaff 英国手机卡", "永久免月租", "快递直邮",
-            "1-3 天发货", "国内激活", "Ultra Mobile 美国卡",
+            "3-5 天发货", "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
           ].map((item, i) => (
             <span key={i} className="text-xs text-gray-500 flex-shrink-0 tracking-widest uppercase">

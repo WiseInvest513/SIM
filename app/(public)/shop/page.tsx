@@ -28,7 +28,7 @@ export default function ShopPage() {
           <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
             <div className="flex flex-wrap gap-6 text-sm text-gray-400">
               <span>📦 正规渠道进货</span>
-              <span>🚚 1-3 个工作日发货</span>
+              <span>🚚 3-5 个工作日发货</span>
               <span>✅ 激活教程全程指导</span>
               <span>💬 购后问题售后支持</span>
             </div>
@@ -67,7 +67,7 @@ export default function ShopPage() {
             </div>
             <div>
               <p className="text-gray-200 font-medium mb-1">发货说明</p>
-              <p>收到付款后 1-3 个工作日安排发货，快递邮寄到家</p>
+              <p>收到付款后 3-5 个工作日安排发货，快递邮寄到家</p>
             </div>
             <div>
               <p className="text-gray-200 font-medium mb-1">激活支持</p>

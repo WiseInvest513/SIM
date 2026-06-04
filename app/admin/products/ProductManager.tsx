@@ -155,7 +155,7 @@ function ProductFormModal({
               <Input
                 type="number"
                 step="0.01"
-                placeholder="89.00"
+                placeholder="99.00"
                 {...register("price", { valueAsNumber: true })}
               />
               {errors.price && <p className="text-red-400 text-xs">{errors.price.message}</p>}
