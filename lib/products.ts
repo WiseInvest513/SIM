@@ -1,5 +1,9 @@
 import type { Product } from "@/lib/supabase/types";
 
+// ── 全站配置（改价格/发货时间只需改这里）──────────────────
+export const SHIPPING_DAYS = "3-5 个工作日";
+export const SHIPPING_DAYS_SHORT = "3-5 天";
+
 // 所有商品定义（代码维护，不存数据库）
 export const PRODUCTS: Product[] = [
   {

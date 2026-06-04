@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, Package, CheckCircle, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
-import { getProductBySlug } from "@/lib/products";
+import { getProductBySlug, SHIPPING_DAYS } from "@/lib/products";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -93,7 +93,7 @@ export default async function ProductDetailPage({ params }: Props) {
               </div>
 
               <div className="space-y-2 text-sm text-gray-400">
-                {["正规渠道采购，品质保障", "3-5 个工作日快递发货", "附详细激活教程", "微信客服全程支持"].map((t) => (
+                {["正规渠道采购，品质保障", `${SHIPPING_DAYS}快递发货`, "附详细激活教程", "微信客服全程支持"].map((t) => (
                   <div key={t} className="flex items-center gap-2">
                     <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                     {t}

@@ -1,3 +1,9 @@
+import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
+import { formatPrice } from "@/lib/utils";
+
+const _plain = PRODUCTS.find((p) => p.slug === "giffgaff");
+const _plus  = PRODUCTS.find((p) => p.slug === "giffgaff-plus");
+
 export interface PresetQuestion {
   question: string;
   answer: string;
@@ -32,19 +38,19 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
   {
     question: "多少钱？怎么买？",
     answer:
-      "纯卡版 ¥99，含 £15 余额版 ¥249。点击页面'立即购买'按钮，支付宝/微信即可下单。",
+      `纯卡版 ${formatPrice(_plain!.price)}，含 £15 余额版 ${formatPrice(_plus!.price)}。点击页面'立即购买'按钮，支付宝/微信即可下单。`,
     keywords: ["价格", "多少钱", "怎么买"],
   },
   {
     question: "哪里发货？什么时候发货？",
     answer:
-      "从浙江/四川发货。下午三点前购买均可当日发出，否则第二天发出。一般 3-5 个工作日到手。",
+      `从浙江/四川发货。下午三点前购买均可当日发出，否则第二天发出。一般 ${SHIPPING_DAYS}到手。`,
     keywords: ["发货", "快递", "多久", "哪里", "什么时候"],
   },
   {
     question: "多久能收到？",
     answer:
-      "快递发货，一般 3-5 个工作日到手。",
+      `快递发货，一般 ${SHIPPING_DAYS}到手。`,
     keywords: ["多久", "几天", "到达"],
   },
   {

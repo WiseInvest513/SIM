@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Package, ArrowRight, Globe, FileText, MapPin } from "lucide-react";
+import { SHIPPING_DAYS } from "@/lib/products";
 
 /* ── 主题定义 ──────────────────────────────── */
 
@@ -157,7 +158,7 @@ function ThemePreview({ theme }: { theme: typeof themes[0] }) {
           style={{ border: `1px solid ${theme.border}`, color: theme.textSecondary }}
         >
           <span className="w-1 h-1 rounded-full bg-green-400" />
-          正在接单 · 3-5 个工作日发货
+          正在接单 · {SHIPPING_DAYS}发货
         </div>
         <div className="mb-1 font-bold text-base leading-tight" style={{ color: theme.textPrimary }}>
           出海，从一张手机卡开始

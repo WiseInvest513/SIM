@@ -5,6 +5,8 @@ import {
   Truck, Clock, Shield, ChevronRight, Globe, Star,
 } from "lucide-react";
 import { ReviewsSectionDynamic, FaqSectionDynamic } from "@/components/sections/DynamicSections";
+import { PRODUCTS, SHIPPING_DAYS, SHIPPING_DAYS_SHORT } from "@/lib/products";
+import { formatPrice } from "@/lib/utils";
 
 /* ── 数据 ───────────────────────────────────── */
 
@@ -36,7 +38,7 @@ const services = [
 
 const features = [
   { icon: Package, title: "正规渠道",   desc: "直接从官方渠道采购，非二手翻新，附正规激活教程。" },
-  { icon: Truck,   title: "快递直邮",   desc: "收到付款后 3-5 个工作日发货，全程可追踪物流信息。" },
+  { icon: Truck,   title: "快递直邮",   desc: `收到付款后 ${SHIPPING_DAYS}发货，全程可追踪物流信息。` },
   { icon: Clock,   title: "1-3 天到手", desc: "国内快递配送，大部分城市隔天即可签收。" },
   { icon: Shield,  title: "售后保障",   desc: "激活遇到问题，微信客服全程陪同处理，放心购买。" },
 ];
@@ -70,7 +72,7 @@ export default function HomePage() {
           {/* 状态标签 */}
           <div className="inline-flex items-center gap-2 border border-[#2a2a2a] bg-[#111111] rounded-full px-4 py-1.5 mb-10">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-gray-400 tracking-wide">正在接单 · 3-5 个工作日发货</span>
+            <span className="text-xs text-gray-400 tracking-wide">正在接单 · {SHIPPING_DAYS}发货</span>
           </div>
 
           {/* 主标题 */}
@@ -109,10 +111,10 @@ export default function HomePage() {
         <div className="flex gap-12 animate-[marquee_30s_linear_infinite] whitespace-nowrap">
           {[
             "giffgaff 英国手机卡", "永久免月租", "快递直邮",
-            "3-5 天发货", "国内激活", "Ultra Mobile 美国卡",
+            `${SHIPPING_DAYS_SHORT}发货`, "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
             "giffgaff 英国手机卡", "永久免月租", "快递直邮",
-            "3-5 天发货", "国内激活", "Ultra Mobile 美国卡",
+            `${SHIPPING_DAYS_SHORT}发货`, "国内激活", "Ultra Mobile 美国卡",
             "真实海外号码", "接收 PayPal 验证码", "接收 WhatsApp 验证码",
           ].map((item, i) => (
             <span key={i} className="text-xs text-gray-500 flex-shrink-0 tracking-widest uppercase">
@@ -241,7 +243,7 @@ export default function HomePage() {
               <div className="md:w-60 border-t md:border-t-0 md:border-l border-[#2a2a2a] p-8 md:p-12 flex flex-col justify-between bg-[#111111]">
                 <div>
                   <p className="text-xs text-gray-500 mb-2">到手价格</p>
-                  <p className="text-5xl font-bold text-white">¥99</p>
+                  <p className="text-5xl font-bold text-white">{formatPrice(PRODUCTS[0].price)}</p>
                   <p className="text-xs text-gray-500 mt-1.5">含 SIM 卡 + 首充余额</p>
                 </div>
                 <Link

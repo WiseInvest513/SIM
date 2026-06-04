@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
+import { SHIPPING_DAYS } from "@/lib/products";
 
 const faqs = [
   {
@@ -9,7 +10,7 @@ const faqs = [
   },
   {
     q: "购买后多久发货？",
-    a: "收到付款后，一般 3-5 个工作日通过快递发出并签收。",
+    a: `收到付款后，一般 ${SHIPPING_DAYS}通过快递发出并签收。`,
   },
   {
     q: "怎么激活 giffgaff 卡？",
