@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/lib/supabase/client";
 import { formatPrice } from "@/lib/utils";
+import { PRODUCTS } from "@/lib/products";
 import type { Product } from "@/lib/supabase/types";
 
 // 商品表单 Schema
@@ -63,7 +64,7 @@ function ProductFormModal({
       : {
           stock: 100,
           category: "手机卡",
-          price: 99,
+          price: PRODUCTS[0].price / 100,
         },
   });
 
@@ -155,7 +156,7 @@ function ProductFormModal({
               <Input
                 type="number"
                 step="0.01"
-                placeholder="99.00"
+                placeholder={`${PRODUCTS[0].price / 100}.00`}
                 {...register("price", { valueAsNumber: true })}
               />
               {errors.price && <p className="text-red-400 text-xs">{errors.price.message}</p>}

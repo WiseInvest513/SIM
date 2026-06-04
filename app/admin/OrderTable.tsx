@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateOrderStatus } from "./actions";
 import { formatPrice, formatDateTime } from "@/lib/utils";
+import { getProductById } from "@/lib/products";
 import type { OrderStatus } from "@/lib/supabase/types";
 
 export interface Order {
@@ -38,7 +39,7 @@ const MOCK_ORDERS: Order[] = [
     status: "pending",
     tracking_number: null,
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 9900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "zhangsan@example.com", display_name: "张三" },
   },
   {
@@ -52,7 +53,7 @@ const MOCK_ORDERS: Order[] = [
     status: "pending",
     tracking_number: null,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £15 余额）", price: getProductById("00000000-0000-0000-0000-000000000003")!.price, category: "英国手机卡" },
     profiles: { email: "lisi@example.com", display_name: "李四" },
   },
   {
@@ -66,7 +67,7 @@ const MOCK_ORDERS: Order[] = [
     status: "shipped",
     tracking_number: "SF1234567890",
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: 9900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "wangwu@example.com", display_name: "王五" },
   },
   {
