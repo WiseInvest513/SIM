@@ -237,7 +237,7 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
         <p className="text-white text-sm font-medium">添加微信，确认付款后发货</p>
         <div className="flex flex-col items-center gap-4 bg-[#111111] border border-[#2a2a2a] rounded-xl px-4 py-4">
           {/* 二维码 */}
-          <Image src="/WX3.png" alt="微信二维码" width={160} height={160} className="rounded-lg" />
+          <Image src="/wx.png" alt="微信二维码" width={160} height={160} className="rounded-lg" />
 
           {/* 复制微信号 */}
           <div className="w-full flex items-center justify-between gap-3">
