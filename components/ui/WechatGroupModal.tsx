@@ -3,17 +3,31 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
+import { community } from "@/lib/community";
 
-const STORAGE_KEY = "wechat_modal_dismissed_date";
+const STORAGE_KEY = "community_modal_dismissed_date";
+
+const accent = {
+  green: {
+    label: "text-green-600",
+    button: "bg-green-500 hover:bg-green-600",
+    joinButton: "bg-green-500 hover:bg-green-600",
+  },
+  blue: {
+    label: "text-blue-500",
+    button: "bg-blue-500 hover:bg-blue-600",
+    joinButton: "bg-blue-500 hover:bg-blue-600",
+  },
+};
 
 export function WechatGroupModal() {
   const [open, setOpen] = useState(false);
+  const colors = accent[community.accentColor as keyof typeof accent];
 
   useEffect(() => {
     const dismissed = localStorage.getItem(STORAGE_KEY);
     const today = new Date().toDateString();
     if (dismissed !== today) {
-      // 稍微延迟，等页面渲染完
       const t = setTimeout(() => setOpen(true), 800);
       return () => clearTimeout(t);
     }
@@ -42,10 +56,10 @@ export function WechatGroupModal() {
         {/* 头部 */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-gray-100">
           <div>
-            <p className="text-[10px] text-green-600 font-semibold tracking-widest uppercase mb-0.5">
+            <p className={`text-[10px] ${colors.label} font-semibold tracking-widest uppercase mb-0.5`}>
               WiseSIM 社区
             </p>
-            <h2 className="text-base font-bold text-gray-900">欢迎加入官方微信群聊</h2>
+            <h2 className="text-base font-bold text-gray-900">{community.modalTitle}</h2>
           </div>
           <button
             onClick={close}
@@ -59,25 +73,33 @@ export function WechatGroupModal() {
         <div className="px-5 py-6">
           <div className="rounded-xl overflow-hidden border border-gray-100">
             <Image
-              src="/草料图片.png"
-              alt="微信群二维码"
+              src={community.image}
+              alt={community.imageAlt}
               width={600}
               height={600}
               className="w-full object-contain"
             />
           </div>
-          <p className="text-center text-xs text-gray-400 mt-4">
-            扫码加入群聊，与志同道合的出海人一起交流
-          </p>
+          <p className="text-center text-xs text-gray-400 mt-4">{community.description}</p>
         </div>
 
         {/* 底部按钮 */}
         <div className="px-5 pb-5 flex flex-col gap-2">
+          {community.joinButton && (
+            <a
+              href={community.joinButton.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full block ${colors.joinButton} text-white font-semibold py-3 rounded-xl transition-colors text-sm text-center`}
+            >
+              {community.joinButton.text}
+            </a>
+          )}
           <button
             onClick={close}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-colors text-sm"
           >
-            进入平台
+            {community.primaryButton}
           </button>
           <button
             onClick={dismissToday}

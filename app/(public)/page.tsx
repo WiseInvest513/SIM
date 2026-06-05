@@ -7,6 +7,7 @@ import {
 import { ReviewsSectionDynamic, FaqSectionDynamic } from "@/components/sections/DynamicSections";
 import { PRODUCTS, SHIPPING_DAYS, SHIPPING_DAYS_SHORT } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
+import { community } from "@/lib/community";
 
 /* ── 数据 ───────────────────────────────────── */
 
@@ -271,14 +272,24 @@ export default function HomePage() {
           <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">加入群聊</p>
           <div className="border border-[#2a2a2a] bg-white rounded-2xl overflow-hidden w-full max-w-sm mx-auto">
             <Image
-              src="/草料图片.png"
-              alt="微信群二维码"
+              src={community.image}
+              alt={community.imageAlt}
               width={600}
               height={600}
               className="w-full object-contain"
             />
           </div>
-          <p className="text-xs text-gray-500 mt-4">扫码加入群聊，与志同道合的出海人一起交流</p>
+          <p className="text-xs text-gray-500 mt-4">{community.description}</p>
+          {community.joinButton && (
+            <a
+              href={community.joinButton.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+            >
+              {community.joinButton.text}
+            </a>
+          )}
         </div>
       </section>
 
