@@ -9,12 +9,15 @@ import { Loader2, Globe, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
 import { SuccessModal } from "@/components/ui/success-modal";
 
 const registerSchema = z
   .object({
-    email: z.string().email("请输入有效的邮箱地址"),
+    email: z
+      .string()
+      .min(1, "请输入邮箱地址")
+      .refine((v) => v.includes("@"), { message: "邮箱必须包含 @ 符号" })
+      .refine((v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), { message: "请输入有效的邮箱地址" }),
     password: z.string().min(8, "密码至少 8 位").max(72, "密码过长"),
     confirmPassword: z.string(),
   })
@@ -45,22 +48,42 @@ export default function RegisterForm() {
     setError(null);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-          data: { role: "user" },
-        },
+      // ----------------------------------------------------------------
+      // 旧逻辑（已注释）：直接调用 supabase.auth.signUp()，会触发确认邮件
+      // 保留备用，后续其他业务可复用此流程
+      //
+      // const supabase = createClient();
+      // const { error } = await supabase.auth.signUp({
+      //   email: data.email,
+      //   password: data.password,
+      //   options: {
+      //     emailRedirectTo: `${window.location.origin}/auth/callback`,
+      //     data: { role: "user" },
+      //   },
+      // });
+      // if (error) {
+      //   if (error.message.includes("already registered")) {
+      //     setError("该邮箱已注册，请直接登录");
+      //   } else {
+      //     setError(error.message);
+      //   }
+      //   return;
+      // }
+      // ----------------------------------------------------------------
+
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
       });
 
-      if (error) {
-        if (error.message.includes("already registered")) {
-          setError("该邮箱已注册，请直接登录");
-        } else {
-          setError(error.message);
-        }
+      const result = await res.json();
+
+      if (!res.ok) {
+        setError(result.error || "注册失败，请稍后重试");
         return;
       }
 
@@ -83,9 +106,7 @@ export default function RegisterForm() {
             </div>
             <h1 className="text-2xl font-bold text-white mb-3">注册成功！</h1>
             <p className="text-gray-400 mb-6">
-              🎉 恭喜您注册成功！<br />
-              <br />
-              我们已向您的邮箱发送了验证链接，请前往邮箱进行验证，验证完成后即可登录。
+              🎉 恭喜您注册成功！账户已激活，可以直接登录。
             </p>
             <Link href="/auth/login">
               <Button className="w-full">前往登录</Button>
@@ -95,7 +116,7 @@ export default function RegisterForm() {
         {showSuccessModal && (
           <SuccessModal
             title="注册成功！🎉"
-            message="请前往邮箱进行验证"
+            message="账户已激活，请前往登录"
             duration={1000}
             onClose={() => setShowSuccessModal(false)}
           />
