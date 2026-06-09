@@ -6,6 +6,8 @@ import { X } from "lucide-react";
 import { community } from "@/lib/community";
 
 const STORAGE_KEY = "community_modal_dismissed_date";
+const COOLDOWN_KEY = "community_modal_last_closed";
+const COOLDOWN_MS = 4 * 60 * 60 * 1000; // 4 小时
 
 const accent = {
   green: {
@@ -25,15 +27,18 @@ export function WechatGroupModal() {
   const colors = accent[community.accentColor as keyof typeof accent];
 
   useEffect(() => {
-    const dismissed = localStorage.getItem(STORAGE_KEY);
     const today = new Date().toDateString();
-    if (dismissed !== today) {
-      const t = setTimeout(() => setOpen(true), 800);
-      return () => clearTimeout(t);
-    }
+    if (localStorage.getItem(STORAGE_KEY) === today) return;
+
+    const lastClosed = localStorage.getItem(COOLDOWN_KEY);
+    if (lastClosed && Date.now() - parseInt(lastClosed, 10) < COOLDOWN_MS) return;
+
+    const t = setTimeout(() => setOpen(true), 800);
+    return () => clearTimeout(t);
   }, []);
 
   function close() {
+    localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
     setOpen(false);
   }
 
