@@ -107,6 +107,12 @@ export function Navbar() {
 
           {/* 右侧 */}
           <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={() => window.dispatchEvent(new Event("open-community-modal"))}
+              className="px-3.5 py-1.5 text-sm text-blue-400 border border-blue-500/40 rounded-lg hover:bg-blue-500/10 transition-colors"
+            >
+              加入群聊
+            </button>
             {user ? (
               <div className="relative">
                 <button
@@ -178,6 +184,12 @@ export function Navbar() {
                 {label}
               </Link>
             ))}
+            <button
+              onClick={() => { setMobileOpen(false); window.dispatchEvent(new Event("open-community-modal")); }}
+              className="flex items-center px-3 py-2.5 text-sm text-blue-400 hover:text-blue-300 transition-colors w-full"
+            >
+              加入群聊
+            </button>
             <div className="h-px bg-[#2a2a2a] my-2" />
             {user ? (
               <>
