@@ -15,6 +15,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   const isOutOfStock = product.stock === 0;
   const isRecommended = product.slug === "giffgaff-plus";
   const isEconomy = product.slug === "giffgaff";
+  const isSameDay = product.slug === "giffgaff-10";
 
   return (
     <div className={`rounded-xl border overflow-hidden card-hover group relative transition-all duration-300 hover:-translate-y-2 ${
@@ -22,6 +23,8 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
         ? "border-green-500/40 bg-gradient-to-br from-green-500/5 to-slate-800/50 hover:border-green-500/70 hover:shadow-lg hover:shadow-green-500/20"
         : isEconomy
         ? "border-blue-500/40 bg-gradient-to-br from-blue-500/5 to-slate-800/50 hover:border-blue-500/70 hover:shadow-lg hover:shadow-blue-500/20"
+        : isSameDay
+        ? "border-orange-500/40 bg-gradient-to-br from-orange-500/5 to-slate-800/50 hover:border-orange-500/70 hover:shadow-lg hover:shadow-orange-500/20"
         : "border-slate-700/60 bg-slate-800/50 hover:border-slate-600 hover:shadow-lg hover:shadow-slate-900/50"
     }`}>
       {/* 标签 */}
@@ -35,6 +38,17 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
         <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-blue-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-blue-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
           <span className="inline-block animate-bounce" style={{ animationDelay: "0s" }}>💰</span>
           <span>经济方案</span>
+        </div>
+      )}
+      {isSameDay && (
+        <div className="absolute top-3 right-3 z-10 flex flex-col items-end gap-1">
+          <div className="flex items-center gap-1.5 bg-orange-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-orange-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+            <span className="inline-block animate-bounce" style={{ animationDelay: "0s" }}>🚀</span>
+            <span>当天发货</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-amber-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+            <span>⚡ 立马使用</span>
+          </div>
         </div>
       )}
 
@@ -92,6 +106,13 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           <div className="mb-3 rounded-lg bg-blue-500/10 border border-blue-500/20 p-2.5 transition-all duration-300 group-hover:bg-blue-500/20 group-hover:border-blue-500/40">
             <p className="text-blue-400 text-xs font-medium">
               🎯 省 ¥130，DIY 激活自己充值
+            </p>
+          </div>
+        )}
+        {isSameDay && (
+          <div className="mb-3 rounded-lg bg-orange-500/10 border border-orange-500/20 p-2.5 transition-all duration-300 group-hover:bg-orange-500/20 group-hover:border-orange-500/40">
+            <p className="text-orange-400 text-xs font-medium">
+              🚀 当天发货 · ⚡ 收到立马使用，含 £10 余额
             </p>
           </div>
         )}

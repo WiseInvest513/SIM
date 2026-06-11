@@ -19,6 +19,18 @@ export const PRODUCTS: Product[] = [
     created_at: "2024-01-01",
   },
   {
+    id: "00000000-0000-0000-0000-000000000002",
+    name: "giffgaff - 10 磅英国卡",
+    slug: "giffgaff-10",
+    description: "英国 O2 旗下虚拟运营商，永久免月租，预充 £10 英镑，当天发货，收到立马使用。无需等待充值，即买即用。",
+    price: 18900,
+    stock: 50,
+    category: "英国手机卡",
+    image_url: "/giffgaff-logo.png",
+    is_active: true,
+    created_at: "2024-01-02",
+  },
+  {
     id: "00000000-0000-0000-0000-000000000003",
     name: "giffgaff 英国手机卡（含 £15 余额）",
     slug: "giffgaff-plus",
