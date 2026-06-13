@@ -31,3 +31,20 @@ export async function updateOrderStatus(
   revalidatePath("/admin");
   return { success: true };
 }
+
+export async function toggleOrderPaid(orderId: string, paid: boolean) {
+  const supabase = createAdminClient();
+
+  const { error } = await supabase
+    .from("orders")
+    .update({ paid, updated_at: new Date().toISOString() })
+    .eq("id", orderId);
+
+  if (error) {
+    console.error("toggleOrderPaid error:", error);
+    return { success: false, error: error.message };
+  }
+
+  revalidatePath("/admin");
+  return { success: true };
+}

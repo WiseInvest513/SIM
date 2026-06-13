@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Truck, Check, X, Package, Clock, CheckCircle, XCircle, Search, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateOrderStatus } from "./actions";
+import { updateOrderStatus, toggleOrderPaid } from "./actions";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { getProductById } from "@/lib/products";
 import type { OrderStatus } from "@/lib/supabase/types";
@@ -22,6 +22,7 @@ export interface Order {
   remark: string | null;
   status: OrderStatus;
   tracking_number: string | null;
+  paid: boolean;
   created_at: string;
   products?: { id: string; name: string; price: number; category: string } | null;
   profiles?: { email: string; display_name: string | null } | null;
@@ -38,6 +39,7 @@ const MOCK_ORDERS: Order[] = [
     remark: null,
     status: "pending",
     tracking_number: null,
+    paid: false,
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "zhangsan@example.com", display_name: "张三" },
@@ -52,6 +54,7 @@ const MOCK_ORDERS: Order[] = [
     remark: "尽快发货，急用",
     status: "pending",
     tracking_number: null,
+    paid: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
     products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £15 余额）", price: getProductById("00000000-0000-0000-0000-000000000003")!.price, category: "英国手机卡" },
     profiles: { email: "lisi@example.com", display_name: "李四" },
@@ -66,6 +69,7 @@ const MOCK_ORDERS: Order[] = [
     remark: null,
     status: "shipped",
     tracking_number: "SF1234567890",
+    paid: true,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "wangwu@example.com", display_name: "王五" },
@@ -80,6 +84,7 @@ const MOCK_ORDERS: Order[] = [
     remark: null,
     status: "completed",
     tracking_number: "SF9876543210",
+    paid: true,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
     products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
     profiles: { email: "zhaoliu@example.com", display_name: "赵六" },
@@ -222,6 +227,9 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
   const [search, setSearch] = useState("");
   const [shipTarget, setShipTarget] = useState<Order | null>(null);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [paidUpdating, setPaidUpdating] = useState<string | null>(null);
+  // 乐观更新：本地记录 paid 覆盖值
+  const [paidOverrides, setPaidOverrides] = useState<Record<string, boolean>>({});
 
   const filtered = orders.filter((o) => {
     const matchStatus = statusFilter === "all" || o.status === statusFilter;
@@ -241,6 +249,20 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
     completed: orders.filter(o => o.status === "completed").length,
     cancelled: orders.filter(o => o.status === "cancelled").length,
   };
+
+  async function handleTogglePaid(orderId: string, currentPaid: boolean) {
+    const newPaid = !currentPaid;
+    setPaidUpdating(orderId);
+    setPaidOverrides((prev) => ({ ...prev, [orderId]: newPaid }));
+    try {
+      await toggleOrderPaid(orderId, newPaid);
+    } catch {
+      // 回滚乐观更新
+      setPaidOverrides((prev) => ({ ...prev, [orderId]: currentPaid }));
+    } finally {
+      setPaidUpdating(null);
+    }
+  }
 
   async function updateStatus(orderId: string, newStatus: OrderStatus, trackingNumber?: string) {
     setUpdating(orderId);
@@ -326,6 +348,8 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
           filtered.map((order) => {
             const sc = STATUS_CONFIG[order.status];
             const isUpdating = updating === order.id;
+            const isPaid = order.id in paidOverrides ? paidOverrides[order.id] : order.paid;
+            const isPaidUpdating = paidUpdating === order.id;
             return (
               <div key={order.id} className="rounded-xl border border-[#2a2a2a] bg-[#111111] overflow-hidden">
                 {/* 卡片头：订单号 + 状态 */}
@@ -377,6 +401,28 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                     </p>
                   )}
 
+                  {/* 付款状态 */}
+                  <button
+                    disabled={isPaidUpdating}
+                    onClick={() => handleTogglePaid(order.id, isPaid)}
+                    className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full transition-all border ${
+                      isPaidUpdating
+                        ? "opacity-50 cursor-not-allowed bg-[#1a1a1a] text-gray-500 border-[#2a2a2a]"
+                        : isPaid
+                        ? "bg-green-500/15 border-green-500/30 text-green-400 hover:bg-green-500/25"
+                        : "bg-[#1a1a1a] border-[#2a2a2a] text-gray-400 hover:text-amber-400 hover:border-amber-500/30 hover:bg-amber-500/10"
+                    }`}
+                  >
+                    {isPaidUpdating ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : isPaid ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <Clock className="w-3 h-3" />
+                    )}
+                    {isPaid ? "已付款" : "未付款"}
+                  </button>
+
                   {/* 操作按钮 */}
                   {isUpdating ? (
                     <div className="flex justify-center py-1">
@@ -426,7 +472,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a2a] bg-[#0d0d0d]">
             <tr>
-              {["订单号", "商品", "金额", "收货人", "地址", "状态", "下单时间", "主操作", "取消"].map((h) => (
+              {["订单号", "商品", "金额", "收货人", "地址", "状态", "下单时间", "付款状态", "主操作", "取消"].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 whitespace-nowrap">{h}</th>
               ))}
             </tr>
@@ -434,7 +480,7 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-16 text-center">
+                <td colSpan={10} className="px-4 py-16 text-center">
                   <Package className="w-10 h-10 text-gray-700 mx-auto mb-3" />
                   <p className="text-gray-500 text-sm">暂无订单</p>
                 </td>
@@ -443,6 +489,8 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
               filtered.map((order) => {
                 const sc = STATUS_CONFIG[order.status];
                 const isUpdating = updating === order.id;
+                const isPaid = order.id in paidOverrides ? paidOverrides[order.id] : order.paid;
+                const isPaidUpdating = paidUpdating === order.id;
                 return (
                   <tr key={order.id} className="border-b border-[#1a1a1a] hover:bg-[#0f0f0f] transition-colors last:border-0">
                     {/* 订单号 */}
@@ -499,6 +547,30 @@ export function AdminOrderTable({ orders: dbOrders }: { orders: Order[] }) {
                     {/* 时间 */}
                     <td className="px-4 py-3 whitespace-nowrap text-xs text-gray-500">
                       {formatDateTime(order.created_at)}
+                    </td>
+
+                    {/* 付款状态列 */}
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <button
+                        disabled={isPaidUpdating}
+                        onClick={() => handleTogglePaid(order.id, isPaid)}
+                        className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full transition-all border ${
+                          isPaidUpdating
+                            ? "opacity-50 cursor-not-allowed bg-[#1a1a1a] text-gray-500 border-[#2a2a2a]"
+                            : isPaid
+                            ? "bg-green-500/15 border-green-500/30 text-green-400 hover:bg-green-500/25"
+                            : "bg-[#1a1a1a] border-[#2a2a2a] text-gray-400 hover:text-amber-400 hover:border-amber-500/30 hover:bg-amber-500/10"
+                        }`}
+                      >
+                        {isPaidUpdating ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : isPaid ? (
+                          <Check className="w-3 h-3" />
+                        ) : (
+                          <Clock className="w-3 h-3" />
+                        )}
+                        {isPaid ? "已付款" : "未付款"}
+                      </button>
                     </td>
 
                     {/* 主操作列 */}

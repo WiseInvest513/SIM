@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
     id: "00000000-0000-0000-0000-000000000002",
     name: "giffgaff - 10 磅英国卡",
     slug: "giffgaff-10",
-    description: "英国 O2 旗下虚拟运营商，永久免月租，预充 £10 英镑，当天发货，收到立马使用。无需等待充值，即买即用。",
+    description: "预充 £10 英镑，当天发货，需要用非华为/苹果手机激活，激活之后随意使用",
     price: 18900,
     stock: 50,
     category: "英国手机卡",

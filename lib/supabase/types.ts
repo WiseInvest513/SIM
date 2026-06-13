@@ -78,6 +78,7 @@ export type Database = {
           remark: string | null;
           status: OrderStatus;
           tracking_number: string | null;
+          paid: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -92,6 +93,7 @@ export type Database = {
           remark?: string | null;
           status?: OrderStatus;
           tracking_number?: string | null;
+          paid?: boolean;
           created_at?: string;
           updated_at?: string;
         };
@@ -106,6 +108,7 @@ export type Database = {
           remark?: string | null;
           status?: OrderStatus;
           tracking_number?: string | null;
+          paid?: boolean;
           created_at?: string;
           updated_at?: string;
         };
