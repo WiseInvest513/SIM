@@ -56,7 +56,7 @@ const MOCK_ORDERS: Order[] = [
     tracking_number: null,
     paid: false,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £15 余额）", price: getProductById("00000000-0000-0000-0000-000000000003")!.price, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "lisi@example.com", display_name: "李四" },
   },
   {
@@ -86,7 +86,7 @@ const MOCK_ORDERS: Order[] = [
     tracking_number: "SF9876543210",
     paid: true,
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-    products: { id: "00000000-0000-0000-0000-000000000003", name: "giffgaff 英国手机卡（含 £10）", price: 11900, category: "英国手机卡" },
+    products: { id: "00000000-0000-0000-0000-000000000001", name: "giffgaff 英国手机卡", price: getProductById("00000000-0000-0000-0000-000000000001")!.price, category: "英国手机卡" },
     profiles: { email: "zhaoliu@example.com", display_name: "赵六" },
   },
 ];

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ShoppingBag, Layers } from "lucide-react";
+import Link from "next/link";
+import { ShoppingBag, Layers, Route, ArrowRight, CreditCard, CircleDollarSign } from "lucide-react";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { XesimCard } from "@/components/shop/XesimCard";
 import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
@@ -40,6 +41,42 @@ export default function ShopPage() {
           {PRODUCTS.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+
+          <Link
+            href="/shop/activation-guide"
+            className="group rounded-xl border border-violet-500/35 bg-gradient-to-br from-violet-500/10 via-[#111111] to-blue-500/10 overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-violet-400/70 hover:shadow-lg hover:shadow-violet-500/15"
+          >
+            <div className="h-48 px-6 flex flex-col justify-center bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.22),transparent_55%)]">
+              <div className="flex items-center gap-3 mb-5">
+                {[ShoppingBag, CreditCard, CircleDollarSign].map((Icon, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-violet-300" />
+                    </div>
+                    {index < 2 && <ArrowRight className="w-4 h-4 text-gray-600" />}
+                  </div>
+                ))}
+              </div>
+              <p className="w-fit rounded-full border border-violet-400/25 bg-violet-500/10 px-4 py-2 text-base font-semibold tracking-wide text-violet-200 shadow-sm shadow-violet-500/10">
+                完整激活链路
+              </p>
+            </div>
+            <div className="p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <Route className="w-4 h-4 text-violet-400" />
+                <h2 className="font-semibold text-white group-hover:text-violet-300 transition-colors">购买后如何充值激活？</h2>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                购买白卡 → 注册 StarryBlu → 准备外币余额 → 支付并激活 giffgaff。
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">含自助换汇与站长协助方案</span>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-violet-300">
+                  查看流程 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* 其他资源 */}

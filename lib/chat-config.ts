@@ -2,7 +2,6 @@ import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
 
 const _plain = PRODUCTS.find((p) => p.slug === "giffgaff");
-const _plus  = PRODUCTS.find((p) => p.slug === "giffgaff-plus");
 
 export interface PresetQuestion {
   question: string;
@@ -38,7 +37,7 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
   {
     question: "多少钱？怎么买？",
     answer:
-      `纯卡版 ${formatPrice(_plain!.price)}，含 £15 余额版 ${formatPrice(_plus!.price)}。点击页面'立即购买'按钮，支付宝/微信即可下单。`,
+      `目前只售卖 ${formatPrice(_plain!.price)} 的 giffgaff 白卡。收到卡后可按站内的 StarryBlu 激活流程准备外币余额并支付 giffgaff；如不想承担自行换汇损耗，也可以联系站长协助。`,
     keywords: ["价格", "多少钱", "怎么买"],
   },
   {
