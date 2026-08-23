@@ -1,4 +1,4 @@
-import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
+import { DELIVERY_DAYS, PRODUCTS } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
 
 const _plain = PRODUCTS.find((p) => p.slug === "giffgaff");
@@ -43,13 +43,13 @@ export const CHAT_PRESET_QUESTIONS: PresetQuestion[] = [
   {
     question: "哪里发货？什么时候发货？",
     answer:
-      `从浙江/四川发货。下午三点前购买均可当日发出，否则第二天发出。一般 ${SHIPPING_DAYS}到手。`,
+      `从浙江/四川发货，目前下单当天安排发出，快递一般 ${DELIVERY_DAYS}送达。`,
     keywords: ["发货", "快递", "多久", "哪里", "什么时候"],
   },
   {
     question: "多久能收到？",
     answer:
-      `快递发货，一般 ${SHIPPING_DAYS}到手。`,
+      `下单当天安排发货，快递一般 ${DELIVERY_DAYS}送达。`,
     keywords: ["多久", "几天", "到达"],
   },
   {

@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
+import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
+import { PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE } from "@/lib/products";
 
 function formatOrderNo(id: string): string {
   const hex = id.replace(/-/g, "");
@@ -89,11 +91,22 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
           <p className="text-white font-semibold">{product.name}</p>
         </div>
 
+        <div className="rounded-xl border border-orange-500/25 bg-orange-500/10 p-3">
+          <PromotionCountdown compact />
+        </div>
+
         {/* 数量选择 */}
         <div className="rounded-xl border border-[#2a2a2a] bg-[#111111] p-4 space-y-3">
+          <div className="flex items-center justify-between text-xs text-gray-600">
+            <span>原价 / 日常价</span>
+            <span className="space-x-2">
+              <span className="line-through">{fmt(PROMOTION_ORIGINAL_PRICE)}</span>
+              <span className="line-through">{fmt(PROMOTION_REGULAR_PRICE)}</span>
+            </span>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-gray-400 text-sm">单价</span>
-            <span className="text-white text-sm">{fmt(unitPrice)}</span>
+            <span className="text-gray-400 text-sm">活动单价</span>
+            <span className="font-semibold text-orange-300 text-sm">{priceLabel}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-gray-400 text-sm">数量</span>

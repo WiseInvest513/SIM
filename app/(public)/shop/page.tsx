@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ShoppingBag, Layers, Route, ArrowRight, CreditCard, CircleDollarSign } from "lucide-react";
+import { ShoppingBag, Layers, Route, ArrowRight, CreditCard, CircleDollarSign, Sparkles } from "lucide-react";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { XesimCard } from "@/components/shop/XesimCard";
 import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
+import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 
 export const metadata: Metadata = {
   title: "手机卡商城",
@@ -32,6 +33,25 @@ export default function ShopPage() {
               <span>🚚 {SHIPPING_DAYS}发货</span>
               <span>✅ 激活教程全程指导</span>
               <span>💬 购后问题售后支持</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative mb-7 w-full overflow-hidden rounded-2xl border border-orange-500/35 bg-gradient-to-r from-orange-500/25 via-red-500/20 to-[#151014] px-5 py-2.5 shadow-lg shadow-orange-950/20 sm:px-6">
+          <div className="pointer-events-none absolute -right-12 -top-24 h-64 w-64 rounded-full bg-orange-300/10 blur-3xl" />
+          <div className="relative grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <div className="mb-1 flex items-center gap-2 text-xs font-bold text-orange-300">
+                <Sparkles className="h-4 w-4" /> 8 月限时促销
+              </div>
+              <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
+                <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">现在购买，只要 ¥59</h2>
+                <span className="mb-0.5 rounded-full border border-orange-400/30 bg-orange-500/15 px-2.5 py-1 text-xs font-bold text-orange-200">立省 ¥30</span>
+              </div>
+              <p className="mt-1.5 text-sm text-orange-100">giffgaff 英国白卡 · 含国内运费 · 当天发货</p>
+            </div>
+            <div className="rounded-xl border border-orange-300/15 bg-black/15 px-3.5 py-2 backdrop-blur-sm">
+              <PromotionCountdown />
             </div>
           </div>
         </div>

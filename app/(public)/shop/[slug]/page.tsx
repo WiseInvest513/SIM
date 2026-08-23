@@ -6,6 +6,8 @@ import { ArrowLeft, Package, CheckCircle, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import { getProductBySlug, SHIPPING_DAYS } from "@/lib/products";
+import { PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE } from "@/lib/products";
+import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -53,9 +55,13 @@ export default async function ProductDetailPage({ params }: Props) {
                 {product.stock === 0 && <Badge variant="secondary">暂时缺货</Badge>}
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">{product.name}</h1>
+              <div className="mb-1 flex items-center gap-3 text-sm text-gray-500">
+                <span className="line-through">原价 {formatPrice(PROMOTION_ORIGINAL_PRICE)}</span>
+                <span className="line-through">日常价 {formatPrice(PROMOTION_REGULAR_PRICE)}</span>
+              </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-white">{formatPrice(product.price)}</span>
-                <span className="text-gray-500 text-sm">含快递运费</span>
+                <span className="text-orange-400 text-sm font-medium">限时活动价 · 含运费</span>
               </div>
             </div>
 
@@ -88,8 +94,16 @@ export default async function ProductDetailPage({ params }: Props) {
             <div className="sticky top-24 rounded-xl border border-[#2a2a2a] bg-[#111111] p-6 space-y-5">
               <div>
                 <p className="text-gray-500 text-sm mb-1">{product.name}</p>
+                <div className="mb-1 flex gap-2 text-xs text-gray-600">
+                  <span className="line-through">{formatPrice(PROMOTION_ORIGINAL_PRICE)}</span>
+                  <span className="line-through">{formatPrice(PROMOTION_REGULAR_PRICE)}</span>
+                </div>
                 <p className="text-3xl font-bold text-white">{formatPrice(product.price)}</p>
-                <p className="text-gray-600 text-xs mt-1">含快递运费</p>
+                <p className="text-orange-400 text-xs mt-1">限时活动价 · 含快递运费</p>
+              </div>
+
+              <div className="rounded-xl border border-orange-500/25 bg-orange-500/10 p-3">
+                <PromotionCountdown compact />
               </div>
 
               <div className="space-y-2 text-sm text-gray-400">

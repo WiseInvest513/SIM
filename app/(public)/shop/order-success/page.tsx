@@ -38,7 +38,7 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
           <div className="flex items-start gap-3">
             <span className="text-xl flex-shrink-0">📱</span>
             <p className="text-slate-300 text-sm">
-              我们会在 <strong className="text-white">{SHIPPING_DAYS}</strong> 内安排发货，请留意手机短信通知。
+              我们会在<strong className="text-white">{SHIPPING_DAYS}</strong>安排发货，请留意手机短信通知。
             </p>
           </div>
           <div className="flex items-start gap-3">

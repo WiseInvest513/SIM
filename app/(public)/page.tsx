@@ -5,9 +5,10 @@ import {
   Truck, Clock, Shield, ChevronRight, Globe, Star,
 } from "lucide-react";
 import { ReviewsSectionDynamic, FaqSectionDynamic } from "@/components/sections/DynamicSections";
-import { PRODUCTS, SHIPPING_DAYS, SHIPPING_DAYS_SHORT } from "@/lib/products";
+import { PRODUCTS, PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE, SHIPPING_DAYS, SHIPPING_DAYS_SHORT } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
 import { community } from "@/lib/community";
+import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 
 /* ── 数据 ───────────────────────────────────── */
 
@@ -244,8 +245,15 @@ export default function HomePage() {
               <div className="md:w-60 border-t md:border-t-0 md:border-l border-[#2a2a2a] p-8 md:p-12 flex flex-col justify-between bg-[#111111]">
                 <div>
                   <p className="text-xs text-gray-500 mb-2">到手价格</p>
+                  <div className="mb-1 flex gap-2 text-xs text-gray-600">
+                    <span className="line-through">原价 {formatPrice(PROMOTION_ORIGINAL_PRICE)}</span>
+                    <span className="line-through">日常价 {formatPrice(PROMOTION_REGULAR_PRICE)}</span>
+                  </div>
                   <p className="text-5xl font-bold text-white">{formatPrice(PRODUCTS[0].price)}</p>
-                  <p className="text-xs text-gray-500 mt-1.5">含 SIM 卡 + 首充余额</p>
+                  <p className="text-xs font-medium text-orange-400 mt-1.5">限时活动价 · 当天发货</p>
+                </div>
+                <div className="mt-6 rounded-xl border border-orange-500/20 bg-orange-500/[0.08] p-3">
+                  <PromotionCountdown compact />
                 </div>
                 <Link
                   href="/shop/giffgaff"

@@ -5,6 +5,8 @@ import { ShoppingBag, ArrowRight, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
+import { PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE } from "@/lib/products";
+import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 import type { Product } from "@/lib/supabase/types";
 
 interface ProductCardProps {
@@ -18,14 +20,14 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   return (
     <div className={`rounded-xl border overflow-hidden card-hover group relative transition-all duration-300 hover:-translate-y-2 ${
       isEconomy
-        ? "border-blue-500/40 bg-gradient-to-br from-blue-500/5 to-slate-800/50 hover:border-blue-500/70 hover:shadow-lg hover:shadow-blue-500/20"
+        ? "border-orange-500/45 bg-gradient-to-br from-orange-500/[0.07] via-slate-800/60 to-red-500/[0.06] shadow-md shadow-orange-950/20 hover:border-orange-400/70 hover:shadow-lg hover:shadow-orange-500/10"
         : "border-slate-700/60 bg-slate-800/50 hover:border-slate-600 hover:shadow-lg hover:shadow-slate-900/50"
     }`}>
       {/* 标签 */}
       {isEconomy && (
-        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-blue-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg shadow-blue-500/30 transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
-          <span className="inline-block animate-bounce" style={{ animationDelay: "0s" }}>💰</span>
-          <span>经济方案</span>
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 rounded-full border border-orange-300/40 bg-gradient-to-r from-orange-500 to-red-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-orange-500/25 transition-all duration-300 group-hover:scale-105 group-hover:-translate-y-1">
+          <span>🔥</span>
+          <span>限时 ¥59</span>
         </div>
       )}
 
@@ -71,28 +73,32 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           {product.description}
         </p>
 
-        {/* 卡片增强文案 */}
+        {/* 限时活动 */}
         {isEconomy && (
-          <div className="mb-3 rounded-lg bg-blue-500/10 border border-blue-500/20 p-2.5 transition-all duration-300 group-hover:bg-blue-500/20 group-hover:border-blue-500/40">
-            <p className="text-blue-400 text-xs font-medium">
-              🎯 省 ¥130，DIY 激活自己充值
-            </p>
+          <div className="mb-4 rounded-xl border border-orange-500/25 bg-gradient-to-r from-orange-500/12 to-red-500/10 p-3 transition-all duration-300 group-hover:border-orange-400/40">
+            <PromotionCountdown compact />
           </div>
         )}
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-2xl font-bold text-white">
+            {isEconomy && (
+              <div className="mb-1 flex items-center gap-2 text-xs text-slate-400">
+                <span className="line-through">原价 {formatPrice(PROMOTION_ORIGINAL_PRICE)}</span>
+                <span className="line-through">日常价 {formatPrice(PROMOTION_REGULAR_PRICE)}</span>
+              </div>
+            )}
+            <span className="text-3xl font-bold tracking-tight text-orange-300">
               {formatPrice(product.price)}
             </span>
-            <span className="text-slate-500 text-xs ml-1">起</span>
+            <span className="ml-1 rounded bg-red-500/20 px-1.5 py-0.5 text-xs font-bold text-red-300">活动价</span>
           </div>
 
           <Link href={`/shop/${product.slug}`}>
             <Button
               size="sm"
               disabled={isOutOfStock}
-              className="gap-1.5"
+              className="gap-1.5 bg-orange-500 px-4 font-semibold text-white shadow-md shadow-orange-500/15 hover:bg-orange-400"
             >
               {isOutOfStock ? (
                 "缺货中"
