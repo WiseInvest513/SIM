@@ -6,8 +6,8 @@ export const SHIPPING_DAYS_SHORT = "当天";
 export const DELIVERY_DAYS = "1-3 天";
 export const PROMOTION_ORIGINAL_PRICE = 8900;
 export const PROMOTION_REGULAR_PRICE = 6900;
-export const PROMOTION_END = "2026-09-01T00:00:00+08:00";
-export const PROMOTION_END_LABEL = "8 月 31 日 24:00";
+export const PROMOTION_END = "2026-09-07T00:00:00+08:00";
+export const PROMOTION_END_LABEL = "9 月 6 日 24:00";
 
 // 所有商品定义（代码维护，不存数据库）
 export const PRODUCTS: Product[] = [
