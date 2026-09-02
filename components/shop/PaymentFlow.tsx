@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { createClient } from "@/lib/supabase/client";
 import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 import { PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE } from "@/lib/products";
 
@@ -33,7 +32,6 @@ type AddressForm = z.infer<typeof addressSchema>;
 
 interface Props {
   product:    { id: string; name: string; slug: string; price: number };
-  userId:     string;
   alipayQr:   string | null;
   wechatId:   string;
   priceLabel: string;
@@ -41,7 +39,7 @@ interface Props {
 
 type Step = "payment" | "address" | "done";
 
-export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }: Props) {
+export function PaymentFlow({ product, alipayQr, wechatId, priceLabel }: Props) {
   const router = useRouter();
   const [step, setStep] = useState<Step>("payment");
   const [quantity, setQuantity] = useState(1);
@@ -61,19 +59,10 @@ export function PaymentFlow({ product, userId, alipayQr, wechatId, priceLabel }:
     setSubmitting(true);
     setError(null);
     try {
-      const supabase = createClient();
-      const { data: inserted, error: err } = await supabase.from("orders").insert({
-        user_id:         userId,
-        product_id:      product.id,
-        quantity:        quantity,
-        recipient_name:  data.recipient_name,
-        recipient_phone: data.recipient_phone,
-        address:         data.address,
-        remark:          data.remark || null,
-        status:          "pending",
-      }).select("id").single();
-      if (err) throw err;
-      if (inserted?.id) setOrderId(inserted.id);
+      const response = await fetch("/api/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ productId: product.id, quantity, ...data }) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+      if (result.id) setOrderId(result.id);
       setStep("done");
     } catch {
       setError("提交失败，请稍后重试");

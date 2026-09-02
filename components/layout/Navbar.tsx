@@ -5,10 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Globe, ShoppingBag, User, LogOut, Menu, X, ChevronDown } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { SuccessModal } from "@/components/ui/success-modal";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navItems = [
   { href: "/", label: "首页" },
@@ -19,27 +18,12 @@ const navItems = [
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const { data: session } = useSession();
+  const user = session?.user;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-  useEffect(() => {
-    const supabase = createClient();
-
-    // 先从 cookie 快速读取 session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    // 监听登录/登出状态变化
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -53,15 +37,14 @@ export function Navbar() {
   }, [pathname]);
 
   async function handleLogout() {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    await signOut({ redirect: false });
     setShowLogoutModal(true);
     setTimeout(() => {
       window.location.href = "/";
     }, 1000);
   }
 
-  const isAdmin = user?.user_metadata?.role === "admin";
+  const isAdmin = user?.isAdmin;
 
   return (
     /* 透明固定容器，负责定位和水平居中 */
@@ -119,13 +102,13 @@ export function Navbar() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-300 hover:text-white border border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors"
                 >
-                  {user.user_metadata?.avatar_url ? (
-                    <Image src={user.user_metadata.avatar_url} alt="avatar" width={20} height={20} className="rounded-full" />
+                  {user.image ? (
+                    <Image src={user.image} alt="avatar" width={20} height={20} className="rounded-full" />
                   ) : (
                     <User className="w-3.5 h-3.5" />
                   )}
                   <span className="max-w-[100px] truncate">
-                    {user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0]}
+                    {user.name?.split(" ")[0] || user.email?.split("@")[0]}
                   </span>
                   <ChevronDown className="w-3 h-3" />
                 </button>

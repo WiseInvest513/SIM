@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminProductManager } from "./ProductManager";
 
 export const metadata: Metadata = {
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminProductsPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: rawProducts, error } = await supabase
     .from("products")

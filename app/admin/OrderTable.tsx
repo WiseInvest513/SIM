@@ -13,7 +13,7 @@ import type { OrderStatus } from "@/lib/supabase/types";
 
 export interface Order {
   id: string;
-  user_id: string;
+  wise_subject?: string;
   product_id?: string | null;
   quantity: number;
   recipient_name: string;
@@ -31,7 +31,7 @@ export interface Order {
 const MOCK_ORDERS: Order[] = [
   {
     id: "a1b2c3d4-0001-0000-0000-000000000001",
-    user_id: "u1",
+    wise_subject: "demo-user-1",
     quantity: 1,
     recipient_name: "张三",
     recipient_phone: "13800138001",
@@ -46,7 +46,7 @@ const MOCK_ORDERS: Order[] = [
   },
   {
     id: "a1b2c3d4-0002-0000-0000-000000000002",
-    user_id: "u2",
+    wise_subject: "demo-user-2",
     quantity: 1,
     recipient_name: "李四",
     recipient_phone: "13900139002",
@@ -61,7 +61,7 @@ const MOCK_ORDERS: Order[] = [
   },
   {
     id: "a1b2c3d4-0003-0000-0000-000000000003",
-    user_id: "u3",
+    wise_subject: "demo-user-3",
     quantity: 1,
     recipient_name: "王五",
     recipient_phone: "13700137003",
@@ -76,7 +76,7 @@ const MOCK_ORDERS: Order[] = [
   },
   {
     id: "a1b2c3d4-0004-0000-0000-000000000004",
-    user_id: "u4",
+    wise_subject: "demo-user-4",
     quantity: 1,
     recipient_name: "赵六",
     recipient_phone: "13600136004",

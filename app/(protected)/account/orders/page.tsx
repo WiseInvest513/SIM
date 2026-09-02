@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Package, Truck } from "lucide-react";
 import { unstable_cache } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { auth } from "@/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { OrderStatusBadge, OrderStatusTimeline } from "@/components/shop/OrderStatus";
 import { formatPrice, formatDateTime } from "@/lib/utils";
@@ -10,6 +10,7 @@ import { getProductById } from "@/lib/products";
 import type { OrderStatus } from "@/lib/supabase/types";
 
 export const metadata: Metadata = { title: "我的订单" };
+export const dynamic = "force-dynamic";
 
 interface RawOrder {
   id: string;
@@ -25,21 +26,21 @@ interface RawOrder {
 }
 
 // 带缓存的订单查询，60 秒内重复访问直接返回缓存
-function fetchUserOrders(userId: string) {
+function fetchUserOrders(wiseSubject: string) {
   return unstable_cache(
     async () => {
       const adminSupabase = createAdminClient();
       const { data, error } = await adminSupabase
         .from("orders")
         .select("id, quantity, recipient_name, recipient_phone, address, remark, status, tracking_number, created_at, product_id")
-        .eq("user_id", userId)
+        .eq("wise_subject", wiseSubject)
         .order("created_at", { ascending: false })
         .limit(50);
       if (error) console.error("orders query error:", error);
       return (data as RawOrder[]) ?? [];
     },
-    [`orders-${userId}`],
-    { revalidate: 60, tags: [`orders-${userId}`] }
+    [`orders-${wiseSubject}`],
+    { revalidate: 60, tags: [`orders-${wiseSubject}`] }
   )();
 }
 
@@ -47,11 +48,9 @@ export default async function OrdersPage() {
   let rawOrders: RawOrder[] = [];
 
   try {
-    // getSession 读本地 cookie，无网络请求
-    const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
-      rawOrders = await fetchUserOrders(session.user.id);
+    const session = await auth();
+    if (session?.user?.wiseSubject) {
+      rawOrders = await fetchUserOrders(session.user.wiseSubject);
     }
   } catch (e) { console.error("orders page error:", e); }
 
@@ -72,6 +71,10 @@ export default async function OrdersPage() {
             <h1 className="text-xl font-bold text-white">我的订单</h1>
             <p className="text-gray-500 text-sm">共 {orders.length} 笔订单</p>
           </div>
+        </div>
+
+        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-5 py-3 mb-5 text-sm text-gray-400">
+          此处仅展示新 Wise ID 下的订单；旧账户订单均已完结，双方数据库不进行同步。
         </div>
 
         {orders.length === 0 ? (

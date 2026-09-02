@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { User, Package, ChevronRight } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { formatDate } from "@/lib/utils";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = { title: "用户中心" };
 
 export default async function AccountPage() {
-  // getSession 读本地 cookie，无网络请求
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-violet-950/40 via-[#0a0a0a] to-[#0a0a0a]">
@@ -23,14 +20,16 @@ export default async function AccountPage() {
             </div>
             <div>
               <p className="font-semibold text-white">
-                {user?.user_metadata?.display_name || user?.email?.split("@")[0] || "用户"}
+                {user?.name || user?.email?.split("@")[0] || "Wise 用户"}
               </p>
               <p className="text-gray-500 text-sm">{user?.email}</p>
-              <p className="text-gray-600 text-xs mt-0.5">
-                注册于 {user?.created_at ? formatDate(user.created_at) : "-"}
-              </p>
+              <p className="text-gray-600 text-xs mt-0.5">Wise ID：{user?.wiseUserId || "已连接"} · {user?.membershipTier || "MEMBER"}</p>
             </div>
           </div>
+        </div>
+
+        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-5 py-4 mb-5 text-sm text-gray-400 leading-6">
+          原网站账户的订单均已完结，新旧数据库不进行同步。如需查询旧资料，请联系站长。
         </div>
 
         {/* 我的订单入口 */}

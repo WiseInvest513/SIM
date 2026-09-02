@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { Mail, X, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { useSession } from "next-auth/react";
 
 interface ContactFormProps {
   onClose: () => void;
@@ -15,7 +14,7 @@ const MAX_RETRIES = 1; // 最多重试1次
 
 export function ContactForm({ onClose }: ContactFormProps) {
   const router = useRouter();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const { data: session, status } = useSession();
   const [needsLogin, setNeedsLogin] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -28,21 +27,17 @@ export function ContactForm({ onClose }: ContactFormProps) {
   const [retryTimer, setRetryTimer] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        setUser(session.user);
         setFormData({
-          name: session.user.user_metadata?.name || session.user.email?.split("@")[0] || "",
+          name: session.user.name || session.user.email?.split("@")[0] || "",
           email: session.user.email || "",
           message: "",
         });
         setNeedsLogin(false);
-      } else {
+      } else if (status === "unauthenticated") {
         setNeedsLogin(true);
       }
-    });
-  }, []);
+  }, [session, status]);
 
   // 清理定时器
   useEffect(() => {
@@ -192,7 +187,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
 
         {/* 表单 */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {user ? (
+          {session?.user ? (
             <>
               <div className="bg-gray-800 rounded-lg p-4 border border-gray-600">
                 <p className="text-xs text-gray-400 mb-2">发送人信息</p>

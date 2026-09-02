@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { createClient } from "@/lib/supabase/client";
+import { removeProduct, saveProduct, setProductActive } from "./actions";
 import { formatPrice } from "@/lib/utils";
 import { PRODUCTS } from "@/lib/products";
 import type { Product } from "@/lib/supabase/types";
@@ -71,41 +71,11 @@ function ProductFormModal({
   async function onSubmit(data: ProductForm) {
     setLoading(true);
     setError(null);
-    const supabase = createClient();
-
     // 价格以分存储
     const priceInCents = Math.round(data.price * 100);
 
     try {
-      if (product) {
-        // 更新
-        const { error } = await supabase
-          .from("products")
-          .update({
-            name: data.name,
-            slug: data.slug,
-            description: data.description,
-            price: priceInCents,
-            stock: data.stock,
-            category: data.category,
-            image_url: data.image_url || null,
-          })
-          .eq("id", product.id);
-        if (error) throw error;
-      } else {
-        // 创建
-        const { error } = await supabase.from("products").insert({
-          name: data.name,
-          slug: data.slug,
-          description: data.description,
-          price: priceInCents,
-          stock: data.stock,
-          category: data.category,
-          image_url: data.image_url || null,
-          is_active: true,
-        });
-        if (error) throw error;
-      }
+      await saveProduct({ id: product?.id, name: data.name, slug: data.slug, description: data.description, price: priceInCents, stock: data.stock, category: data.category, image_url: data.image_url || null });
 
       router.refresh();
       onClose();
@@ -222,19 +192,14 @@ export function AdminProductManager({ products }: AdminProductManagerProps) {
   const [deleting, setDeleting] = useState<string | null>(null);
 
   async function toggleActive(product: Product) {
-    const supabase = createClient();
-    await supabase
-      .from("products")
-      .update({ is_active: !product.is_active })
-      .eq("id", product.id);
+    await setProductActive(product.id, !product.is_active);
     router.refresh();
   }
 
   async function deleteProduct(id: string) {
     if (!confirm("确定要删除该商品吗？删除后不可恢复。")) return;
     setDeleting(id);
-    const supabase = createClient();
-    await supabase.from("products").delete().eq("id", id);
+    await removeProduct(id);
     router.refresh();
     setDeleting(null);
   }

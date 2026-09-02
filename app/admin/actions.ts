@@ -3,12 +3,19 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 import type { OrderStatus } from "@/lib/supabase/types";
+import { auth } from "@/auth";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user?.isAdmin) throw new Error("Unauthorized");
+}
 
 export async function updateOrderStatus(
   orderId: string,
   newStatus: OrderStatus,
   trackingNumber?: string
 ) {
+  await requireAdmin();
   const supabase = createAdminClient();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,6 +40,7 @@ export async function updateOrderStatus(
 }
 
 export async function toggleOrderPaid(orderId: string, paid: boolean) {
+  await requireAdmin();
   const supabase = createAdminClient();
 
   const { error } = await supabase

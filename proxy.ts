@@ -1,13 +1,17 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/middleware";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
-export async function proxy(request: NextRequest) {
-  return await updateSession(request);
-}
+export const proxy = auth((request) => {
+  const { pathname } = request.nextUrl;
+  if (!request.auth) {
+    const url = new URL("/auth/login", request.url);
+    url.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(url);
+  }
+  if (pathname.startsWith("/admin") && !request.auth.user.isAdmin) return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.next();
+});
 
 export const config = {
-  matcher: [
-    // 排除静态文件和 API 路由，匹配所有页面路由
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/account/:path*", "/admin/:path*"],
 };
