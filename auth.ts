@@ -16,11 +16,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [{
     id: "wise", name: "Wise ID", type: "oidc",
     issuer: "https://wise-invest.org",
-    wellKnown: "https://www.wise-invest.org/.well-known/openid-configuration",
+    authorization: { url: "https://www.wise-invest.org/oauth/authorize", params: { scope: "openid profile email wise.membership" } },
+    token: "https://www.wise-invest.org/oauth/token",
+    userinfo: "https://www.wise-invest.org/oauth/userinfo",
     clientId: "wise_sim",
     clientSecret: process.env.WISE_AUTH_CLIENT_SECRET,
     checks: ["pkce", "state", "nonce"], idToken: true,
-    authorization: { params: { scope: "openid profile email wise.membership" } },
     profile(raw) {
       const p = raw as WiseProfile;
       return { id: p.sub, name: p.name ?? p.email ?? "Wise 用户", email: p.email ?? null, image: p.picture ?? null, wiseSubject: p.sub, wiseUserId: p.wise_user_id ?? p.user_id ?? null, wiseEmailVerified: Boolean(p.email_verified), membershipTier: p.membership_tier ?? "MEMBER" };
