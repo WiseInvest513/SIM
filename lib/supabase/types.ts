@@ -69,7 +69,7 @@ export type Database = {
       orders: {
         Row: {
           id: string;
-          wise_subject: string;
+          user_id: string;
           product_id: string;
           quantity: number;
           recipient_name: string;
@@ -84,7 +84,7 @@ export type Database = {
         };
         Insert: {
           id?: string;
-          wise_subject: string;
+          user_id: string;
           product_id: string;
           quantity?: number;
           recipient_name: string;
@@ -99,7 +99,7 @@ export type Database = {
         };
         Update: {
           id?: string;
-          wise_subject?: string | null;
+          user_id?: string;
           product_id?: string;
           quantity?: number;
           recipient_name?: string;

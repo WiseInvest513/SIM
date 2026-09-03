@@ -4,6 +4,7 @@ import { ArrowLeft, Package, Truck } from "lucide-react";
 import { unstable_cache } from "next/cache";
 import { auth } from "@/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { findOrderUser } from "@/lib/wise-order-identity";
 import { OrderStatusBadge, OrderStatusTimeline } from "@/components/shop/OrderStatus";
 import { formatPrice, formatDateTime } from "@/lib/utils";
 import { getProductById } from "@/lib/products";
@@ -26,21 +27,21 @@ interface RawOrder {
 }
 
 // 带缓存的订单查询，60 秒内重复访问直接返回缓存
-function fetchUserOrders(wiseSubject: string) {
+function fetchUserOrders(userId: string) {
   return unstable_cache(
     async () => {
       const adminSupabase = createAdminClient();
       const { data, error } = await adminSupabase
         .from("orders")
         .select("id, quantity, recipient_name, recipient_phone, address, remark, status, tracking_number, created_at, product_id")
-        .eq("wise_subject", wiseSubject)
+        .eq("user_id", userId)
         .order("created_at", { ascending: false })
         .limit(50);
       if (error) console.error("orders query error:", error);
       return (data as RawOrder[]) ?? [];
     },
-    [`orders-${wiseSubject}`],
-    { revalidate: 60, tags: [`orders-${wiseSubject}`] }
+    [`orders-${userId}`],
+    { revalidate: 60, tags: [`orders-${userId}`] }
   )();
 }
 
@@ -50,7 +51,8 @@ export default async function OrdersPage() {
   try {
     const session = await auth();
     if (session?.user?.wiseSubject) {
-      rawOrders = await fetchUserOrders(session.user.wiseSubject);
+      const userId = await findOrderUser(createAdminClient(), session.user.wiseSubject);
+      if (userId) rawOrders = await fetchUserOrders(userId);
     }
   } catch (e) { console.error("orders page error:", e); }
 

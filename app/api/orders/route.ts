@@ -3,6 +3,8 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getProductById } from "@/lib/products";
+import { ensureOrderUser } from "@/lib/wise-order-identity";
+import { revalidateTag } from "next/cache";
 
 const schema = z.object({
   productId: z.string().min(1),
@@ -20,8 +22,16 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: "订单信息不完整或格式不正确" }, { status: 400 });
   if (!getProductById(parsed.data.productId)) return NextResponse.json({ error: "商品不存在或已下架" }, { status: 400 });
 
-  const { data, error } = await createAdminClient().from("orders").insert({
-    wise_subject: session.user.wiseSubject,
+  const db = createAdminClient();
+  let userId: string;
+  try {
+    userId = await ensureOrderUser(db, session.user.wiseSubject);
+  } catch (error) {
+    console.error("Order identity failed:", error instanceof Error ? error.message : "unknown");
+    return NextResponse.json({ error: "订单身份初始化失败，请稍后重试或联系站长" }, { status: 500 });
+  }
+  const { data, error } = await db.from("orders").insert({
+    user_id: userId,
     product_id: parsed.data.productId,
     quantity: parsed.data.quantity,
     recipient_name: parsed.data.recipient_name,
@@ -34,5 +44,7 @@ export async function POST(request: Request) {
     console.error("Order creation failed:", error.message);
     return NextResponse.json({ error: "提交失败，请稍后重试" }, { status: 500 });
   }
+  revalidateTag(`orders-${userId}`, { expire: 0 });
+  revalidateTag("admin-orders", { expire: 0 });
   return NextResponse.json({ id: data.id }, { status: 201 });
 }
