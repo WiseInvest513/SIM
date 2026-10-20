@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
-const STORAGE_KEY = "community_modal_dismissed_date";
-const COOLDOWN_KEY = "community_modal_last_closed";
-const COOLDOWN_MS = 4 * 60 * 60 * 1000;
 
 type Tab = "telegram" | "wechat";
 
@@ -14,30 +11,20 @@ export function WechatGroupModal() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("telegram");
 
-  useEffect(() => {
-    const today = new Date().toDateString();
-    if (localStorage.getItem(STORAGE_KEY) === today) return;
-
-    const lastClosed = localStorage.getItem(COOLDOWN_KEY);
-    if (lastClosed && Date.now() - parseInt(lastClosed, 10) < COOLDOWN_MS) return;
-
-    const t = setTimeout(() => setOpen(true), 800);
-    return () => clearTimeout(t);
-  }, []);
-
+  // Community is manual-only; the unified campaign handles entry promotion.
   useEffect(() => {
     const handler = () => setOpen(true);
+    const hide = () => setOpen(false);
+    window.addEventListener("wise-popup:opening", hide);
     window.addEventListener("open-community-modal", handler);
-    return () => window.removeEventListener("open-community-modal", handler);
+    return () => { window.removeEventListener("open-community-modal", handler); window.removeEventListener("wise-popup:opening", hide); };
   }, []);
 
   function close() {
-    localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
     setOpen(false);
   }
 
   function dismissToday() {
-    localStorage.setItem(STORAGE_KEY, new Date().toDateString());
     setOpen(false);
   }
 
@@ -124,7 +111,7 @@ export function WechatGroupModal() {
                 onClick={dismissToday}
                 className="text-xs text-gray-400 hover:text-gray-600 transition-colors py-1"
               >
-                今天不再展示
+                关闭
               </button>
             </div>
           </>
@@ -146,7 +133,7 @@ export function WechatGroupModal() {
                 onClick={dismissToday}
                 className="text-xs text-gray-400 hover:text-gray-600 transition-colors py-1"
               >
-                今天不再展示
+                关闭
               </button>
             </div>
           </>

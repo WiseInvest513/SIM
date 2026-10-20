@@ -90,6 +90,7 @@ export function Navbar() {
 
           {/* 右侧 */}
           <div className="hidden md:flex items-center gap-2">
+            <button type="button" data-wise-vote="">为 Wise 投票</button>
             <button
               onClick={() => window.dispatchEvent(new Event("open-community-modal"))}
               className="px-3.5 py-1.5 text-sm text-blue-400 border border-blue-500/40 rounded-lg hover:bg-blue-500/10 transition-colors"
@@ -143,6 +144,7 @@ export function Navbar() {
             )}
           </div>
 
+          <span className="md:hidden ml-auto mr-2"><button type="button" data-wise-vote="">为 Wise 投票</button></span>
           {/* 移动端汉堡 */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
