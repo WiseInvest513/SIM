@@ -11,13 +11,12 @@ export function WechatGroupModal() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("telegram");
 
-  // Community is manual-only; the unified campaign handles entry promotion.
+  // Open on each visit, while retaining the manual community entry.
   useEffect(() => {
+    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname)) setOpen(true);
     const handler = () => setOpen(true);
-    const hide = () => setOpen(false);
-    window.addEventListener("wise-popup:opening", hide);
     window.addEventListener("open-community-modal", handler);
-    return () => { window.removeEventListener("open-community-modal", handler); window.removeEventListener("wise-popup:opening", hide); };
+    return () => { window.removeEventListener("open-community-modal", handler); };
   }, []);
 
   function close() {
