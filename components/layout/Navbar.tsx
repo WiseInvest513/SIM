@@ -62,12 +62,7 @@ export function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Globe className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
-            </div>
-            <span className="font-bold text-[15px] text-white tracking-tight">
-              Wise<span className="text-blue-400">SIM</span>
-            </span>
+            <span className="wise-wordmark"><img src="/wordmark.svg?v=platinum-2" alt="SIM 首页" /></span>
           </Link>
 
           {/* 桌面导航 */}
@@ -147,6 +142,8 @@ export function Navbar() {
 
           {/* 移动端汉堡 */}
           <button
+            aria-label="打开导航"
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
           >

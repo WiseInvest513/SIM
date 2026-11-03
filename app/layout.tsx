@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import "./wise-brand.css";
+import "./wise-sim.css";
 import { AuthSessionProvider } from "@/components/auth/AuthSessionProvider";
 
 export const metadata: Metadata = {
+  icons: { icon: "/wise-icon.svg?v=platinum-2", apple: "/wise-icon.svg?v=platinum-2" },
   title: {
     default: "Wise SIM - SIM 卡商城",
     template: "%s | Wise SIM",

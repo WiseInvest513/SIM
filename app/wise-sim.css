@@ -1,0 +1,39 @@
+/* Public storefront uses the Wise white/gold system; admin retains its existing palette. */
+.wise-sim-public{--background:#fff;--surface:#fff;--surface-2:#f5f6f7;--border:#dfe2e5;--border-hover:#d8c69e;--text-primary:#282d32;--text-secondary:#68717d;--text-tertiary:#737d88;--accent:#9a7b42;background:#fff;color:#282d32;font-family:var(--wise-font);display:contents}.wise-sim-public h1,.wise-sim-public h2,.wise-sim-public h3{font-family:var(--wise-heading)}.wise-sim-public .text-white{color:#282d32}.wise-sim-public .text-gray-300,.wise-sim-public .text-gray-400,.wise-sim-public .text-gray-500{color:#68717d}.wise-sim-public .text-gray-600{color:#737d88}.wise-sim-public .text-blue-300,.wise-sim-public .text-blue-400,.wise-sim-public .text-blue-500{color:#9a7b42}.wise-sim-public .text-gradient{background:none;-webkit-text-fill-color:#9a7b42;color:#9a7b42}.wise-sim-public .grid-bg{background-image:none}.wise-sim-public a.bg-white,.wise-sim-public button.bg-white{background:#9a7b42;color:#fff}.wise-sim-public .bg-blue-600,.wise-sim-public .bg-blue-500{background:#9a7b42;color:#fff}.wise-sim-public .bg-blue-600 .text-white,.wise-sim-public .bg-blue-500 .text-white{color:#fff}.wise-sim-public .bg-gray-700,.wise-sim-public .bg-gray-800,.wise-sim-public .bg-gray-900{background:#f1f3f6}.wise-sim-public .border-gray-700,.wise-sim-public .border-gray-600{border-color:#dfe2e5}.wise-sim-public .shadow-lg{box-shadow:0 5px 22px #282d320a}.wise-sim-public .prose-container{color:#3f4751}
+
+.wise-sim-public [class~="bg-[#0a0a0a]"]{background-color:#fff;}
+.wise-sim-public [class~="bg-[#111111]"]{background-color:#fff;}
+.wise-sim-public [class~="bg-[#161616]/85"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="bg-[#1a1a1a]"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="bg-[#1a1a1a]/95"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="bg-[#1e1e1e]"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="bg-[#282828]"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="bg-[#2a2a2a]"]{background-color:#f5f6f7;}
+.wise-sim-public [class~="border-[#1a1a1a]"]{border-color:#dfe2e5;}
+.wise-sim-public [class~="border-[#2a2a2a]"]{border-color:#dfe2e5;}
+.wise-sim-public [class~="border-[#383838]"]{border-color:#dfe2e5;}
+.wise-sim-public [class~="border-[#3a3a3a]"]{border-color:#dfe2e5;}
+.wise-sim-public [class~="hover:bg-[#111111]"]:hover{background-color:#fff;}
+.wise-sim-public [class~="hover:bg-[#252525]"]:hover{background-color:#f5f6f7;}
+.wise-sim-public [class~="hover:bg-[#303030]"]:hover{background-color:#f5f6f7;}
+.wise-sim-public [class~="hover:border-[#3a3a3a]"]:hover{border-color:#dfe2e5;}
+.wise-sim-public [class~="hover:border-[#555]"]:hover{border-color:#dfe2e5;}
+.wise-sim-public [class*="border-white/"]{border-color:#dfe2e5}.wise-sim-public [class*="text-white/"]{color:#68717d}.wise-sim-public [class*="bg-white/"]{background-color:#f5f6f7}.wise-sim-public [class*="border-blue-"]{border-color:#e6dcc7}.wise-sim-public [class*="bg-blue-"][class*="/"]{background-color:#f8f5ee}.wise-sim-public .hover\:text-white:hover{color:#9a7b42}.wise-sim-public .bg-blue-600:hover,.wise-sim-public .bg-blue-500:hover{background:#81673a;color:#fff}
+
+
+
+
+.wise-sim-public .text-slate-100,.wise-sim-public .text-slate-200{color:#282d32}.wise-sim-public .text-slate-300{color:#47515d}.wise-sim-public .text-slate-400,.wise-sim-public .text-slate-500{color:#68717d}.wise-sim-public [class*="bg-slate-"]{background-color:#f1f3f6}.wise-sim-public [class*="border-slate-"]{border-color:#dfe2e5}.wise-sim-public .text-green-400{color:#168249}.wise-sim-public .text-yellow-400{color:#986b16}.wise-sim-public .text-red-400{color:#c34242}.wise-sim-public .bg-blue-600,.wise-sim-public .bg-blue-500{color:white}
+
+body:has(.wise-sim-public){background:#fff;color:#282d32}.wise-sim-public>header>div{box-shadow:0 8px 32px #282d320a}.wise-sim-public .from-blue-500{--tw-gradient-from:#9a7b42}.wise-sim-public .to-blue-700{--tw-gradient-to:#81673a}
+
+/* Public primary buttons share the main site's champagne fill + charcoal labels. */
+.wise-sim-public :is(a.bg-white,button.bg-white,.bg-blue-600,.bg-blue-500){background:var(--wise-champagne);color:var(--wise-on-champagne);box-shadow:inset 0 0 0 1px var(--wise-gold-line),0 4px 12px #282d3208}.wise-sim-public :is(a.bg-white,button.bg-white,.bg-blue-600,.bg-blue-500):hover{background:var(--wise-champagne-hover);color:var(--wise-on-champagne)}.wise-sim-public :is(.bg-blue-600,.bg-blue-500) .text-white{color:var(--wise-on-champagne)}.wise-sim-public>header>div{background:#fffffff0;box-shadow:var(--wise-elevation)}.wise-sim-public [class~="border-[#2a2a2a]"]{box-shadow:0 4px 24px #282d3204}.wise-sim-public .text-blue-400{color:var(--wise-gold)}
+/* Marketing panels and learning cards use the same neutral silver surfaces. */
+.wise-sim-public [class*="bg-gradient-to-"]:not(.bg-clip-text){background-image:linear-gradient(135deg,#fff,#f5f6f7);color:var(--wise-ink);box-shadow:var(--wise-elevation)}
+.wise-sim-public :is([class*="border-orange-"],[class*="border-violet-"],[class*="border-purple-"],[class*="border-amber-"]){border-color:var(--wise-gold-line)}
+.wise-sim-public :is([class*="text-orange-"],[class*="text-violet-"],[class*="text-purple-"],[class*="text-amber-"],[class*="text-blue-"]){color:#81673a}
+.wise-sim-public :is([class*="bg-orange-"],[class*="bg-violet-"],[class*="bg-purple-"],[class*="bg-amber-"]){background-color:#f8f5ee}
+.wise-sim-public [class~="bg-black/20"]{background-color:#f5f6f7}
+.wise-sim-public [class*="bg-[radial-gradient("]{background-image:radial-gradient(circle at top right,#e3c4811c,transparent 60%)}
+.wise-sim-public .text-red-300{color:#a83d3d}.wise-sim-public [class*="shadow-violet-"],.wise-sim-public [class*="shadow-orange-"]{--tw-shadow-color:rgba(40,45,50,.06)}

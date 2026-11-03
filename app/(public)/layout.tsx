@@ -11,13 +11,13 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="wise-sim-public">
       <Navbar />
       <main className="flex-1 pt-16">{children}</main>
       <Footer />
       <ChatWidget />
       <WechatGroupModal />
       <Script id="wise-global-popup-script" src="/wise-popup.js" strategy="afterInteractive" data-site="sim" data-config-url={process.env.NODE_ENV === "development" ? "http://127.0.0.1:3002/api/public/popup" : "https://www.wise-invest.org/api/public/popup"} />
-    </>
+    </div>
   );
 }

@@ -1,0 +1,10 @@
+@font-face{font-family:WiseInter;src:url('/fonts/inter-latin.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:WiseNunito;src:url('/fonts/nunito-latin.woff2') format('woff2');font-weight:200 1000;font-display:swap}
+:root{--wise-bg:#fff;--wise-surface:#f5f6f7;--wise-ink:#282d32;--wise-muted:#68717d;--wise-gold:#9a7b42;--wise-line:#dfe2e5;--wise-font:WiseInter,-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;--wise-heading:WiseNunito,'PingFang SC','Microsoft YaHei',sans-serif}
+.dark,[data-theme=dark]{--wise-bg:#181a1d;--wise-surface:#22262b;--wise-ink:#f4f5f7;--wise-muted:#adb5c0;--wise-gold:#d3ac64;--wise-line:#343a42}
+.wise-wordmark{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none}.wise-wordmark img,.wise-header-wordmark{height:28px;width:auto;object-fit:contain}.dark .wise-wordmark img,[data-theme=dark] .wise-wordmark img,[data-theme=dark] .wise-header-wordmark{filter:brightness(0) invert(1)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--wise-gold);outline-offset:4px}
+@media(max-width:600px){.wise-wordmark img,.wise-header-wordmark{height:24px}}
+
+/* Filled actions use the main homepage's champagne gold, not its text accent. */
+:root{--wise-champagne:#e3c481;--wise-champagne-hover:#d3b268;--wise-on-champagne:#282d32;--wise-silver:#f5f6f7;--wise-gold-line:#d4bd8b;--wise-elevation:0 8px 28px rgba(40,45,50,.045),inset 0 1px 0 rgba(255,255,255,.9)}
