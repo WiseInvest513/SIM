@@ -1,113 +1,86 @@
 import Link from "next/link";
-import { Globe, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import s from "./network-footer.module.css";
 
-function XIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.635 5.903-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
+const links = [
+  [
+    "手机卡商城",
+    "/shop"
+  ],
+  [
+    "激活与使用教程",
+    "/guides"
+  ],
+  [
+    "完整激活流程",
+    "/shop/activation-guide"
+  ],
+  [
+    "我的订单",
+    "/account/orders"
+  ]
+];
+const socials = [
+  [
+    "home",
+    "Wise 主站",
+    "https://www.wise-invest.org/"
+  ],
+  [
+    "x",
+    "Twitter / X",
+    "https://x.com/WiseInvest513"
+  ],
+  [
+    "youtube",
+    "YouTube",
+    "https://www.youtube.com/@WiseInvest513"
+  ],
+  [
+    "book",
+    "小红书",
+    "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988"
+  ]
+] as const;
 
-function YouTubeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" aria-hidden="true">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-    </svg>
-  );
+type FooterIconName = "home" | "x" | "youtube" | "book";
+function FooterIcon({name}: {name: FooterIconName}) {
+  return <svg className={s.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {name === "home" && <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18Z"/></>}
+    {name === "x" && <><path d="M4 3h4l12 18h-4L4 3Zm16 0L4 21"/></>}
+    {name === "youtube" && <><rect x="3" y="5" width="18" height="14" rx="4"/><path d="m10 9 5 3-5 3V9Z"/></>}
+    {name === "book" && <><path d="M5 3h12a2 2 0 0 1 2 2v16H7a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Zm-1 15a3 3 0 0 1 3-3h12M8 7h7M8 11h5"/></>}
+  </svg>;
 }
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="border-t border-[#2a2a2a] mt-auto bg-[#111111]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
-        <div className="flex flex-col md:flex-row md:justify-between gap-10">
-
-          {/* 左：品牌介绍 */}
-          <div className="md:max-w-xs">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center">
-                <Globe className="w-4 h-4 text-gray-900" />
-              </div>
-              <span className="font-bold text-white">Wise SIM</span>
-            </div>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              正规渠道海外手机卡，giffgaff 英国卡、Ultra Mobile 美国卡，国内快递直邮。
-            </p>
-          </div>
-
-          {/* 右：两列导航，靠右对齐 */}
-          <div className="flex gap-24">
-            {/* 快速导航 */}
-            <div>
-              <h3 className="text-base font-semibold text-white mb-4">快速导航</h3>
-              <ul className="space-y-2.5">
-                {[
-                  { href: "/shop",           label: "手机卡商城" },
-                  { href: "/guides",         label: "激活教程" },
-                  { href: "/account/orders", label: "我的订单" },
-                ].map(({ href, label }) => (
-                  <li key={href}>
-                    <Link href={href} className="text-sm text-gray-500 hover:text-white transition-colors">
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* 其他 */}
-            <div>
-              <h3 className="text-base font-semibold text-white mb-4">其他</h3>
-              <ul className="space-y-2.5">
-                <li>
-                  <a
-                    href="https://wise-invest.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-white transition-colors inline-flex items-center gap-1.5"
-                  >
-                    Wise 投资主站
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://x.com/WiseInvest513"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-white transition-colors inline-flex items-center gap-1.5"
-                  >
-                    <XIcon />
-                    Twitter / X
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.youtube.com/@WiseInvest513"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-500 hover:text-red-400 transition-colors inline-flex items-center gap-1.5"
-                  >
-                    <YouTubeIcon />
-                    YouTube
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
+    <footer className={s.footer} data-wise-footer="sim">
+      <div className={s.inner}>
+        <div className={s.intro}>
+          <Link href="/" className={s.brand} aria-label="SIM 首页">
+            <Image className={s.brandImage} src="/wordmark.svg?v=platinum-2" alt="SIM" width={64} height={28} unoptimized />
+          </Link>
+          <p className={s.description}>海外手机卡选购、激活与使用教程，帮助你做好通信准备。</p>
+          <p className={s.note}>本站部分链接含联盟推广参数，不影响价格与体验。套餐与资费以运营商公布为准。</p>
         </div>
-
-        {/* 版权 */}
-        <div className="border-t border-[#2a2a2a] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-600 text-sm">© {currentYear} Wise SIM. 保留所有权利.</p>
-          <p className="text-gray-700 text-xs">本站部分链接含联盟推广参数，不影响价格与体验。</p>
+        <div role="navigation" aria-label="本站功能导航">
+          <h2 className={s.heading}>功能导航</h2>
+          <ul className={s.links}>{links.map(([label, href]) => <li key={href}><Link href={href} prefetch={false} className={s.link}>{label}</Link></li>)}</ul>
         </div>
-
+        <div role="navigation" aria-label="关注 Wise">
+          <h2 className={s.heading}>关注 Wise</h2>
+          <ul className={s.links}>{socials.map(([icon, label, href]) => <li key={href}>
+            <a href={href} className={s.link} target="_blank" rel="noopener noreferrer">
+              <FooterIcon name={icon} /><span>{label}</span>
+              <svg className={s.arrow} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" /></svg>
+            </a>
+          </li>)}</ul>
+        </div>
+      </div>
+      <div className={s.bottom}>
+        <p className={s.copyright}>© {new Date().getFullYear()} Wise-SIM · 海外手机卡</p>
+        <p className={s.disclaimer}>内容仅供参考，不构成任何投资建议。</p>
       </div>
     </footer>
   );
