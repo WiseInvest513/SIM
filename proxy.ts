@@ -6,6 +6,7 @@ export const proxy = auth((request) => {
   if (!request.auth) {
     const url = new URL("/auth/login", request.url);
     url.searchParams.set("redirect", pathname);
+    url.searchParams.set("from", pathname);
     return NextResponse.redirect(url);
   }
   if (pathname.startsWith("/admin") && !request.auth.user.isAdmin) return NextResponse.redirect(new URL("/", request.url));

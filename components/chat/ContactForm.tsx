@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Mail, X, Send } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 interface ContactFormProps {
@@ -14,6 +14,7 @@ const MAX_RETRIES = 1; // 最多重试1次
 
 export function ContactForm({ onClose }: ContactFormProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session, status } = useSession();
   const [needsLogin, setNeedsLogin] = useState(false);
   const [formData, setFormData] = useState({
@@ -150,7 +151,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
             <button
               onClick={() => {
                 onClose();
-                router.push("/auth/login");
+                router.push(`/auth/login?from=${encodeURIComponent(pathname || "/")}`);
               }}
               className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-lg transition-colors mb-3"
             >

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LogIn, ShieldCheck } from "lucide-react";
 import { signIn } from "@/auth";
-import { mainSiteAuthorizationParams } from "@/lib/main-site-attribution";
+import { mainSiteAuthorizationParams, sanitizeAttributionPath } from "@/lib/main-site-attribution";
 
 const allowedRedirects = ["/account", "/account/orders", "/shop", "/guides"];
 function safeRedirect(value?: string) {
@@ -9,9 +9,10 @@ function safeRedirect(value?: string) {
   return allowedRedirects.some((path) => value === path || value.startsWith(`${path}/`)) ? value : "/account";
 }
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ redirect?: string; error?: string }> }) {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ redirect?: string; from?: string; error?: string }> }) {
   const params = await searchParams;
   const redirectTo = safeRedirect(params.redirect);
+  const campaignPath = sanitizeAttributionPath(params.from, redirectTo);
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-blue-950/50 via-[#0a0a0a] to-[#0a0a0a]">
       <div className="w-full max-w-md">
@@ -22,7 +23,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         </div>
         <div className="rounded-2xl border border-[#2a2a2a] bg-[#111111] p-6 space-y-5">
           {params.error && <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">登录未完成，请重新尝试；如仍有问题请联系站长。</div>}
-          <form action={async () => { "use server"; await signIn("wise", { redirectTo }, mainSiteAuthorizationParams(redirectTo)); }}>
+          <form action={async () => { "use server"; await signIn("wise", { redirectTo }, mainSiteAuthorizationParams(campaignPath)); }}>
             <button className="w-full flex items-center justify-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3.5 text-sm font-semibold text-white transition-colors"><LogIn className="w-4 h-4" />使用 Wise ID 登录</button>
           </form>
           <div className="flex items-start gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">

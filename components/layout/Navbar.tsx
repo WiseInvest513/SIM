@@ -15,6 +15,10 @@ const navItems = [
   { href: "/guides", label: "教程" },
 ];
 
+function wiseLoginHref(path: string) {
+  return `/auth/login?from=${encodeURIComponent(path || "/")}`;
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -131,7 +135,7 @@ export function Navbar() {
               </div>
             ) : (
               <Link
-                href="/auth/login"
+                href={wiseLoginHref(pathname)}
                 className="px-4 py-1.5 text-sm bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors"
               >
                 登录
@@ -184,7 +188,7 @@ export function Navbar() {
               </>
             ) : (
               <div className="px-3 pt-2">
-                <Link href="/auth/login" className="block text-center py-2 text-sm bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors">登录</Link>
+                <Link href={wiseLoginHref(pathname)} className="block text-center py-2 text-sm bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors">登录</Link>
               </div>
             )}
           </div>
