@@ -250,7 +250,7 @@ export default function HomePage() {
                     <span className="line-through">日常价 {formatPrice(PROMOTION_REGULAR_PRICE)}</span>
                   </div>
                   <p className="text-5xl font-bold text-white">{formatPrice(PRODUCTS[0].price)}</p>
-                  <p className="text-xs font-medium text-orange-400 mt-1.5">限时活动价 · 当天发货</p>
+                  <p className="text-xs font-medium text-orange-400 mt-1.5">限时活动价 · {SHIPPING_DAYS}发货</p>
                 </div>
                 <div className="mt-6 rounded-xl border border-orange-500/20 bg-orange-500/[0.08] p-3">
                   <PromotionCountdown compact />

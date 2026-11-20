@@ -48,7 +48,7 @@ export default function ShopPage() {
                 <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">现在购买，只要 ¥59</h2>
                 <span className="mb-0.5 rounded-full border border-orange-400/30 bg-orange-500/15 px-2.5 py-1 text-xs font-bold text-orange-200">立省 ¥30</span>
               </div>
-              <p className="mt-1.5 text-sm text-orange-100">giffgaff 英国白卡 · 含国内运费 · 当天发货</p>
+              <p className="mt-1.5 text-sm text-orange-100">giffgaff 英国白卡 · 含国内运费 · {SHIPPING_DAYS}发货</p>
             </div>
             <div className="rounded-xl border border-orange-300/15 bg-black/15 px-3.5 py-2 backdrop-blur-sm">
               <PromotionCountdown />

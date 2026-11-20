@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SHIPPING_DAYS } from "@/lib/products";
 import {
   ArrowLeft,
   ArrowRight,
@@ -26,7 +27,7 @@ const steps = [
     icon: ShoppingBag,
     eyebrow: "先拿到实体卡",
     title: "购买 giffgaff 白卡",
-    description: "商城限时促销价 ¥59，基础白卡当天发货。收到卡后再开始注册和激活。",
+    description: `商城限时促销价 ¥59，基础白卡收到付款后 ${SHIPPING_DAYS}发货。收到卡后再开始注册和激活。`,
     points: ["正规渠道实体白卡", "国内快递邮寄到家", "收到卡后再进行充值激活"],
     action: { label: "促销价 ¥59 购买白卡", href: "/shop/giffgaff", external: false },
   },
