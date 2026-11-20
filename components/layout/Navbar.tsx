@@ -88,6 +88,7 @@ export function Navbar() {
           </nav>
 
           {/* 右侧 */}
+          <button type="button" data-wise-kraken="">限时福利</button>
           <div className="hidden md:flex items-center gap-2">
 
             <button
