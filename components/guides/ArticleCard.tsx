@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Clock, ArrowRight, BookOpen } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 
 interface ArticleMeta {
@@ -22,6 +21,7 @@ interface ArticleCardProps {
 // 分类颜色映射
 const categoryColors: Record<string, string> = {
   "sim-card": "text-blue-400 bg-blue-400/10",
+  "travel-esim": "text-amber-700 bg-amber-50",
   vpn: "text-purple-400 bg-purple-400/10",
   bank: "text-emerald-400 bg-emerald-400/10",
   broker: "text-orange-400 bg-orange-400/10",
@@ -29,6 +29,7 @@ const categoryColors: Record<string, string> = {
 
 const categoryLabels: Record<string, string> = {
   "sim-card": "手机卡",
+  "travel-esim": "旅行 eSIM",
   vpn: "VPN",
   bank: "海外银行",
   broker: "出海券商",

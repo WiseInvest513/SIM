@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 const categories = [
   { value: "all", label: "全部" },
   { value: "sim-card", label: "手机卡激活" },
+  { value: "travel-esim", label: "旅行 eSIM" },
   { value: "usage", label: "使用技巧" },
 ];
 

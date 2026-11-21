@@ -6,6 +6,7 @@ import "./wise-sim.css";
 import { AuthSessionProvider } from "@/components/auth/AuthSessionProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.wise-sim.org"),
   icons: { icon: "/wise-icon.svg?v=platinum-2", apple: "/wise-icon.svg?v=platinum-2" },
   title: {
     default: "Wise SIM - SIM 卡商城",

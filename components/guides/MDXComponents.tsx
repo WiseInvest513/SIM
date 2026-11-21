@@ -1,6 +1,8 @@
 import type { MDXComponents } from "mdx/types";
 import { AlertCircle, Info, CheckCircle2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BeeSimOffer } from "@/components/beesim/BeeSimOffer";
+import { GuideImage, GuideTable } from "@/components/beesim/BeeSimGuide";
 
 // 提示框组件
 interface CalloutProps {
@@ -163,5 +165,8 @@ export function getMDXComponents(): MDXComponents {
 
     // 自定义组件
     Callout,
+    BeeSimOffer,
+    GuideImage,
+    GuideTable,
   };
 }

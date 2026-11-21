@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight, Package, FileText,
-  Truck, Clock, Shield, ChevronRight, Globe, Star,
+  Truck, Clock, Shield, ChevronRight, Globe,
 } from "lucide-react";
 import { ReviewsSectionDynamic, FaqSectionDynamic } from "@/components/sections/DynamicSections";
 import { PRODUCTS, PROMOTION_ORIGINAL_PRICE, PROMOTION_REGULAR_PRICE, SHIPPING_DAYS, SHIPPING_DAYS_SHORT } from "@/lib/products";
@@ -27,6 +27,14 @@ const services = [
     title: "手机卡商城",
     desc: "giffgaff 英国卡、Ultra Mobile 美国卡，正规渠道采购，附激活教程，快递邮寄到家。",
     cta: "进入商城",
+  },
+  {
+    href: "/shop#beesim",
+    icon: Globe,
+    badge: "流量九折",
+    title: "BeeSIM 旅行上网",
+    desc: "按目的地选择 eSIM 流量套餐，搭配兼容的手机或工具卡使用；注册绑定推荐码后，流量套餐享九折。",
+    cta: "查看套餐与教程",
   },
   {
     href: "/guides",
@@ -147,7 +155,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-white">我们提供什么</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             {services.map(({ href, icon: Icon, badge, title, desc, cta }) => (
               <Link
                 key={href}

@@ -36,6 +36,7 @@ export async function generateStaticParams() {
 
 const categoryLabels: Record<string, string> = {
   "sim-card": "手机卡",
+  "travel-esim": "旅行 eSIM",
   vpn: "VPN",
   bank: "海外银行",
   broker: "出海券商",

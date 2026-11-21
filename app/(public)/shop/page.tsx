@@ -3,12 +3,13 @@ import Link from "next/link";
 import { ShoppingBag, Layers, Route, ArrowRight, CreditCard, CircleDollarSign, Sparkles } from "lucide-react";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { XesimCard } from "@/components/shop/XesimCard";
+import { BeeSimOffer } from "@/components/beesim/BeeSimOffer";
 import { PRODUCTS, SHIPPING_DAYS } from "@/lib/products";
 import { PromotionCountdown } from "@/components/shop/PromotionCountdown";
 
 export const metadata: Metadata = {
   title: "手机卡商城",
-  description: "购买海外手机卡，giffgaff 英国手机卡等，国内直邮，快速发货。",
+  description: "选购 giffgaff 英国手机卡，了解 BeeSIM 工具卡和旅行 eSIM。注册填写 7ARAN2JJ，后续购买 BeeSIM eSIM 流量套餐享九折。",
 };
 
 export default function ShopPage() {
@@ -23,13 +24,13 @@ export default function ShopPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">手机卡商城</h1>
-              <p className="text-gray-400 text-sm">正规渠道，品质保障，快速发货</p>
+              <p className="text-gray-400 text-sm">选购手机卡，或按出行目的地准备旅行 eSIM</p>
             </div>
           </div>
 
           <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
             <div className="flex flex-wrap gap-6 text-sm text-gray-400">
-              <span>📦 正规渠道进货</span>
+              <span>📦 本站手机卡正规渠道进货</span>
               <span>🚚 {SHIPPING_DAYS}发货</span>
               <span>✅ 激活教程全程指导</span>
               <span>💬 购后问题售后支持</span>
@@ -42,7 +43,7 @@ export default function ShopPage() {
           <div className="relative grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="mb-1 flex items-center gap-2 text-xs font-bold text-orange-300">
-                <Sparkles className="h-4 w-4" /> 8 月限时促销
+                <Sparkles className="h-4 w-4" /> 手机卡限时促销
               </div>
               <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
                 <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">现在购买，只要 ¥59</h2>
@@ -100,19 +101,21 @@ export default function ShopPage() {
         </div>
 
         {/* 其他资源 */}
-        <div className="mt-14">
+        <div id="travel-esim" className="mt-14 scroll-mt-24">
           <div className="flex items-center gap-2 mb-5">
             <Layers className="w-4 h-4 text-gray-500" />
-            <h2 className="text-sm font-medium text-gray-400 uppercase tracking-widest">其他资源</h2>
+            <h2 className="text-sm font-medium text-gray-400 uppercase tracking-widest">旅行 eSIM 与工具卡</h2>
           </div>
+          <p className="mb-5 text-sm leading-relaxed text-gray-400">准备出国上网，可以先确认手机兼容性，再按目的地购买套餐。以下产品在品牌官网购买，具体下单与安装步骤见对应教程。</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <BeeSimOffer />
             <XesimCard />
           </div>
         </div>
 
         {/* 购买须知 */}
         <div className="mt-12 rounded-xl border border-[#2a2a2a] bg-[#111111] p-6">
-          <h2 className="text-base font-semibold text-white mb-4">购买须知</h2>
+          <h2 className="text-base font-semibold text-white mb-4">本站手机卡购买须知</h2>
           <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-400">
             <div>
               <p className="text-gray-200 font-medium mb-1">下单流程</p>
